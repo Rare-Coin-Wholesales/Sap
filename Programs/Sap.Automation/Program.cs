@@ -7,8 +7,8 @@ namespace Sap.Automation
 		// Consider changing these to Environment Variables, *especially* the password
 		private const string BASE_URL = "https://htpc21384p01.cloudiax.com:50000/b1s/v1/";
 		private const string COMPANY_DB = "A21384_ABW_T02";
-		private const string USERNAME = "manager";
-		private const string PASSWORD = "ABWinery@1"; // change this to Environment Variable
+		private const string USERNAME = "steveg";
+		private const string PASSWORD = "Welcome@2"; // change this to Environment Variable
 
 		static void Main(string[] args)
 		{

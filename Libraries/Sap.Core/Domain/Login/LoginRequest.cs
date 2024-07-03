@@ -1,6 +1,6 @@
 ﻿namespace Sap.Core.Domain.Login
 {
-	public partial class LoginRequest
+	public partial class LoginRequest : BaseRequest
 	{
 		public const string ACTION = "Login";
 		public string CompanyDB { get; set; }
@@ -12,11 +12,6 @@
 			CompanyDB = companyDb;
 			UserName = username;
 			Password = password;
-		}
-
-		public string ToJson()
-		{
-			return Newtonsoft.Json.JsonConvert.SerializeObject(this);
 		}
 	}
 }
