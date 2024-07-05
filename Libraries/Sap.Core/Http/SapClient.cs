@@ -4,9 +4,10 @@ using Sap.Core.Domain.Login;
 
 namespace Sap.Core.Http
 {
-	public class SapClient : BaseClient
+	public partial class SapClient : BaseClient
 	{
 		public string BaseUrl { get; set; }
+		public string? SessionId { get; set; }
 
 		#region Constructor
 		public SapClient(string baseUrl)
@@ -30,8 +31,10 @@ namespace Sap.Core.Http
 			if (response == null || String.IsNullOrWhiteSpace(response))
 				return;
 
-			var filename = String.Format("{0}.json", DateTime.Now.ToString("dd HHmm ssff"));
-			var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), DateTime.Now.ToString("yyyy MM"));
+			var now = DateTime.Now;
+			var filename = String.Format("{0}.json", now.ToString("HHmm ssff"));
+			var folder = String.Format($"C:/Logs/SapClient/{now:yyyy MM}/{now:dd}/");
+			//var folder = Path.Combine("C:/Logs/SapClient/", DateTime.Now.ToString("yyyy MM"));
 			Directory.CreateDirectory(folder);
 
 			dynamic? parsedJson = JsonConvert.DeserializeObject(response);
@@ -64,6 +67,11 @@ namespace Sap.Core.Http
 					using (var response = await Client.PostAsync(endpoint, content)) {
 						string responseData = await response.Content.ReadAsStringAsync();
 						WriteToFile(responseData);
+						var loginResponse = JsonConvert.DeserializeObject<LoginResponse>(responseData);
+
+						if (loginResponse != null && !String.IsNullOrWhiteSpace(loginResponse.SessionId))
+							SessionId = loginResponse.SessionId;
+
 						return responseData;
 					}
 				}
