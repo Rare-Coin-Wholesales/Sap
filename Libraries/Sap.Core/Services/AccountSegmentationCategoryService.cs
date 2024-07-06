@@ -27,7 +27,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountSegmentationCategory(int id).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountSegmentationCategory(int id).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -131,8 +131,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="AccountSegmentationCategory"/>.</param>
 		public async Task<string> PatchAccountSegmentationCategory(AccountSegmentationCategory x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{AccountSegmentationCategoryRequest.ACTION}(SegmentID={x.SegmentID},Code='{x.Code}')");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, AccountSegmentationCategoryRequest.ACTION);
 				var accountSegmentationCategoryRequest = new AccountSegmentationCategoryRequest(x);
 				var json = accountSegmentationCategoryRequest.ToJson();
 
@@ -150,7 +151,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentationCategory(AccountSegmentationCategory x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentationCategory(AccountSegmentationCategory x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -184,7 +185,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentationCategory(AccountSegmentationCategory x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentationCategory(AccountSegmentationCategory x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

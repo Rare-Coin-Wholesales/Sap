@@ -26,7 +26,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountSegmentation(int numerator='{numerator}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountSegmentation(int numerator='{numerator}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -130,8 +130,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="AccountSegmentation"/></param>
 		public async Task<string> PatchAccountSegmentation(AccountSegmentation x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{AccountSegmentationRequest.ACTION}({x.Numerator})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, AccountSegmentationRequest.ACTION);
 				var accountSegmentationRequest = new AccountSegmentationRequest(x);
 				var json = accountSegmentationRequest.ToJson();
 
@@ -149,7 +150,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentation(AccountSegmentation x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountSegmentation(AccountSegmentation x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -183,7 +184,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountSegmentation(AccountSegmentation x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountSegmentation(AccountSegmentation x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

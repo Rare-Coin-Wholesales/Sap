@@ -101,8 +101,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="ChecksforPayment"/>.</param>
 		public async Task<string> PatchChecksforPayment(ChecksforPayment x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{ChecksforPaymentRequest.ACTION}({x.CheckKey})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, ChecksforPaymentRequest.ACTION);
 				var checksforPaymentRequest = new ChecksforPaymentRequest(x);
 				var json = checksforPaymentRequest.ToJson();
 
@@ -120,7 +121,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -154,7 +155,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

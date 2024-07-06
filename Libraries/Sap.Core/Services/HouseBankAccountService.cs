@@ -26,7 +26,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteHouseBankAccount(int absoluteEntry='{absoluteEntry}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteHouseBankAccount(int absoluteEntry='{absoluteEntry}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -130,8 +130,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="HouseBankAccount"/>.</param>
 		public async Task<string> PatchHouseBankAccount(HouseBankAccount x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{HouseBankAccountRequest.ACTION}({x.AbsoluteEntry})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, HouseBankAccountRequest.ACTION);
 				var houseBankAccountRequest = new HouseBankAccountRequest(x);
 				var json = houseBankAccountRequest.ToJson();
 
@@ -149,7 +150,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchHouseBankAccount(HouseBankAccount x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchHouseBankAccount(HouseBankAccount x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -183,7 +184,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostHouseBankAccount(HouseBankAccount x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostHouseBankAccount(HouseBankAccount x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

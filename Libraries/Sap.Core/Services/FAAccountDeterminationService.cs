@@ -26,7 +26,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteFAAccountDetermination(string code='{code}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteFAAccountDetermination(string code='{code}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -130,8 +130,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="FAAccountDetermination"/>.</param>
 		public async Task<string> PatchFAAccountDetermination(FAAccountDetermination x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{FAAccountDeterminationRequest.ACTION}({x.Code})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, FAAccountDeterminationRequest.ACTION);
 				var fAAccountDeterminationRequest = new FAAccountDeterminationRequest(x);
 				var json = fAAccountDeterminationRequest.ToJson();
 
@@ -149,7 +150,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchFAAccountDetermination(FAAccountDetermination x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchFAAccountDetermination(FAAccountDetermination x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -183,7 +184,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostFAAccountDetermination(FAAccountDetermination x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostFAAccountDetermination(FAAccountDetermination x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

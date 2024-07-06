@@ -26,7 +26,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteTransactionCode(int code='{code}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteTransactionCode(int code='{code}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -130,8 +130,9 @@ namespace Sap.Core.Http
 		/// <param name="x">The <see cref="TransactionCode"/>.</param>
 		public async Task<string> PatchTransactionCode(TransactionCode x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{TransactionCodeRequest.ACTION}({x.Code})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, TransactionCodeRequest.ACTION);
 				var transactionCodeRequest = new TransactionCodeRequest(x);
 				var json = transactionCodeRequest.ToJson();
 
@@ -149,7 +150,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchTransactionCode(TransactionCode x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchTransactionCode(TransactionCode x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -183,7 +184,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostTransactionCode(TransactionCode x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostTransactionCode(TransactionCode x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

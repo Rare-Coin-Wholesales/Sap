@@ -7,6 +7,72 @@ namespace Sap.Core.Http
 	public partial class SapClient : BaseClient
 	{
 		/// <summary>
+		/// Invokes the method 'CancelbyCurrentSystemDate' on this <see cref="IncomingPayment"/> with the specified DocEntry.
+		/// </summary>
+		/// <param name="docEntry">The DocEntry</param>
+		public async Task<string> CancelByCurrentSystemDateIncomingPayment(int docEntry)
+		{
+			var endpoint = String.Format($"{BaseUrl}{IncomingPaymentRequest.ACTION}({docEntry})/CancelbyCurrentSystemDate");
+
+			try {
+				using (var response = await Client.PostAsync(endpoint, null)) {
+					string responseData = await response.Content.ReadAsStringAsync();
+					WriteToFile(responseData);
+					var incomingPaymentResponse = JsonConvert.DeserializeObject<IncomingPaymentResponse>(responseData);
+
+					return responseData;
+				}
+			}
+
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null) {
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.CancelByCurrentSystemDateIncomingPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
+					throw new Exception(log);
+				}
+
+				else throw;
+				#endregion
+			}
+		}
+
+		/// <summary>
+		/// Invokes the method 'Cancel' on this <see cref="IncomingPayment"/> with the specified DocEntry.
+		/// </summary>
+		/// <param name="docEntry">The DocEntry</param>
+		public async Task<string> CancelIncomingPayment(int docEntry)
+		{
+			var endpoint = String.Format($"{BaseUrl}{IncomingPaymentRequest.ACTION}({docEntry})/Cancel");
+
+			try {
+				using (var response = await Client.PostAsync(endpoint, null)) {
+					string responseData = await response.Content.ReadAsStringAsync();
+					WriteToFile(responseData);
+					var incomingPaymentResponse = JsonConvert.DeserializeObject<IncomingPaymentResponse>(responseData);
+
+					return responseData;
+				}
+			}
+
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null) {
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.CancelIncomingPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
+					throw new Exception(log);
+				}
+
+				else throw;
+				#endregion
+			}
+		}
+
+		/// <summary>
 		/// Deletes an instance of <see cref="IncomingPayment"/> with the specified DocEntry.
 		/// </summary>
 		/// <param name="docEntry">The DocEntry.</param>
@@ -26,7 +92,43 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteIncomingPayment(int docEntry='{docEntry}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.DeleteIncomingPayment(int docEntry='{docEntry}').{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
+					throw new Exception(log);
+				}
+
+				else throw;
+				#endregion
+			}
+		}
+
+		/// <summary>
+		/// Invokes the method 'GetApprovalTemplates' on this <see cref="IncomingPayment"/> with the specified DocEntry.
+		/// </summary>
+		/// <param name="docEntry">The DocEntry</param>
+		public async Task<string> GetApprovalTemplatesIncomingPayment(int docEntry)
+		{
+			var endpoint = String.Format($"{BaseUrl}{IncomingPaymentRequest.ACTION}({docEntry})/GetApprovalTemplates");
+
+			try {
+				using (var response = await Client.PostAsync(endpoint, null)) {
+					string responseData = await response.Content.ReadAsStringAsync();
+					WriteToFile(responseData);
+					var incomingPaymentResponse = JsonConvert.DeserializeObject<IncomingPaymentResponse>(responseData);
+
+					return responseData;
+				}
+			}
+
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null) {
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.GetApprovalTemplatesIncomingPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -149,7 +251,10 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchIncomingPayment(IncomingPayment x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.PatchIncomingPayment(IncomingPayment x).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -183,7 +288,43 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostIncomingPayment(IncomingPayment x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.PostIncomingPayment(IncomingPayment x).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
+					throw new Exception(log);
+				}
+
+				else throw;
+				#endregion
+			}
+		}
+
+		/// <summary>
+		/// Invokes the method 'RequestApproveCancellation' on this <see cref="IncomingPayment"/> with the specified DocEntry.
+		/// </summary>
+		/// <param name="docEntry">The DocEntry</param>
+		public async Task<string> RequestApproveCancellationIncomingPayment(int docEntry)
+		{
+			var endpoint = String.Format($"{BaseUrl}{IncomingPaymentRequest.ACTION}({docEntry})/RequestApproveCancellation");
+
+			try {
+				using (var response = await Client.PostAsync(endpoint, null)) {
+					string responseData = await response.Content.ReadAsStringAsync();
+					WriteToFile(responseData);
+					var incomingPaymentResponse = JsonConvert.DeserializeObject<IncomingPaymentResponse>(responseData);
+
+					return responseData;
+				}
+			}
+
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null) {
+					var log = "";
+					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.RequestApproveCancellationIncomingPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
