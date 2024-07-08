@@ -27,7 +27,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountCategory(int id).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteAccountCategory(int id).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -133,8 +133,9 @@ namespace Sap.Core.Http
 		/// <param name="categorySource">The category source.</param>
 		public async Task<string> PatchAccountCategory(int? categoryCode, string? categoryName, string? categorySource)
 		{
+			var endpoint = String.Format($"{BaseUrl}{AccountCategoryRequest.ACTION}({categoryCode})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, AccountCategoryRequest.ACTION);
 				var accountCategoryRequest = new AccountCategoryRequest(categoryCode, categoryName, categorySource);
 				var json = accountCategoryRequest.ToJson();
 
@@ -152,7 +153,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -188,7 +189,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

@@ -231,7 +231,57 @@ namespace Sap.Tests
 			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.GetIncomingPaymentById(1);
+			var list = client.GetIncomingPaymentById(5);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region Invoices
+		[Fact]
+		public void Test_ListInvoices()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListInvoices();
+			Assert.True(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetInvoiceById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetInvoiceById(5);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region JournalEntries
+		[Fact]
+		public void Test_ListJournalEntries()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListJournalEntries();
+			Assert.True(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetJournalEntryById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetJournalEntryById(5);
 			Assert.NotNull(list);
 			Assert.NotEmpty(list.Result);
 		}

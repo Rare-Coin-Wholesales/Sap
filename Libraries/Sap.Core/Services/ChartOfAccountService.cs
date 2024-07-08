@@ -26,7 +26,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteChartOfAccount(string code='{code}').{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.DeleteChartOfAccount(string code='{code}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -132,8 +132,9 @@ namespace Sap.Core.Http
 		/// <param name="categorySource">The category source.</param>
 		public async Task<string> PatchChartOfAccount(ChartOfAccount x)
 		{
+			var endpoint = String.Format($"{BaseUrl}{ChartOfAccountRequest.ACTION}({x.Code})");
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, ChartOfAccountRequest.ACTION);
 				var chartOfAccountRequest = new ChartOfAccountRequest(x);
 				var json = chartOfAccountRequest.ToJson();
 
@@ -151,7 +152,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChartOfAccount(ChartOfAccount x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChartOfAccount(ChartOfAccount x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -187,7 +188,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostChartOfAccount(ChartOfAccount x).{Environment.NewLine}{ex.ToString()}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostChartOfAccount(ChartOfAccount x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
