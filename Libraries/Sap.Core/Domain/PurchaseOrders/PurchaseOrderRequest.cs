@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.Invoices
+namespace Sap.Core.Domain.PurchaseOrders
 {
-	public partial class InvoiceRequest : BaseRequest
+	public partial class PurchaseOrderRequest : BaseRequest
 	{
 		#region Fields
-		public const string ACTION = "Invoices";
+		public const string ACTION = "PurchaseOrders";
 		public AddressExtension AddressExtension;
 		public DateTime? CreationDate;
 		public DateTime? DocDate;
@@ -26,9 +26,6 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? DownPaymentAmountFC;
 		public decimal? DownPaymentAmountSC;
 		public decimal? DownPaymentPercentage;
-		public decimal? PaidToDate;
-		public decimal? PaidToDateFC;
-		public decimal? PaidToDateSys;
 		public decimal? RoundingDiffAmount;
 		public decimal? RoundingDiffAmountFC;
 		public decimal? RoundingDiffAmountSC;
@@ -54,19 +51,14 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? WTNonSubjectAmount;
 		public decimal? WTNonSubjectAmountFC;
 		public decimal? WTNonSubjectAmountSC;
-		public EWayBillDetails EWayBillDetails;
-		public IList<DocumentInstallment> DocumentInstallments;
 		public IList<DocumentLine> DocumentLines;
-		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
 		public IList<object> DocumentAdditionalExpenses;
 		public IList<object> DocumentApprovalRequests;
-		public IList<object> DocumentPackages;
 		public IList<object> DocumentReferences;
 		public IList<object> DocumentSpecialLines;
 		public IList<object> ElectronicProtocols;
 		public IList<object> WithholdingTaxDataCollection;
 		public IList<object> WithholdingTaxDataWTXCollection;
-		public int? BaseType;
 		public int? CashDiscountDateOffset;
 		public int? ContactPersonCode;
 		public int? DataVersion;
@@ -75,7 +67,6 @@ namespace Sap.Core.Domain.Invoices
 		public int? ExtraDays;
 		public int? ExtraMonth;
 		public int? FinancialPeriod;
-		public int? IssuingReason;
 		public int? LanguageCode;
 		public int? NumberOfInstallments;
 		public int? PaymentGroupCode;
@@ -83,14 +74,12 @@ namespace Sap.Core.Domain.Invoices
 		public int? SalesPersonCode;
 		public int? Segment;
 		public int? Series;
-		public int? TransNum;
 		public int? TransportationCode;
 		public int? UserSign;
 		public string? AddLegIn;
 		public string? Address;
 		public string? Address2;
 		public string? AgentCode;
-		public string? AllocationNumberIL;
 		public string? AnnualInvoiceDeclarationReference;
 		public string? ApplyCurrentVATRatesForDownPaymentsToDraw;
 		public string? ApplyTaxOnFirstInstallment;
@@ -100,7 +89,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? AttachmentEntry;
 		public string? AuthorizationCode;
 		public string? AuthorizationStatus;
-		public string? BaseEntry;
 		public string? BillOfExchangeReserved;
 		public string? BlanketAgreementNumber;
 		public string? BlockDunning;
@@ -143,8 +131,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? DocumentTaxID;
 		public string? DownPaymentStatus;
 		public string? DownPaymentType;
-		public string? ECommerceGSTIN;
-		public string? ECommerceOperator;
 		public string? EDocErrorCode;
 		public string? EDocErrorMessage;
 		public string? EDocExportFormat;
@@ -152,7 +138,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? EDocNum;
 		public string? EDocSeries;
 		public string? EDocStatus;
-		public string? EDocType;
 		public string? ElecCommMessage;
 		public string? ElecCommStatus;
 		public string? EndDeliveryDate;
@@ -165,7 +150,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? ExternalCorrectedDocNum;
 		public string? FatherCard;
 		public string? FatherType;
-		public string? FCEAsPaymentMeans;
 		public string? FCI;
 		public string? FederalTaxID;
 		public string? FiscalDocNum;
@@ -177,18 +161,15 @@ namespace Sap.Core.Domain.Invoices
 		public string? GroupHandWritten;
 		public string? GroupNumber;
 		public string? GroupSeries;
-		public string? GSTTransactionType;
 		public string? GTSChecker;
 		public string? GTSPayee;
 		public string? HandWritten;
 		public string? ImportFileNum;
-		public string? IndFinal;
 		public string? Indicator;
 		public string? InsuranceOperation347;
 		public string? InterimType;
 		public string? InternalCorrectedDocNum;
 		public string? InventoryStatus;
-		public string? InvoicePayment;
 		public string? IsAlteration;
 		public string? IsPayToBank;
 		public string? JournalMemo;
@@ -207,10 +188,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? OdataEtag;
 		public string? OpenForLandedCosts;
 		public string? OpeningRemarks;
-		public string? OriginalCreditOrDebitDate;
-		public string? OriginalCreditOrDebitNo;
-		public string? OriginalRefDate;
-		public string? OriginalRefNo;
 		public string? PartialSupply;
 		public string? PaymentBlock;
 		public string? PaymentBlockEntry;
@@ -252,7 +229,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? ReserveInvoice;
 		public string? ReuseDocumentNum;
 		public string? ReuseNotaFiscalNum;
-		public string? Revision;
 		public string? RevisionPo;
 		public string? Rounding;
 		public string? SAPPassport;
@@ -279,6 +255,7 @@ namespace Sap.Core.Domain.Invoices
 		public string? TaxExemptionLetterNum;
 		public string? TaxOnInstallments;
 		public string? TrackingNumber;
+		public string? TransNum;
 		public string? UpdateTime;
 		public string? UseBillToAddrToDetermineTax;
 		public string? UseCorrectionVATGroup;
@@ -290,16 +267,12 @@ namespace Sap.Core.Domain.Invoices
 		public TaxExtension TaxExtension;
 		#endregion
 
-		public InvoiceRequest()
+		public PurchaseOrderRequest()
 		{
 			AddressExtension = new AddressExtension();
-			EWayBillDetails = new EWayBillDetails();
-			DocumentInstallments = new List<DocumentInstallment>();
 			DocumentLines = new List<DocumentLine>();
-			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
-			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
 			ElectronicProtocols = new List<object>();
@@ -308,17 +281,13 @@ namespace Sap.Core.Domain.Invoices
 			TaxExtension = new TaxExtension();
 		}
 
-		public InvoiceRequest(int docEntry)
+		public PurchaseOrderRequest(int docEntry)
 		{
 			DocEntry = docEntry;
 			AddressExtension = new AddressExtension();
-			EWayBillDetails = new EWayBillDetails();
-			DocumentInstallments = new List<DocumentInstallment>();
 			DocumentLines = new List<DocumentLine>();
-			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
-			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
 			ElectronicProtocols = new List<object>();
@@ -327,7 +296,7 @@ namespace Sap.Core.Domain.Invoices
 			TaxExtension = new TaxExtension();
 		}
 
-		public InvoiceRequest(Invoice x)
+		public PurchaseOrderRequest(PurchaseOrder x)
 		{
 			AddressExtension = x.AddressExtension;
 			CreationDate = x.CreationDate;
@@ -348,9 +317,6 @@ namespace Sap.Core.Domain.Invoices
 			DownPaymentAmountFC = x.DownPaymentAmountFC;
 			DownPaymentAmountSC = x.DownPaymentAmountSC;
 			DownPaymentPercentage = x.DownPaymentPercentage;
-			PaidToDate = x.PaidToDate;
-			PaidToDateFC = x.PaidToDateFC;
-			PaidToDateSys = x.PaidToDateSys;
 			RoundingDiffAmount = x.RoundingDiffAmount;
 			RoundingDiffAmountFC = x.RoundingDiffAmountFC;
 			RoundingDiffAmountSC = x.RoundingDiffAmountSC;
@@ -376,19 +342,14 @@ namespace Sap.Core.Domain.Invoices
 			WTNonSubjectAmount = x.WTNonSubjectAmount;
 			WTNonSubjectAmountFC = x.WTNonSubjectAmountFC;
 			WTNonSubjectAmountSC = x.WTNonSubjectAmountSC;
-			EWayBillDetails = x.EWayBillDetails;
-			DocumentInstallments = x.DocumentInstallments;
 			DocumentLines = x.DocumentLines;
-			DownPaymentsToDraw = x.DownPaymentsToDraw;
 			DocumentAdditionalExpenses = x.DocumentAdditionalExpenses;
 			DocumentApprovalRequests = x.DocumentApprovalRequests;
-			DocumentPackages = x.DocumentPackages;
 			DocumentReferences = x.DocumentReferences;
 			DocumentSpecialLines = x.DocumentSpecialLines;
 			ElectronicProtocols = x.ElectronicProtocols;
 			WithholdingTaxDataCollection = x.WithholdingTaxDataCollection;
 			WithholdingTaxDataWTXCollection = x.WithholdingTaxDataWTXCollection;
-			BaseType = x.BaseType;
 			CashDiscountDateOffset = x.CashDiscountDateOffset;
 			ContactPersonCode = x.ContactPersonCode;
 			DataVersion = x.DataVersion;
@@ -397,7 +358,6 @@ namespace Sap.Core.Domain.Invoices
 			ExtraDays = x.ExtraDays;
 			ExtraMonth = x.ExtraMonth;
 			FinancialPeriod = x.FinancialPeriod;
-			IssuingReason = x.IssuingReason;
 			LanguageCode = x.LanguageCode;
 			NumberOfInstallments = x.NumberOfInstallments;
 			PaymentGroupCode = x.PaymentGroupCode;
@@ -405,14 +365,12 @@ namespace Sap.Core.Domain.Invoices
 			SalesPersonCode = x.SalesPersonCode;
 			Segment = x.Segment;
 			Series = x.Series;
-			TransNum = x.TransNum;
 			TransportationCode = x.TransportationCode;
 			UserSign = x.UserSign;
 			AddLegIn = x.AddLegIn;
 			Address = x.Address;
 			Address2 = x.Address2;
 			AgentCode = x.AgentCode;
-			AllocationNumberIL = x.AllocationNumberIL;
 			AnnualInvoiceDeclarationReference = x.AnnualInvoiceDeclarationReference;
 			ApplyCurrentVATRatesForDownPaymentsToDraw = x.ApplyCurrentVATRatesForDownPaymentsToDraw;
 			ApplyTaxOnFirstInstallment = x.ApplyTaxOnFirstInstallment;
@@ -422,7 +380,6 @@ namespace Sap.Core.Domain.Invoices
 			AttachmentEntry = x.AttachmentEntry;
 			AuthorizationCode = x.AuthorizationCode;
 			AuthorizationStatus = x.AuthorizationStatus;
-			BaseEntry = x.BaseEntry;
 			BillOfExchangeReserved = x.BillOfExchangeReserved;
 			BlanketAgreementNumber = x.BlanketAgreementNumber;
 			BlockDunning = x.BlockDunning;
@@ -465,8 +422,6 @@ namespace Sap.Core.Domain.Invoices
 			DocumentTaxID = x.DocumentTaxID;
 			DownPaymentStatus = x.DownPaymentStatus;
 			DownPaymentType = x.DownPaymentType;
-			ECommerceGSTIN = x.ECommerceGSTIN;
-			ECommerceOperator = x.ECommerceOperator;
 			EDocErrorCode = x.EDocErrorCode;
 			EDocErrorMessage = x.EDocErrorMessage;
 			EDocExportFormat = x.EDocExportFormat;
@@ -474,7 +429,6 @@ namespace Sap.Core.Domain.Invoices
 			EDocNum = x.EDocNum;
 			EDocSeries = x.EDocSeries;
 			EDocStatus = x.EDocStatus;
-			EDocType = x.EDocType;
 			ElecCommMessage = x.ElecCommMessage;
 			ElecCommStatus = x.ElecCommStatus;
 			EndDeliveryDate = x.EndDeliveryDate;
@@ -487,7 +441,6 @@ namespace Sap.Core.Domain.Invoices
 			ExternalCorrectedDocNum = x.ExternalCorrectedDocNum;
 			FatherCard = x.FatherCard;
 			FatherType = x.FatherType;
-			FCEAsPaymentMeans = x.FCEAsPaymentMeans;
 			FCI = x.FCI;
 			FederalTaxID = x.FederalTaxID;
 			FiscalDocNum = x.FiscalDocNum;
@@ -499,18 +452,15 @@ namespace Sap.Core.Domain.Invoices
 			GroupHandWritten = x.GroupHandWritten;
 			GroupNumber = x.GroupNumber;
 			GroupSeries = x.GroupSeries;
-			GSTTransactionType = x.GSTTransactionType;
 			GTSChecker = x.GTSChecker;
 			GTSPayee = x.GTSPayee;
 			HandWritten = x.HandWritten;
 			ImportFileNum = x.ImportFileNum;
-			IndFinal = x.IndFinal;
 			Indicator = x.Indicator;
 			InsuranceOperation347 = x.InsuranceOperation347;
 			InterimType = x.InterimType;
 			InternalCorrectedDocNum = x.InternalCorrectedDocNum;
 			InventoryStatus = x.InventoryStatus;
-			InvoicePayment = x.InvoicePayment;
 			IsAlteration = x.IsAlteration;
 			IsPayToBank = x.IsPayToBank;
 			JournalMemo = x.JournalMemo;
@@ -528,10 +478,6 @@ namespace Sap.Core.Domain.Invoices
 			OdataEtag = x.OdataEtag;
 			OpenForLandedCosts = x.OpenForLandedCosts;
 			OpeningRemarks = x.OpeningRemarks;
-			OriginalCreditOrDebitDate = x.OriginalCreditOrDebitDate;
-			OriginalCreditOrDebitNo = x.OriginalCreditOrDebitNo;
-			OriginalRefDate = x.OriginalRefDate;
-			OriginalRefNo = x.OriginalRefNo;
 			PartialSupply = x.PartialSupply;
 			PaymentBlock = x.PaymentBlock;
 			PaymentBlockEntry = x.PaymentBlockEntry;
@@ -573,7 +519,6 @@ namespace Sap.Core.Domain.Invoices
 			ReserveInvoice = x.ReserveInvoice;
 			ReuseDocumentNum = x.ReuseDocumentNum;
 			ReuseNotaFiscalNum = x.ReuseNotaFiscalNum;
-			Revision = x.Revision;
 			RevisionPo = x.RevisionPo;
 			Rounding = x.Rounding;
 			SAPPassport = x.SAPPassport;
@@ -600,6 +545,7 @@ namespace Sap.Core.Domain.Invoices
 			TaxExemptionLetterNum = x.TaxExemptionLetterNum;
 			TaxOnInstallments = x.TaxOnInstallments;
 			TrackingNumber = x.TrackingNumber;
+			TransNum = x.TransNum;
 			UpdateTime = x.UpdateTime;
 			UseBillToAddrToDetermineTax = x.UseBillToAddrToDetermineTax;
 			UseCorrectionVATGroup = x.UseCorrectionVATGroup;

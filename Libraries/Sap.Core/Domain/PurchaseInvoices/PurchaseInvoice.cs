@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.Invoices
+namespace Sap.Core.Domain.PurchaseInvoices
 {
-	public partial class Invoice : BaseEntity
+	public partial class PurchaseInvoice : BaseEntity
 	{
 		#region Fields
 		public AddressExtension AddressExtension;
@@ -31,6 +31,7 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? RoundingDiffAmount;
 		public decimal? RoundingDiffAmountFC;
 		public decimal? RoundingDiffAmountSC;
+		public decimal? ServiceGrossProfitPercent;
 		public decimal? TotalDiscount;
 		public decimal? TotalDiscountFC;
 		public decimal? TotalDiscountSC;
@@ -54,17 +55,6 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? WTNonSubjectAmountFC;
 		public decimal? WTNonSubjectAmountSC;
 		public EWayBillDetails EWayBillDetails;
-		public IList<DocumentInstallment> DocumentInstallments;
-		public IList<DocumentLine> DocumentLines;
-		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
-		public IList<object> DocumentAdditionalExpenses;
-		public IList<object> DocumentApprovalRequests;
-		public IList<object> DocumentPackages;
-		public IList<object> DocumentReferences;
-		public IList<object> DocumentSpecialLines;
-		public IList<object> ElectronicProtocols;
-		public IList<object> WithholdingTaxDataCollection;
-		public IList<object> WithholdingTaxDataWTXCollection;
 		public int? BaseType;
 		public int? CashDiscountDateOffset;
 		public int? ContactPersonCode;
@@ -85,6 +75,16 @@ namespace Sap.Core.Domain.Invoices
 		public int? TransNum;
 		public int? TransportationCode;
 		public int? UserSign;
+		public IList<DocumentInstallment> DocumentInstallments;
+		public IList<DocumentLine> DocumentLines;
+		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
+		public IList<object> DocumentAdditionalExpenses;
+		public IList<object> DocumentApprovalRequests;
+		public IList<object> DocumentReferences;
+		public IList<object> DocumentSpecialLines;
+		public IList<object> ElectronicProtocols;
+		public IList<object> WithholdingTaxDataCollection;
+		public IList<object> WithholdingTaxDataWTXCollection;
 		public string? AddLegIn;
 		public string? Address;
 		public string? Address2;
@@ -142,8 +142,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? DocumentTaxID;
 		public string? DownPaymentStatus;
 		public string? DownPaymentType;
-		public string? ECommerceGSTIN;
-		public string? ECommerceOperator;
 		public string? EDocErrorCode;
 		public string? EDocErrorMessage;
 		public string? EDocExportFormat;
@@ -151,7 +149,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? EDocNum;
 		public string? EDocSeries;
 		public string? EDocStatus;
-		public string? EDocType;
 		public string? ElecCommMessage;
 		public string? ElecCommStatus;
 		public string? EndDeliveryDate;
@@ -164,7 +161,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? ExternalCorrectedDocNum;
 		public string? FatherCard;
 		public string? FatherType;
-		public string? FCEAsPaymentMeans;
 		public string? FCI;
 		public string? FederalTaxID;
 		public string? FiscalDocNum;
@@ -181,7 +177,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? GTSPayee;
 		public string? HandWritten;
 		public string? ImportFileNum;
-		public string? IndFinal;
 		public string? Indicator;
 		public string? InsuranceOperation347;
 		public string? InterimType;
@@ -259,7 +254,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? SequenceModel;
 		public string? SequenceSerial;
 		public string? SeriesString;
-		public string? ServiceGrossProfitPercent;
 		public string? ShipFrom;
 		public string? ShipPlace;
 		public string? ShipState;
@@ -267,6 +261,7 @@ namespace Sap.Core.Domain.Invoices
 		public string? ShowSCN;
 		public string? SignatureDigest;
 		public string? SignatureInputMessage;
+		public string? SOIWizardId;
 		public string? SpecifiedClosingDate;
 		public string? StartDeliveryDate;
 		public string? StartDeliveryTime;
@@ -276,6 +271,8 @@ namespace Sap.Core.Domain.Invoices
 		public string? SummeryType;
 		public string? Supplier;
 		public string? TaxExemptionLetterNum;
+		public string? TaxInvoiceDate;
+		public string? TaxInvoiceNo;
 		public string? TaxOnInstallments;
 		public string? TrackingNumber;
 		public string? UpdateTime;
@@ -289,7 +286,7 @@ namespace Sap.Core.Domain.Invoices
 		public TaxExtension TaxExtension;
 		#endregion
 
-		public Invoice()
+		public PurchaseInvoice()
 		{
 			AddressExtension = new AddressExtension();
 			EWayBillDetails = new EWayBillDetails();
@@ -298,7 +295,6 @@ namespace Sap.Core.Domain.Invoices
 			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
-			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
 			ElectronicProtocols = new List<object>();

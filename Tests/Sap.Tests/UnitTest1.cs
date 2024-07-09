@@ -281,7 +281,207 @@ namespace Sap.Tests
 			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.GetJournalEntryById(5);
+			var list = client.GetJournalEntryById(4);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region JournalEntryDocumentTypes
+		[Fact]
+		public void Test_ListJournalEntryDocumentTypes()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListJournalEntryDocumentTypes();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetJournalEntryDocumentTypeById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetJournalEntryDocumentTypeById("type");
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region PurchaseCreditNotes
+		[Fact]
+		public void Test_ListPurchaseCreditNotes()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListPurchaseCreditNotes();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetPurchaseCreditNoteById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetPurchaseCreditNoteById(4);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region PurchaseInvoices
+		[Fact]
+		public void Test_ListPurchaseInvoices()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListPurchaseInvoices();
+			Assert.True(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetPurchaseInvoiceById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetPurchaseInvoiceById(11);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region PurchaseOrders
+		[Fact]
+		public void Test_ListPurchaseOrders()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListPurchaseOrders();
+			Assert.True(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetPurchaseOrderById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetPurchaseOrderById(6);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region PurchaseQuotations
+		[Fact]
+		public void Test_ListPurchaseQuotations()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListPurchaseQuotations();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetPurchaseQuotationById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetPurchaseQuotationById(6);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region PurchaseTaxInvoices
+		[Fact]
+		public void Test_ListPurchaseTaxInvoices()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListPurchaseTaxInvoices();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetPurchaseTaxInvoiceById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetPurchaseTaxInvoiceById(6);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region Quotations
+		[Fact]
+		public void Test_ListQuotations()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListQuotations();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetQuotationById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetQuotationById(6);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region SalesTaxInvoices
+		[Fact]
+		public void Test_ListSalesTaxInvoices()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListSalesTaxInvoices();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetSalesTaxInvoiceById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetSalesTaxInvoiceById(6);
 			Assert.NotNull(list);
 			Assert.NotEmpty(list.Result);
 		}
@@ -307,6 +507,31 @@ namespace Sap.Tests
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetTransactionCodeById(1);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region VendorPayments
+		[Fact]
+		public void Test_ListVendorPayments()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListVendorPayments();
+			Assert.False(list.Any());
+		}
+
+		[Fact]
+		public void Test_GetVendorPaymentById()
+		{
+			var client = new SapClient(BASE_URL);
+			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetVendorPaymentById(5);
 			Assert.NotNull(list);
 			Assert.NotEmpty(list.Result);
 		}

@@ -1,10 +1,10 @@
 ﻿using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.CreditNotes
+namespace Sap.Core.Domain.PurchaseCreditNotes
 {
-	public partial class CreditNoteRequest : BaseRequest
+	public partial class PurchaseCreditNoteRequest : BaseRequest
 	{
-		public const string ACTION = "CreditNotes";
+		public const string ACTION = "PurchaseCreditNotes";
 		public IList<DocumentLine> DocumentLines;
 		public int? DocEntry;
 		public string? CardCode;
@@ -14,18 +14,18 @@ namespace Sap.Core.Domain.CreditNotes
 		public string? DocNum;
 		public string? DocType;
 
-		public CreditNoteRequest()
+		public PurchaseCreditNoteRequest()
 		{
 			DocumentLines = new List<DocumentLine>();
 		}
 
-		public CreditNoteRequest(int docEntry)
+		public PurchaseCreditNoteRequest(int docEntry)
 		{
 			DocEntry = docEntry;
 			DocumentLines = new List<DocumentLine>();
 		}
 
-		public CreditNoteRequest(CreditNote x)
+		public PurchaseCreditNoteRequest(PurchaseCreditNote x)
 		{
 			CardCode = x.CardCode;
 			Code = x.Code;
