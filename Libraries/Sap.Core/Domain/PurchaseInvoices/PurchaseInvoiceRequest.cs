@@ -1,12 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.Invoices
+namespace Sap.Core.Domain.PurchaseInvoices
 {
-	public partial class InvoiceRequest : BaseRequest
+	public partial class PurchaseInvoiceRequest : BaseRequest
 	{
 		#region Fields
-		public const string ACTION = "Invoices";
+		public const string ACTION = "PurchaseInvoices";
 		public AddressExtension AddressExtension;
 		public DateTime? CreationDate;
 		public DateTime? DocDate;
@@ -32,6 +32,7 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? RoundingDiffAmount;
 		public decimal? RoundingDiffAmountFC;
 		public decimal? RoundingDiffAmountSC;
+		public decimal? ServiceGrossProfitPercent;
 		public decimal? TotalDiscount;
 		public decimal? TotalDiscountFC;
 		public decimal? TotalDiscountSC;
@@ -55,17 +56,6 @@ namespace Sap.Core.Domain.Invoices
 		public decimal? WTNonSubjectAmountFC;
 		public decimal? WTNonSubjectAmountSC;
 		public EWayBillDetails EWayBillDetails;
-		public IList<DocumentInstallment> DocumentInstallments;
-		public IList<DocumentLine> DocumentLines;
-		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
-		public IList<object> DocumentAdditionalExpenses;
-		public IList<object> DocumentApprovalRequests;
-		public IList<object> DocumentPackages;
-		public IList<object> DocumentReferences;
-		public IList<object> DocumentSpecialLines;
-		public IList<object> ElectronicProtocols;
-		public IList<object> WithholdingTaxDataCollection;
-		public IList<object> WithholdingTaxDataWTXCollection;
 		public int? BaseType;
 		public int? CashDiscountDateOffset;
 		public int? ContactPersonCode;
@@ -86,6 +76,16 @@ namespace Sap.Core.Domain.Invoices
 		public int? TransNum;
 		public int? TransportationCode;
 		public int? UserSign;
+		public IList<DocumentInstallment> DocumentInstallments;
+		public IList<DocumentLine> DocumentLines;
+		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
+		public IList<object> DocumentAdditionalExpenses;
+		public IList<object> DocumentApprovalRequests;
+		public IList<object> DocumentReferences;
+		public IList<object> DocumentSpecialLines;
+		public IList<object> ElectronicProtocols;
+		public IList<object> WithholdingTaxDataCollection;
+		public IList<object> WithholdingTaxDataWTXCollection;
 		public string? AddLegIn;
 		public string? Address;
 		public string? Address2;
@@ -143,8 +143,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? DocumentTaxID;
 		public string? DownPaymentStatus;
 		public string? DownPaymentType;
-		public string? ECommerceGSTIN;
-		public string? ECommerceOperator;
 		public string? EDocErrorCode;
 		public string? EDocErrorMessage;
 		public string? EDocExportFormat;
@@ -152,7 +150,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? EDocNum;
 		public string? EDocSeries;
 		public string? EDocStatus;
-		public string? EDocType;
 		public string? ElecCommMessage;
 		public string? ElecCommStatus;
 		public string? EndDeliveryDate;
@@ -165,7 +162,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? ExternalCorrectedDocNum;
 		public string? FatherCard;
 		public string? FatherType;
-		public string? FCEAsPaymentMeans;
 		public string? FCI;
 		public string? FederalTaxID;
 		public string? FiscalDocNum;
@@ -182,7 +178,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? GTSPayee;
 		public string? HandWritten;
 		public string? ImportFileNum;
-		public string? IndFinal;
 		public string? Indicator;
 		public string? InsuranceOperation347;
 		public string? InterimType;
@@ -260,7 +255,6 @@ namespace Sap.Core.Domain.Invoices
 		public string? SequenceModel;
 		public string? SequenceSerial;
 		public string? SeriesString;
-		public string? ServiceGrossProfitPercent;
 		public string? ShipFrom;
 		public string? ShipPlace;
 		public string? ShipState;
@@ -268,6 +262,7 @@ namespace Sap.Core.Domain.Invoices
 		public string? ShowSCN;
 		public string? SignatureDigest;
 		public string? SignatureInputMessage;
+		public string? SOIWizardId;
 		public string? SpecifiedClosingDate;
 		public string? StartDeliveryDate;
 		public string? StartDeliveryTime;
@@ -277,6 +272,8 @@ namespace Sap.Core.Domain.Invoices
 		public string? SummeryType;
 		public string? Supplier;
 		public string? TaxExemptionLetterNum;
+		public string? TaxInvoiceDate;
+		public string? TaxInvoiceNo;
 		public string? TaxOnInstallments;
 		public string? TrackingNumber;
 		public string? UpdateTime;
@@ -290,7 +287,7 @@ namespace Sap.Core.Domain.Invoices
 		public TaxExtension TaxExtension;
 		#endregion
 
-		public InvoiceRequest()
+		public PurchaseInvoiceRequest()
 		{
 			AddressExtension = new AddressExtension();
 			EWayBillDetails = new EWayBillDetails();
@@ -299,7 +296,6 @@ namespace Sap.Core.Domain.Invoices
 			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
-			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
 			ElectronicProtocols = new List<object>();
@@ -308,7 +304,7 @@ namespace Sap.Core.Domain.Invoices
 			TaxExtension = new TaxExtension();
 		}
 
-		public InvoiceRequest(int docEntry)
+		public PurchaseInvoiceRequest(int docEntry)
 		{
 			DocEntry = docEntry;
 			AddressExtension = new AddressExtension();
@@ -318,7 +314,6 @@ namespace Sap.Core.Domain.Invoices
 			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
-			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
 			ElectronicProtocols = new List<object>();
@@ -327,7 +322,7 @@ namespace Sap.Core.Domain.Invoices
 			TaxExtension = new TaxExtension();
 		}
 
-		public InvoiceRequest(Invoice x)
+		public PurchaseInvoiceRequest(PurchaseInvoice x)
 		{
 			AddressExtension = x.AddressExtension;
 			CreationDate = x.CreationDate;
@@ -354,6 +349,7 @@ namespace Sap.Core.Domain.Invoices
 			RoundingDiffAmount = x.RoundingDiffAmount;
 			RoundingDiffAmountFC = x.RoundingDiffAmountFC;
 			RoundingDiffAmountSC = x.RoundingDiffAmountSC;
+			ServiceGrossProfitPercent = x.ServiceGrossProfitPercent;
 			TotalDiscount = x.TotalDiscount;
 			TotalDiscountFC = x.TotalDiscountFC;
 			TotalDiscountSC = x.TotalDiscountSC;
@@ -377,17 +373,6 @@ namespace Sap.Core.Domain.Invoices
 			WTNonSubjectAmountFC = x.WTNonSubjectAmountFC;
 			WTNonSubjectAmountSC = x.WTNonSubjectAmountSC;
 			EWayBillDetails = x.EWayBillDetails;
-			DocumentInstallments = x.DocumentInstallments;
-			DocumentLines = x.DocumentLines;
-			DownPaymentsToDraw = x.DownPaymentsToDraw;
-			DocumentAdditionalExpenses = x.DocumentAdditionalExpenses;
-			DocumentApprovalRequests = x.DocumentApprovalRequests;
-			DocumentPackages = x.DocumentPackages;
-			DocumentReferences = x.DocumentReferences;
-			DocumentSpecialLines = x.DocumentSpecialLines;
-			ElectronicProtocols = x.ElectronicProtocols;
-			WithholdingTaxDataCollection = x.WithholdingTaxDataCollection;
-			WithholdingTaxDataWTXCollection = x.WithholdingTaxDataWTXCollection;
 			BaseType = x.BaseType;
 			CashDiscountDateOffset = x.CashDiscountDateOffset;
 			ContactPersonCode = x.ContactPersonCode;
@@ -408,6 +393,16 @@ namespace Sap.Core.Domain.Invoices
 			TransNum = x.TransNum;
 			TransportationCode = x.TransportationCode;
 			UserSign = x.UserSign;
+			DocumentInstallments = x.DocumentInstallments;
+			DocumentLines = x.DocumentLines;
+			DownPaymentsToDraw = x.DownPaymentsToDraw;
+			DocumentAdditionalExpenses = x.DocumentAdditionalExpenses;
+			DocumentApprovalRequests = x.DocumentApprovalRequests;
+			DocumentReferences = x.DocumentReferences;
+			DocumentSpecialLines = x.DocumentSpecialLines;
+			ElectronicProtocols = x.ElectronicProtocols;
+			WithholdingTaxDataCollection = x.WithholdingTaxDataCollection;
+			WithholdingTaxDataWTXCollection = x.WithholdingTaxDataWTXCollection;
 			AddLegIn = x.AddLegIn;
 			Address = x.Address;
 			Address2 = x.Address2;
@@ -465,8 +460,6 @@ namespace Sap.Core.Domain.Invoices
 			DocumentTaxID = x.DocumentTaxID;
 			DownPaymentStatus = x.DownPaymentStatus;
 			DownPaymentType = x.DownPaymentType;
-			ECommerceGSTIN = x.ECommerceGSTIN;
-			ECommerceOperator = x.ECommerceOperator;
 			EDocErrorCode = x.EDocErrorCode;
 			EDocErrorMessage = x.EDocErrorMessage;
 			EDocExportFormat = x.EDocExportFormat;
@@ -474,7 +467,6 @@ namespace Sap.Core.Domain.Invoices
 			EDocNum = x.EDocNum;
 			EDocSeries = x.EDocSeries;
 			EDocStatus = x.EDocStatus;
-			EDocType = x.EDocType;
 			ElecCommMessage = x.ElecCommMessage;
 			ElecCommStatus = x.ElecCommStatus;
 			EndDeliveryDate = x.EndDeliveryDate;
@@ -487,7 +479,6 @@ namespace Sap.Core.Domain.Invoices
 			ExternalCorrectedDocNum = x.ExternalCorrectedDocNum;
 			FatherCard = x.FatherCard;
 			FatherType = x.FatherType;
-			FCEAsPaymentMeans = x.FCEAsPaymentMeans;
 			FCI = x.FCI;
 			FederalTaxID = x.FederalTaxID;
 			FiscalDocNum = x.FiscalDocNum;
@@ -504,7 +495,6 @@ namespace Sap.Core.Domain.Invoices
 			GTSPayee = x.GTSPayee;
 			HandWritten = x.HandWritten;
 			ImportFileNum = x.ImportFileNum;
-			IndFinal = x.IndFinal;
 			Indicator = x.Indicator;
 			InsuranceOperation347 = x.InsuranceOperation347;
 			InterimType = x.InterimType;
@@ -525,89 +515,6 @@ namespace Sap.Core.Domain.Invoices
 			NTSApproved = x.NTSApproved;
 			NTSApprovedNumber = x.NTSApprovedNumber;
 			NumAtCard = x.NumAtCard;
-			OdataEtag = x.OdataEtag;
-			OpenForLandedCosts = x.OpenForLandedCosts;
-			OpeningRemarks = x.OpeningRemarks;
-			OriginalCreditOrDebitDate = x.OriginalCreditOrDebitDate;
-			OriginalCreditOrDebitNo = x.OriginalCreditOrDebitNo;
-			OriginalRefDate = x.OriginalRefDate;
-			OriginalRefNo = x.OriginalRefNo;
-			PartialSupply = x.PartialSupply;
-			PaymentBlock = x.PaymentBlock;
-			PaymentBlockEntry = x.PaymentBlockEntry;
-			PaymentMethod = x.PaymentMethod;
-			PaymentReference = x.PaymentReference;
-			PayToBankAccountNo = x.PayToBankAccountNo;
-			PayToBankBranch = x.PayToBankBranch;
-			PayToBankCode = x.PayToBankCode;
-			PayToBankCountry = x.PayToBankCountry;
-			PayToCode = x.PayToCode;
-			PeriodIndicator = x.PeriodIndicator;
-			Pick = x.Pick;
-			PickRemark = x.PickRemark;
-			PickStatus = x.PickStatus;
-			PlasticPackagingTaxRelevant = x.PlasticPackagingTaxRelevant;
-			PointOfIssueCode = x.PointOfIssueCode;
-			POSCashierNumber = x.POSCashierNumber;
-			POSCashRegister = x.POSCashRegister;
-			POSDailySummaryNo = x.POSDailySummaryNo;
-			POSEquipmentNumber = x.POSEquipmentNumber;
-			POSManufacturerSerialNumber = x.POSManufacturerSerialNumber;
-			POSReceiptNo = x.POSReceiptNo;
-			PriceMode = x.PriceMode;
-			Printed = x.Printed;
-			PrintSEPADirect = x.PrintSEPADirect;
-			PrivateKeyVersion = x.PrivateKeyVersion;
-			Project = x.Project;
-			Receiver = x.Receiver;
-			Reference1 = x.Reference1;
-			Reference2 = x.Reference2;
-			RelatedEntry = x.RelatedEntry;
-			Releaser = x.Releaser;
-			RelevantToGTS = x.RelevantToGTS;
-			ReopenManuallyClosedOrCanceledDocument = x.ReopenManuallyClosedOrCanceledDocument;
-			ReopenOriginalDocument = x.ReopenOriginalDocument;
-			ReportingSectionControlStatementVAT = x.ReportingSectionControlStatementVAT;
-			RequriedDate = x.RequriedDate;
-			Reserve = x.Reserve;
-			ReserveInvoice = x.ReserveInvoice;
-			ReuseDocumentNum = x.ReuseDocumentNum;
-			ReuseNotaFiscalNum = x.ReuseNotaFiscalNum;
-			Revision = x.Revision;
-			RevisionPo = x.RevisionPo;
-			Rounding = x.Rounding;
-			SAPPassport = x.SAPPassport;
-			SequenceCode = x.SequenceCode;
-			SequenceModel = x.SequenceModel;
-			SequenceSerial = x.SequenceSerial;
-			SeriesString = x.SeriesString;
-			ServiceGrossProfitPercent = x.ServiceGrossProfitPercent;
-			ShipFrom = x.ShipFrom;
-			ShipPlace = x.ShipPlace;
-			ShipState = x.ShipState;
-			ShipToCode = x.ShipToCode;
-			ShowSCN = x.ShowSCN;
-			SignatureDigest = x.SignatureDigest;
-			SignatureInputMessage = x.SignatureInputMessage;
-			SpecifiedClosingDate = x.SpecifiedClosingDate;
-			StartDeliveryDate = x.StartDeliveryDate;
-			StartDeliveryTime = x.StartDeliveryTime;
-			StartFrom = x.StartFrom;
-			Submitted = x.Submitted;
-			SubSeriesString = x.SubSeriesString;
-			SummeryType = x.SummeryType;
-			Supplier = x.Supplier;
-			TaxExemptionLetterNum = x.TaxExemptionLetterNum;
-			TaxOnInstallments = x.TaxOnInstallments;
-			TrackingNumber = x.TrackingNumber;
-			UpdateTime = x.UpdateTime;
-			UseBillToAddrToDetermineTax = x.UseBillToAddrToDetermineTax;
-			UseCorrectionVATGroup = x.UseCorrectionVATGroup;
-			UseShpdGoodsAct = x.UseShpdGoodsAct;
-			VatDate = x.VatDate;
-			VATRegNum = x.VATRegNum;
-			VehiclePlate = x.VehiclePlate;
-			WareHouseUpdateType = x.WareHouseUpdateType;
 			TaxExtension = x.TaxExtension;
 		}
 	}

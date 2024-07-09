@@ -1,8 +1,8 @@
 ﻿using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.CreditNotes
+namespace Sap.Core.Domain.Quotations
 {
-	public partial class CreditNote : BaseEntity
+	public partial class Quotation : BaseEntity
 	{
 		public IList<DocumentLine> DocumentLines;
 		public int? DocEntry;
@@ -13,7 +13,8 @@ namespace Sap.Core.Domain.CreditNotes
 		public string? DocNum;
 		public string? DocType;
 
-		public CreditNote() {
+		public Quotation()
+		{
 			DocumentLines = new List<DocumentLine>();
 		}
 	}

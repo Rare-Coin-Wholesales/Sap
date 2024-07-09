@@ -1,9 +1,10 @@
 ﻿using Sap.Core.Domain.Common;
 
-namespace Sap.Core.Domain.CreditNotes
+namespace Sap.Core.Domain.PurchaseQuotations
 {
-	public partial class CreditNote : BaseEntity
+	public partial class PurchaseQuotation : BaseEntity
 	{
+		public DateTime? RequriedDate;
 		public IList<DocumentLine> DocumentLines;
 		public int? DocEntry;
 		public string? CardCode;
@@ -13,7 +14,8 @@ namespace Sap.Core.Domain.CreditNotes
 		public string? DocNum;
 		public string? DocType;
 
-		public CreditNote() {
+		public PurchaseQuotation()
+		{
 			DocumentLines = new List<DocumentLine>();
 		}
 	}
