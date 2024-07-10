@@ -1,20 +1,20 @@
-﻿using Sap.Core.Http;
+﻿using Sap.Core;
+using Sap.Core.Http;
 
 namespace Sap.Automation
 {
 	class Program
 	{
-		// Consider changing these to Environment Variables, *especially* the password
-		private const string BASE_URL = "https://htpc21384p01.cloudiax.com:50000/b1s/v1/";
-		private const string COMPANY_DB = "A21384_ABW_T02";
-		private const string USERNAME = "steveg";
-		private const string PASSWORD = "Welcome@2"; // change this to Environment Variable
+		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
+		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
+		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
+		private static readonly string Password = CommonUtil.GetEncryptedEnvironmentVariable("SAP_Password");
 
 		static void Main(string[] args)
 		{
 			Console.WriteLine("\nStarting SAP Automation . . .\n");
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 

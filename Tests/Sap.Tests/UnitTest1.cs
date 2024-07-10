@@ -1,20 +1,21 @@
+using Sap.Core;
 using Sap.Core.Http;
 
 namespace Sap.Tests
 {
 	public class UnitTest1
 	{
-		private const string BASE_URL = "https://htpc21384p01.cloudiax.com:50000/b1s/v1/";
-		private const string COMPANY_DB = "A21384_ABW_T02";
-		private const string USERNAME = "steveg";
-		private const string PASSWORD = "Welcome@2"; // change this to Environment Variable
+		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
+		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
+		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
+		private static readonly string Password = CommonUtil.GetEncryptedEnvironmentVariable("SAP_Password");
 
 		#region AccountCategories
 		[Fact]
 		public void Test_ListAccountCategories()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountCategories();
@@ -26,8 +27,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListAccountSegmentationCategories()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountSegmentationCategories();
@@ -39,8 +40,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListAccountSegmentations()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountSegmentations();
@@ -52,8 +53,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListBillOfExchangeTransactions()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListBillOfExchangeTransactions();
@@ -63,8 +64,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetBillOfExchangeTransactionById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetBillOfExchangeTransactionById(1);
@@ -77,8 +78,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListChartOfAccounts()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListChartOfAccounts();
@@ -90,8 +91,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListChecksforPayments()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListChecksforPayments();
@@ -101,8 +102,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetChecksforPaymentById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetChecksforPaymentById(1);
@@ -115,8 +116,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListCreditNotes()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListCreditNotes();
@@ -126,8 +127,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetCreditNoteById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetCreditNoteById(1);
@@ -140,8 +141,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListDeposits()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListDeposits();
@@ -151,8 +152,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetDepositById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetDepositById(1);
@@ -165,8 +166,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListFAAccountDeterminations()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListFAAccountDeterminations();
@@ -178,8 +179,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListGLAccountAdvancedRules()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListGLAccountAdvancedRules();
@@ -191,8 +192,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListHouseBankAccounts()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListHouseBankAccounts();
@@ -202,8 +203,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetHouseBankAccountById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetHouseBankAccountById(1);
@@ -216,8 +217,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListIncomingPayments()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListIncomingPayments();
@@ -227,8 +228,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetIncomingPaymentById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetIncomingPaymentById(5);
@@ -241,8 +242,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListInvoices()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListInvoices();
@@ -252,8 +253,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetInvoiceById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetInvoiceById(5);
@@ -266,8 +267,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListJournalEntries()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListJournalEntries();
@@ -277,8 +278,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetJournalEntryById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetJournalEntryById(4);
@@ -291,8 +292,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListJournalEntryDocumentTypes()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListJournalEntryDocumentTypes();
@@ -302,8 +303,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetJournalEntryDocumentTypeById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetJournalEntryDocumentTypeById("type");
@@ -316,8 +317,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListPurchaseCreditNotes()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseCreditNotes();
@@ -327,8 +328,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetPurchaseCreditNoteById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseCreditNoteById(4);
@@ -341,8 +342,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListPurchaseInvoices()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseInvoices();
@@ -352,8 +353,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetPurchaseInvoiceById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseInvoiceById(11);
@@ -366,8 +367,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListPurchaseOrders()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseOrders();
@@ -377,8 +378,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetPurchaseOrderById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseOrderById(6);
@@ -391,8 +392,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListPurchaseQuotations()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseQuotations();
@@ -402,8 +403,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetPurchaseQuotationById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseQuotationById(6);
@@ -416,8 +417,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListPurchaseTaxInvoices()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseTaxInvoices();
@@ -427,8 +428,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetPurchaseTaxInvoiceById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseTaxInvoiceById(6);
@@ -441,8 +442,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListQuotations()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListQuotations();
@@ -452,8 +453,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetQuotationById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetQuotationById(6);
@@ -466,8 +467,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListSalesTaxInvoices()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListSalesTaxInvoices();
@@ -477,8 +478,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetSalesTaxInvoiceById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetSalesTaxInvoiceById(6);
@@ -491,8 +492,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListTransactionCodes()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListTransactionCodes();
@@ -502,8 +503,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetTransactionCodeById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetTransactionCodeById(1);
@@ -516,8 +517,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_ListVendorPayments()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListVendorPayments();
@@ -527,8 +528,8 @@ namespace Sap.Tests
 		[Fact]
 		public void Test_GetVendorPaymentById()
 		{
-			var client = new SapClient(BASE_URL);
-			var response = client.Login(COMPANY_DB, USERNAME, PASSWORD);
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetVendorPaymentById(5);
