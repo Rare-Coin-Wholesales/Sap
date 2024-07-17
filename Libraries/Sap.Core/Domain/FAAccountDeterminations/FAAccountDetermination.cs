@@ -2,7 +2,6 @@
 {
 	public partial class FAAccountDetermination : BaseEntity
 	{
-		#region Fields
 		public string? AccumulatedOrdinaryDepr;
 		public string? AccumulatedSpecialDepr;
 		public string? AccumulatedUnplannedDepr;
@@ -22,6 +21,5 @@
 		public string? RevenuefromAssetSalesNet;
 		public string? SpecialDepreciation;
 		public string? UnplannedDepreciation;
-		#endregion
 	}
 }

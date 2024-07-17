@@ -3,15 +3,15 @@
 	public partial class HouseBankAccount : BaseEntity
 	{
 		#region Fields
-		public double? DiscountLimit;
-		public double? MaxAmountofBillofExchan;
-		public double? MinAmountofBillofExchang;
 		public int? AbsoluteEntry;
 		public int? BankKey;
 		public int? IncomingPaymentSeries;
 		public int? ISRType;
 		public int? JournalEntrySeries;
 		public int? OutgoingPaymentSeries;
+		public decimal? DiscountLimit;
+		public decimal? MaxAmountofBillofExchan;
+		public decimal? MinAmountofBillofExchang;
 		public string? AccNo;
 		public string? AccountCheckDigit;
 		public string? AccountName;

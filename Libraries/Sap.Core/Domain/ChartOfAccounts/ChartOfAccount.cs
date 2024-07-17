@@ -3,11 +3,11 @@
 	public partial class ChartOfAccount : BaseEntity
 	{
 		#region Fields
-		public double? Balance;
-		public double? BalanceFrgnCurr;
-		public double? BalanceSyscurr;
 		public int? AccountLevel;
 		public int? InternalReconNo;
+		public decimal? Balance;
+		public decimal? BalanceFrgnCurr;
+		public decimal? BalanceSyscurr;
 		public string? AccountPurposeCode;
 		public string? AccountType;
 		public string? AcctCurrency;

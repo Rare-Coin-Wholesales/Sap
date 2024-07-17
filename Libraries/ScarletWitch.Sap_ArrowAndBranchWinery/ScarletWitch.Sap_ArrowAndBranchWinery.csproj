@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DA21EFD0-18E5-4126-BF63-F03420ABB994}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScarletWitch.Sap_ArrowAndBranchWinery</RootNamespace>
+    <AssemblyName>ScarletWitch.Sap_ArrowAndBranchWinery</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\AccountCategory.cs" />
+    <Compile Include="Domain\AccountSegmentation.cs" />
+    <Compile Include="Domain\AccountSegmentationCategory.cs" />
+    <Compile Include="Domain\AddressExtension.cs" />
+    <Compile Include="Domain\BillOfExchange.cs" />
+    <Compile Include="Domain\BillOfExchangeTransaction.cs" />
+    <Compile Include="Domain\CashFlowAssignment.cs" />
+    <Compile Include="Domain\ChartOfAccount.cs" />
+    <Compile Include="Domain\ChecksforPayment.cs" />
+    <Compile Include="Domain\CreditLine.cs" />
+    <Compile Include="Domain\CreditNote.cs" />
+    <Compile Include="Domain\Deposit.cs" />
+    <Compile Include="Domain\DocumentInstallment.cs" />
+    <Compile Include="Domain\DocumentLine.cs" />
+    <Compile Include="Domain\DownPaymentsToDraw.cs" />
+    <Compile Include="Domain\DownPaymentsToDrawDetail.cs" />
+    <Compile Include="Domain\EWayBillDetail.cs" />
+    <Compile Include="Domain\FAAccountDetermination.cs" />
+    <Compile Include="Domain\GLAccountAdvancedRule.cs" />
+    <Compile Include="Domain\HouseBankAccount.cs" />
+    <Compile Include="Domain\IncomingPayment.cs" />
+    <Compile Include="Domain\Invoice.cs" />
+    <Compile Include="Domain\JournalEntry.cs" />
+    <Compile Include="Domain\JournalEntryDocumentType.cs" />
+    <Compile Include="Domain\JournalEntryLine.cs" />
+    <Compile Include="Domain\LineTaxJurisdiction.cs" />
+    <Compile Include="Domain\PaymentDocumentReferencesCollection.cs" />
+    <Compile Include="Domain\PaymentInvoice.cs" />
+    <Compile Include="Domain\PurchaseCreditNote.cs" />
+    <Compile Include="Domain\PurchaseInvoice.cs" />
+    <Compile Include="Domain\PurchaseOrder.cs" />
+    <Compile Include="Domain\PurchaseQuotation.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoice.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoiceLine.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoiceOperationCode.cs" />
+    <Compile Include="Domain\Quotation.cs" />
+    <Compile Include="Domain\SalesTaxInvoice.cs" />
+    <Compile Include="Domain\SalesTaxInvoiceLine.cs" />
+    <Compile Include="Domain\SalesTaxInvoiceOperationCode.cs" />
+    <Compile Include="Domain\Sap_ArrowAndBranchWineryDb.cs" />
+    <Compile Include="Domain\TaxExtension.cs" />
+    <Compile Include="Domain\TransactionCode.cs" />
+    <Compile Include="Domain\VendorPayment.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountCategories\AccountCategoryService.cs" />
+    <Compile Include="Services\AccountCategories\IAccountCategoryService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
