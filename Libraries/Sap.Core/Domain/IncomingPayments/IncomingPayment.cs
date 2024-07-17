@@ -5,37 +5,40 @@ namespace Sap.Core.Domain.IncomingPayments
 	public partial class IncomingPayment : BaseEntity
 	{
 		#region Fields
+		public int? DocEntry;
+		public int? DocNum;
+		public int? Series;
 		public BillOfExchange BillOfExchange;
 		public DateTime? DocDate;
 		public DateTime? DueDate;
 		public DateTime? TaxDate;
 		public DateTime? TransferDate;
 		public DateTime? VatDate;
-		public double? BankChargeAmount;
-		public double? BankChargeAmountInFC;
-		public double? BankChargeAmountInSC;
-		public double? BillOfExchangeAmount;
-		public double? BillOfExchangeAmountFC;
-		public double? BillOfExchangeAmountSC;
-		public double? CashSum;
-		public double? CashSumFC;
-		public double? CashSumSys;
-		public double? DeductionPercent;
-		public double? DeductionSum;
-		public double? DiscountPercent;
-		public double? DocRate;
-		public double? TransferRealAmount;
-		public double? TransferSum;
-		public double? UnderOverpaymentdifference;
-		public double? UnderOverpaymentdiffFC;
-		public double? UnderOverpaymentdiffSC;
-		public double? WTAmount;
-		public double? WTAmountFC;
-		public double? WTAmountSC;
-		public double? WtBaseSum;
-		public double? WtBaseSumFC;
-		public double? WtBaseSumSC;
-		public double? WTTaxableAmount;
+		public decimal? BankChargeAmount;
+		public decimal? BankChargeAmountInFC;
+		public decimal? BankChargeAmountInSC;
+		public decimal? BillOfExchangeAmount;
+		public decimal? BillOfExchangeAmountFC;
+		public decimal? BillOfExchangeAmountSC;
+		public decimal? CashSum;
+		public decimal? CashSumFC;
+		public decimal? CashSumSys;
+		public decimal? DeductionPercent;
+		public decimal? DeductionSum;
+		public decimal? DiscountPercent;
+		public decimal? DocRate;
+		public decimal? TransferRealAmount;
+		public decimal? TransferSum;
+		public decimal? UnderOverpaymentdifference;
+		public decimal? UnderOverpaymentdiffFC;
+		public decimal? UnderOverpaymentdiffSC;
+		public decimal? WTAmount;
+		public decimal? WTAmountFC;
+		public decimal? WTAmountSC;
+		public decimal? WtBaseSum;
+		public decimal? WtBaseSumFC;
+		public decimal? WtBaseSumSC;
+		public decimal? WTTaxableAmount;
 		public IList<CashFlowAssignment> CashFlowAssignments;
 		public IList<object> ElectronicProtocols;
 		public IList<object> PaymentAccounts;
@@ -46,9 +49,6 @@ namespace Sap.Core.Domain.IncomingPayments
 		public IList<object> WithholdingTaxDataWTXCollection;
 		public IList<PaymentDocumentReferencesCollection> PaymentDocumentReferencesCollection;
 		public IList<PaymentInvoice> PaymentInvoices;
-		public int? DocEntry;
-		public int? DocNum;
-		public int? Series;
 		public string? Address;
 		public string? ApplyVAT;
 		public string? AttachmentEntry;
@@ -128,51 +128,4 @@ namespace Sap.Core.Domain.IncomingPayments
 			PaymentInvoices = new List<PaymentInvoice>();
 		}
 	}
-
-	#region Helper Classes
-	public class BillOfExchange
-	{
-	}
-
-	public class PaymentDocumentReferencesCollection
-	{
-		public int? DocEntry;
-		public int? LineNumber;
-		public int? ReferencedDocEntry;
-		public int? ReferencedDocNumber;
-		public string? ExternalReferencedDocNumber;
-		public string? ReferencedObjectType;
-		public DateTime? IssueDate;
-		public string? Remark;
-	}
-	public class PaymentInvoice
-	{
-		#region Fields
-		public int? LineNum;
-		public int? DocEntry;
-		public int? DocNum;
-		public double? SumApplied;
-		public double? AppliedFC;
-		public double? AppliedSys;
-		public double? DocRate;
-		public int? DocLine;
-		public string? InvoiceType;
-		public double? DiscountPercent;
-		public double? PaidSum;
-		public int? InstallmentId;
-		public double? WitholdingTaxApplied;
-		public double? WitholdingTaxAppliedFC;
-		public double? WitholdingTaxAppliedSC;
-		public string? LinkDate;
-		public string? DistributionRule;
-		public string? DistributionRule2;
-		public string? DistributionRule3;
-		public string? DistributionRule4;
-		public string? DistributionRule5;
-		public double? TotalDiscount;
-		public double? TotalDiscountFC;
-		public double? TotalDiscountSC;
-		#endregion
-	}
-	#endregion
 }

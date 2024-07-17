@@ -3,6 +3,7 @@
 	public partial class GLAccountAdvancedRule : BaseEntity
 	{
 		public int? AbsoluteEntry;
+		public int? FinancialYear;
 		public string? BeginningofFinancialYear;
 		public string? Code;
 		public string? Description;
@@ -10,7 +11,6 @@
 		public string? EURevenuesAccount;
 		public string? ExpenseClearingAct;
 		public string? ExpensesAccount;
-		public int? FinancialYear;
 		public string? ForeignExpensAcc;
 		public string? ForeignRevenueAcc;
 		public string? FromDate;

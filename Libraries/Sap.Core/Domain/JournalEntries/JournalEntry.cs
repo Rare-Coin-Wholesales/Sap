@@ -144,7 +144,6 @@ namespace Sap.Core.Domain.JournalEntries
 		public string? VATRegNum;
 		public string? WTLiable;
 		public string? WTRow;
-
 		#endregion
 
 		public JournalEntryLine()

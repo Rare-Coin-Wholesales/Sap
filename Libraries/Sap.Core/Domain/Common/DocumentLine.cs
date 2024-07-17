@@ -4,6 +4,7 @@
 	{
 		#region Fields
 		public DateTime? ActualDeliveryDate;
+		public DateTime? ShipDate;
 		public decimal? AppliedTax;
 		public decimal? AppliedTaxFC;
 		public decimal? AppliedTaxSC;
@@ -199,7 +200,6 @@
 		public string? ReverseCharge;
 		public string? SACEntry;
 		public string? SerialNum;
-		public string? ShipDate;
 		public string? ShipToCode;
 		public string? ShipToDescription;
 		public string? StgDesc;
