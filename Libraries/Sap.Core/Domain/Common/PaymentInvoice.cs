@@ -19,12 +19,12 @@
 		public decimal? WitholdingTaxApplied;
 		public decimal? WitholdingTaxAppliedFC;
 		public decimal? WitholdingTaxAppliedSC;
-		public string? DistributionRule;
-		public string? DistributionRule2;
-		public string? DistributionRule3;
-		public string? DistributionRule4;
-		public string? DistributionRule5;
-		public string? InvoiceType;
-		public string? LinkDate;
+		public string DistributionRule;
+		public string DistributionRule2;
+		public string DistributionRule3;
+		public string DistributionRule4;
+		public string DistributionRule5;
+		public string InvoiceType;
+		public string LinkDate;
 	}
 }

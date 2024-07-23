@@ -4,15 +4,15 @@
 	{
 		public const string ACTION = "ChecksforPayment";
 		public int? CheckKey;
-		public string? AccountNumber;
-		public string? BankCode;
-		public string? Branch;
-		public string? CardOrAccount;
-		public string? CheckNumber;
-		public string? CountryCode;
-		public string? CustomerAccountCode;
-		public string? Details;
-		public string? VendorCode;
+		public string AccountNumber;
+		public string BankCode;
+		public string Branch;
+		public string CardOrAccount;
+		public string CheckNumber;
+		public string CountryCode;
+		public string CustomerAccountCode;
+		public string Details;
+		public string VendorCode;
 
 		public ChecksforPaymentRequest() { }
 

@@ -1,4 +1,9 @@
 ﻿using System.Text;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Sap.Core.Domain.AccountCategories;
 
@@ -96,7 +101,7 @@ namespace Sap.Core.Http
 		/// Gets a list of <see cref="AccountCategory"/>s.
 		/// </summary>
 		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListAccountCategories(string? nextLink)
+		public async Task<string> ListAccountCategories(string nextLink)
 		{
 			string endpoint;
 
@@ -131,7 +136,7 @@ namespace Sap.Core.Http
 		/// <param name="categoryCode">The category code.</param>
 		/// <param name="categoryName">The category name.</param>
 		/// <param name="categorySource">The category source.</param>
-		public async Task<string> PatchAccountCategory(int? categoryCode, string? categoryName, string? categorySource)
+		public async Task<string> PatchAccountCategory(int? categoryCode, string categoryName, string categorySource)
 		{
 			var endpoint = String.Format($"{BaseUrl}{AccountCategoryRequest.ACTION}({categoryCode})");
 
@@ -140,7 +145,7 @@ namespace Sap.Core.Http
 				var json = accountCategoryRequest.ToJson();
 
 				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PatchAsync(endpoint, content)) {
+					using (var response = await Client.PutAsync(endpoint, content)) {
 						string responseData = await response.Content.ReadAsStringAsync();
 						WriteToFile(responseData);
 						var accountCategoryResponse = JsonConvert.DeserializeObject<AccountCategoryResponse>(responseData);
@@ -153,7 +158,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchAccountCategory(int? categoryCode='{categoryCode}', string categoryName='{categoryName}', string categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 
@@ -168,7 +173,7 @@ namespace Sap.Core.Http
 		/// <param name="categoryCode">The category code.</param>
 		/// <param name="categoryName">The category name.</param>
 		/// <param name="categorySource">The category source.</param>
-		public async Task<string> PostAccountCategory(int? categoryCode, string? categoryName, string? categorySource)
+		public async Task<string> PostAccountCategory(int? categoryCode, string categoryName, string categorySource)
 		{
 			try {
 				var endpoint = Path.Combine(BaseUrl, AccountCategoryRequest.ACTION);
@@ -189,7 +194,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountCategory(int? categoryCode='{categoryCode}', string? categoryName='{categoryName}', string? categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
+					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostAccountCategory(int? categoryCode='{categoryCode}', string categoryName='{categoryName}', string categorySource='{categorySource}').{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
 

@@ -1,4 +1,6 @@
-﻿using Sap.Core.Domain.Common;
+﻿using System;
+using System.Collections.Generic;
+using Sap.Core.Domain.Common;
 
 namespace Sap.Core.Domain.PurchaseTaxInvoices
 {
@@ -6,10 +8,10 @@ namespace Sap.Core.Domain.PurchaseTaxInvoices
 	{
 		public const string ACTION = "PurchaseTaxInvoices";
 		public int? DocEntry;
-		public string? CardCode;
-		public string? Comments;
-		public string? DocNum;
-		public string? DocType;
+		public string CardCode;
+		public string Comments;
+		public string DocNum;
+		public string DocType;
 		public IList<PurchaseTaxInvoiceLine> PurchaseTaxInvoiceLines;
 		public IList<PurchaseTaxInvoiceOperationCode> PurchaseTaxInvoiceOperationCodes;
 

@@ -1,4 +1,9 @@
-﻿using System.Text;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Sap.Core.Domain.Login;
 
@@ -7,7 +12,7 @@ namespace Sap.Core.Http
 	public partial class SapClient : BaseClient
 	{
 		public string BaseUrl { get; set; }
-		public string? SessionId { get; set; }
+		public string SessionId { get; set; }
 
 		#region Constructor
 		public SapClient(string baseUrl)
@@ -16,8 +21,11 @@ namespace Sap.Core.Http
 				throw new ArgumentNullException("baseUrl", "'baseUrl' is required.");
 
 			BaseUrl = baseUrl.Trim();
-			Client.BaseAddress = new Uri(BaseUrl);
-			Client.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
+
+			if (Client.BaseAddress == null)
+				Client.BaseAddress = new Uri(BaseUrl);
+			if (Client.DefaultRequestHeaders == null || Client.DefaultRequestHeaders.Count() < 1)
+				Client.DefaultRequestHeaders.TryAddWithoutValidation("accept", "application/json");
 		}
 		#endregion
 
@@ -37,7 +45,7 @@ namespace Sap.Core.Http
 			//var folder = Path.Combine("C:/Logs/SapClient/", DateTime.Now.ToString("yyyy MM"));
 			Directory.CreateDirectory(folder);
 
-			dynamic? parsedJson = JsonConvert.DeserializeObject(response);
+			var parsedJson = JsonConvert.DeserializeObject(response);
 			var formatted = JsonConvert.SerializeObject(parsedJson, Formatting.Indented);
 			File.WriteAllText(Path.Combine(folder, filename), formatted);
 		}

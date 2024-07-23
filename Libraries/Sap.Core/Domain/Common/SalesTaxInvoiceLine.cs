@@ -2,6 +2,6 @@
 {
 	public partial class SalesTaxInvoiceLine
 	{
-		public string? RefEntry1;
+		public string RefEntry1;
 	}
 }

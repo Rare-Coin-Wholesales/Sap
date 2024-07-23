@@ -2,6 +2,6 @@
 {
 	public partial class SalesTaxInvoiceOperationCode
 	{
-		public string? OpCode;
+		public string OpCode;
 	}
 }

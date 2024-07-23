@@ -3,7 +3,7 @@
 	public partial class AccountCategory : BaseEntity
 	{
 		public int? CategoryCode;
-		public string? CategoryName;
-		public string? CategorySource;
+		public string CategoryName;
+		public string CategorySource;
 	}
 }

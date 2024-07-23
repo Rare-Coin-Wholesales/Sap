@@ -1,20 +1,9 @@
-﻿namespace Sap.Core
+﻿using System;
+
+namespace Sap.Core
 {
 	public partial class CommonUtil
 	{
-		/// <summary>
-		/// Gets the value of an encrypted environment variable from the Windows operating system registry key for the local machine.
-		/// </summary>
-		/// <param name="name">The name of an environment variable.</param>
-		public static string GetEncryptedEnvironmentVariable(string name)
-		{
-			if (String.IsNullOrWhiteSpace(name))
-				return "";
-
-			var value = GetEnvironmentVariable(name);
-			return CryptoUtil.Decrypt(value);
-		}
-
 		/// <summary>
 		/// Gets the value of an environment variable from the Windows operating system registry key for the local machine.
 		/// </summary>
@@ -24,7 +13,7 @@
 			if (String.IsNullOrWhiteSpace(name))
 				return "";
 
-			string? value;
+			string value;
 
 			try {
 				value = Environment.GetEnvironmentVariable(name, EnvironmentVariableTarget.Machine);

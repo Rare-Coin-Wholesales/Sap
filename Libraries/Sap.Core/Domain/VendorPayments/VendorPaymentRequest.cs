@@ -1,4 +1,6 @@
-﻿using Sap.Core.Domain.Common;
+﻿using System;
+using System.Collections.Generic;
+using Sap.Core.Domain.Common;
 
 namespace Sap.Core.Domain.VendorPayments
 {
@@ -7,14 +9,14 @@ namespace Sap.Core.Domain.VendorPayments
 		public const string ACTION = "VendorPayments";
 		public IList<CashFlowAssignment> CashFlowAssignments;
 		public int? DocEntry;
-		public string? CardCode;
-		public string? DocNum;
-		public string? DocType;
-		public string? HandWritten;
-		public string? Remarks;
-		public string? TransferAccount;
-		public string? TransferDate;
-		public string? TransferSum;
+		public string CardCode;
+		public string DocNum;
+		public string DocType;
+		public string HandWritten;
+		public string Remarks;
+		public string TransferAccount;
+		public string TransferDate;
+		public string TransferSum;
 
 		public VendorPaymentRequest()
 		{

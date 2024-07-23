@@ -1,4 +1,7 @@
-﻿namespace Sap.Core.Domain.JournalEntries
+﻿using System;
+using System.Collections.Generic;
+
+namespace Sap.Core.Domain.JournalEntries
 {
 	public partial class JournalEntryRequest : BaseRequest
 	{
@@ -17,54 +20,54 @@
 		public int? Number;
 		public int? Original;
 		public int? Series;
-		public string? AdjustTransaction;
-		public string? AllocationNumberIL;
-		public string? AttachmentEntry;
-		public string? AutomaticWT;
-		public string? AutoVAT;
-		public string? BaseReference;
-		public string? BlanketAgreementNumber;
-		public string? BlockDunningLetter;
-		public string? CertificationNumber;
-		public string? Cig;
-		public string? Corisptivi;
-		public string? Cup;
-		public string? DeferredTax;
-		public string? DocumentType;
-		public string? ECDPostingType;
-		public string? ExcludeFromTaxReportControlStatementVAT;
-		public string? ExposedTransNumber;
-		public string? FolioNumber;
-		public string? FolioNumberFrom;
-		public string? FolioNumberTo;
-		public string? FolioPrefixString;
-		public string? Indicator;
-		public string? IsCostCenterTransfer;
-		public string? Letter;
-		public string? LocationCode;
-		public string? Memo;
-		public string? OperationCode;
-		public string? OriginalJournal;
-		public string? PointOfIssueCode;
-		public string? Printed;
-		public string? PrivateKeyVersion;
-		public string? ProjectCode;
-		public string? Reference;
-		public string? Reference2;
-		public string? Reference3;
-		public string? Report347;
-		public string? ReportEU;
-		public string? ReportingSectionControlStatementVAT;
-		public string? ResidenceNumberType;
-		public string? SAFTTransactionType;
-		public string? SAPPassport;
-		public string? SignatureDigest;
-		public string? SignatureInputMessage;
-		public string? StampTax;
-		public string? StornoDate;
-		public string? TransactionCode;
-		public string? UseAutoStorno;
-		public string? VatDate;
+		public string AdjustTransaction;
+		public string AllocationNumberIL;
+		public string AttachmentEntry;
+		public string AutomaticWT;
+		public string AutoVAT;
+		public string BaseReference;
+		public string BlanketAgreementNumber;
+		public string BlockDunningLetter;
+		public string CertificationNumber;
+		public string Cig;
+		public string Corisptivi;
+		public string Cup;
+		public string DeferredTax;
+		public string DocumentType;
+		public string ECDPostingType;
+		public string ExcludeFromTaxReportControlStatementVAT;
+		public string ExposedTransNumber;
+		public string FolioNumber;
+		public string FolioNumberFrom;
+		public string FolioNumberTo;
+		public string FolioPrefixString;
+		public string Indicator;
+		public string IsCostCenterTransfer;
+		public string Letter;
+		public string LocationCode;
+		public string Memo;
+		public string OperationCode;
+		public string OriginalJournal;
+		public string PointOfIssueCode;
+		public string Printed;
+		public string PrivateKeyVersion;
+		public string ProjectCode;
+		public string Reference;
+		public string Reference2;
+		public string Reference3;
+		public string Report347;
+		public string ReportEU;
+		public string ReportingSectionControlStatementVAT;
+		public string ResidenceNumberType;
+		public string SAFTTransactionType;
+		public string SAPPassport;
+		public string SignatureDigest;
+		public string SignatureInputMessage;
+		public string StampTax;
+		public string StornoDate;
+		public string TransactionCode;
+		public string UseAutoStorno;
+		public string VatDate;
 		#endregion
 
 		public JournalEntryRequest()

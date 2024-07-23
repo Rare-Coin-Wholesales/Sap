@@ -1,4 +1,6 @@
-﻿namespace Sap.Core.Domain.Common
+﻿using System;
+
+namespace Sap.Core.Domain.Common
 {
 	public partial class PaymentDocumentReferencesCollection
 	{
@@ -7,8 +9,8 @@
 		public int? LineNumber;
 		public int? ReferencedDocEntry;
 		public int? ReferencedDocNumber;
-		public string? ExternalReferencedDocNumber;
-		public string? ReferencedObjectType;
-		public string? Remark;
+		public string ExternalReferencedDocNumber;
+		public string ReferencedObjectType;
+		public string Remark;
 	}
 }

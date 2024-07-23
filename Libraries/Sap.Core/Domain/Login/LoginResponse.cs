@@ -1,14 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 
 namespace Sap.Core.Domain.Login
 {
 	public partial class LoginResponse : BaseResponse
 	{
-		[JsonPropertyName("odata.metadata")]
-		public string? Odata_Metadata { get; set; }
-		public string? SessionId { get; set; }
-		[JsonPropertyName("odata.metadata")]
-		public string? Version { get; set; }
+		[JsonProperty("odata.metadata")]
+		public string Odata_Metadata { get; set; }
+		public string SessionId { get; set; }
+		public string Version { get; set; }
 		public int SessionTimeout { get; set; }
 	}
 }

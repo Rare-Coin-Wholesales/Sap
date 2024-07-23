@@ -1,4 +1,9 @@
 ﻿using System.Text;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Sap.Core.Domain.BillOfExchangeTransactions;
 
@@ -66,7 +71,7 @@ namespace Sap.Core.Http
 		/// Gets a list of <see cref="BillOfExchangeTransaction"/>s.
 		/// </summary>
 		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListBillOfExchangeTransactions(string? nextLink)
+		public async Task<string> ListBillOfExchangeTransactions(string nextLink)
 		{
 			string endpoint;
 

@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
+using System.Net.Http;
 
 namespace Sap.Core.Http
 {
@@ -9,7 +11,7 @@ namespace Sap.Core.Http
 	public abstract class BaseClient : IDisposable
 	{
 		private static object _locker = new object();
-		private static volatile HttpClient? _client;
+		private static volatile HttpClient _client;
 
 		protected static HttpClient Client
 		{
@@ -20,14 +22,13 @@ namespace Sap.Core.Http
 							try {
 								ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls13 | SecurityProtocolType.Tls12;
 								ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls11;
-								ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls;
 							}
 
 							catch (NotSupportedException) {
 								ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
-								ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls;
 							}
 
+							ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls;
 							_client = new HttpClient();
 						}
 					}

@@ -4,11 +4,11 @@
 	{
 		public const string ACTION = "Deposits";
 		public int? AbsEntry;
-		public string? DepositAccount;
-		public string? DepositNumber;
-		public string? DepositType;
-		public string? JournalRemarks;
-		public string? VoucherAccount;
+		public string DepositAccount;
+		public string DepositNumber;
+		public string DepositType;
+		public string JournalRemarks;
+		public string VoucherAccount;
 
 		public DepositRequest() { }
 

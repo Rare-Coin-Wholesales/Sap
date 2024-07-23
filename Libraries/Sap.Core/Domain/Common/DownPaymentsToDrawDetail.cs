@@ -14,11 +14,11 @@
 		public decimal? Tax;
 		public decimal? TaxSC;
 		public decimal? VatPercent;
-		public string? AmountToDrawFC;
-		public string? IsGrossLine;
-		public string? LineType;
-		public string? TaxAdjust;
-		public string? TaxFC;
-		public string? VatGroupCode;
+		public string AmountToDrawFC;
+		public string IsGrossLine;
+		public string LineType;
+		public string TaxAdjust;
+		public string TaxFC;
+		public string VatGroupCode;
 	}
 }

@@ -1,4 +1,6 @@
-﻿using Sap.Core.Domain.Common;
+﻿using System;
+using System.Collections.Generic;
+using Sap.Core.Domain.Common;
 
 namespace Sap.Core.Domain.CreditNotes
 {
@@ -7,12 +9,12 @@ namespace Sap.Core.Domain.CreditNotes
 		public const string ACTION = "CreditNotes";
 		public IList<DocumentLine> DocumentLines;
 		public int? DocEntry;
-		public string? CardCode;
-		public string? Code;
-		public string? Comments;
-		public string? Description;
-		public string? DocNum;
-		public string? DocType;
+		public string CardCode;
+		public string Code;
+		public string Comments;
+		public string Description;
+		public string DocNum;
+		public string DocType;
 
 		public CreditNoteRequest()
 		{
