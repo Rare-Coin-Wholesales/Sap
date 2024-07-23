@@ -1,4 +1,9 @@
 ﻿using System.Text;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Sap.Core.Domain.AccountSegmentationCategories;
 
@@ -55,7 +60,7 @@ namespace Sap.Core.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetAccountSegmentationCategoryById(int? segmentID, string? code).{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine);
+					var log = String.Format("{0}{2}Exception thrown in SapClient.GetAccountSegmentationCategoryById(int? segmentID, string code).{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine);
 					throw new Exception(log);
 				}
 
@@ -96,7 +101,7 @@ namespace Sap.Core.Http
 		/// Gets a list of <see cref="AccountSegmentationCategory"/>s.
 		/// </summary>
 		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListAccountSegmentationCategories(string? nextLink)
+		public async Task<string> ListAccountSegmentationCategories(string nextLink)
 		{
 			string endpoint;
 
@@ -138,7 +143,7 @@ namespace Sap.Core.Http
 				var json = accountSegmentationCategoryRequest.ToJson();
 
 				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PatchAsync(endpoint, content)) {
+					using (var response = await Client.PutAsync(endpoint, content)) {
 						string responseData = await response.Content.ReadAsStringAsync();
 						WriteToFile(responseData);
 						var accountSegmentationCategoryResponse = JsonConvert.DeserializeObject<AccountSegmentationCategoryResponse>(responseData);

@@ -3,8 +3,8 @@
 	public partial class TransactionCodeRequest : BaseRequest
 	{
 		public const string ACTION = "TransactionCodes";
-		public string? Code;
-		public string? Description;
+		public string Code;
+		public string Description;
 
 		public TransactionCodeRequest() { }
 

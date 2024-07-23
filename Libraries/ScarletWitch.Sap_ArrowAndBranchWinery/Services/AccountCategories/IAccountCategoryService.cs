@@ -10,7 +10,11 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories
 		/// <summary>
 		/// Inserts a <see cref="AccountCategory"/>.
 		/// </summary>
-		/// <param name="accountCategory">The <see cref="AccountCategory"/>.</param>
-		void Insert(AccountCategory accountCategory);
+		/// <param name="x">The <see cref="AccountCategory"/>.</param>
+		void Insert(AccountCategory x);
+		/// <summary>
+		/// Truncates the <see cref="AccountCategory"/> table.
+		/// </summary>
+		void TruncateTable();
 	}
 }

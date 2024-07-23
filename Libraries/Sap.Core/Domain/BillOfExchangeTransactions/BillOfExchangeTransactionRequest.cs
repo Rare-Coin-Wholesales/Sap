@@ -4,12 +4,12 @@
 	{
 		#region Fields
 		public const string ACTION = "BillOfExchangeTransactions";
-		public string? BOETransactionkey;
-		public string? Code;
-		public string? IsBoeReconciled;
-		public string? StatusFrom;
-		public string? StatusTo;
-		public string? TransactionDate;
+		public string BOETransactionkey;
+		public string Code;
+		public string IsBoeReconciled;
+		public string StatusFrom;
+		public string StatusTo;
+		public string TransactionDate;
 		#endregion
 
 		public BillOfExchangeTransactionRequest() { }

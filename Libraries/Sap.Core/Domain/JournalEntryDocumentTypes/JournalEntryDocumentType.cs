@@ -2,8 +2,8 @@
 {
 	public partial class JournalEntryDocumentType : BaseEntity
 	{
-		public string? JournalEntryType;
-		public string? DocTypeDescription;
-		public string? ShortName;
+		public string JournalEntryType;
+		public string DocTypeDescription;
+		public string ShortName;
 	}
 }

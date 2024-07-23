@@ -2,7 +2,7 @@
 {
 	public partial class CashFlowAssignment
 	{
-		public string? AmountLC;
-		public string? PaymentMeans;
+		public string AmountLC;
+		public string PaymentMeans;
 	}
 }

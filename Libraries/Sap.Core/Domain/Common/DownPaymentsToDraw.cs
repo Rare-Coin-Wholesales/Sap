@@ -1,4 +1,7 @@
-﻿namespace Sap.Core.Domain.Common
+﻿using System;
+using System.Collections.Generic;
+
+namespace Sap.Core.Domain.Common
 {
 	public partial class DownPaymentsToDraw
 	{
@@ -17,11 +20,11 @@
 		public int? DocInternalID;
 		public int? DocNumber;
 		public int? RowNum;
-		public string? AmountToDrawFC;
-		public string? Details;
-		public string? DownPaymentType;
-		public string? IsGrossLine;
-		public string? Name;
+		public string AmountToDrawFC;
+		public string Details;
+		public string DownPaymentType;
+		public string IsGrossLine;
+		public string Name;
 
 		public DownPaymentsToDraw()
 		{

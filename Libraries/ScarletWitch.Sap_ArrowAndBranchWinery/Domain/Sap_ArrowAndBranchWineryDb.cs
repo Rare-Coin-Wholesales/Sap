@@ -7,11 +7,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 
 	public partial class Sap_ArrowAndBranchWineryDb : DbContext
 	{
-		public Sap_ArrowAndBranchWineryDb()
-			: base("name=Sap_ArrowAndBranchWineryDb")
-		{
-		}
-
 		public virtual DbSet<AccountCategory> AccountCategories { get; set; }
 		public virtual DbSet<AccountSegmentation> AccountSegmentations { get; set; }
 		public virtual DbSet<AccountSegmentationCategory> AccountSegmentationCategories { get; set; }

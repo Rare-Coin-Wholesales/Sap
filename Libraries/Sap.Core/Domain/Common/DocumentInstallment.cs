@@ -1,4 +1,6 @@
-﻿namespace Sap.Core.Domain.Common
+﻿using System;
+
+namespace Sap.Core.Domain.Common
 {
 	public partial class DocumentInstallment
 	{
@@ -7,8 +9,8 @@
 		public decimal? Total;
 		public int? DunningLevel;
 		public int? InstallmentId;
-		public string? LastDunningDate;
-		public string? PaymentOrdered;
-		public string? TotalFC;
+		public string LastDunningDate;
+		public string PaymentOrdered;
+		public string TotalFC;
 	}
 }

@@ -3,9 +3,9 @@
 	public partial class JournalEntryDocumentTypeRequest : BaseRequest
 	{
 		public const string ACTION = "JournalEntryDocumentTypes";
-		public string? JournalEntryType;
-		public string? DocTypeDescription;
-		public string? ShortName;
+		public string JournalEntryType;
+		public string DocTypeDescription;
+		public string ShortName;
 
 		public JournalEntryDocumentTypeRequest() { }
 

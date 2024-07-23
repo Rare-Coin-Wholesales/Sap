@@ -1,4 +1,14 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http;
 using Newtonsoft.Json;
 using Sap.Core.Domain.JournalEntries;
 
@@ -99,7 +109,7 @@ namespace Sap.Core.Http
 		/// Gets a list of <see cref="JournalEntry"/>s.
 		/// </summary>
 		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListJournalEntries(string? nextLink)
+		public async Task<string> ListJournalEntries(string nextLink)
 		{
 			string endpoint;
 
@@ -141,7 +151,7 @@ namespace Sap.Core.Http
 				var json = journalEntryRequest.ToJson();
 
 				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PatchAsync(endpoint, content)) {
+					using (var response = await Client.PutAsync(endpoint, content)) {
 						string responseData = await response.Content.ReadAsStringAsync();
 						WriteToFile(responseData);
 						var journalEntryResponse = JsonConvert.DeserializeObject<JournalEntryResponse>(responseData);

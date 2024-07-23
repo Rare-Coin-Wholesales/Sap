@@ -16,10 +16,10 @@
 		public int? JurisdictionType;
 		public int? LineNumber;
 		public int? RowSequence;
-		public string? Exempt;
-		public string? JurisdictionCode;
-		public string? TaxInPrice;
-		public string? TaxOnReserveInvoice;
-		public string? Unencumbered;
+		public string Exempt;
+		public string JurisdictionCode;
+		public string TaxInPrice;
+		public string TaxOnReserveInvoice;
+		public string Unencumbered;
 	}
 }

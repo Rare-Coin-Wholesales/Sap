@@ -1,4 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace Sap.Core.Domain
 {
@@ -29,8 +34,8 @@ namespace Sap.Core.Domain
 	public class Message
 	{
 		[JsonProperty("lang")]
-		public string? Lang;
+		public string Lang;
 		[JsonProperty("value")]
-		public string? Value;
+		public string Value;
 	}
 }

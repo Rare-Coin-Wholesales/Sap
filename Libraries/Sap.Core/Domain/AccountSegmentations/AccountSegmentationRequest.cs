@@ -4,9 +4,9 @@
 	{
 		public const string ACTION = "AccountSegmentations";
 		public int? Numerator;
-		public string? Name;
+		public string Name;
 		public int? Size;
-		public string? Type;
+		public string Type;
 
 		public AccountSegmentationRequest() { }
 

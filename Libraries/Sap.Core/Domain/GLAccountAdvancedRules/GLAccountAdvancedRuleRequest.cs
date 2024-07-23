@@ -4,22 +4,22 @@
 	{
 		public const string ACTION = "GLAccountAdvancedRules";
 		public int? AbsoluteEntry;
-		public string? BeginningofFinancialYear;
-		public string? Code;
-		public string? Description;
-		public string? EUExpensesAccount;
-		public string? EURevenuesAccount;
-		public string? ExpenseClearingAct;
-		public string? ExpensesAccount;
+		public string BeginningofFinancialYear;
+		public string Code;
+		public string Description;
+		public string EUExpensesAccount;
+		public string EURevenuesAccount;
+		public string ExpenseClearingAct;
+		public string ExpensesAccount;
 		public int? FinancialYear;
-		public string? ForeignExpensAcc;
-		public string? ForeignRevenueAcc;
-		public string? FromDate;
-		public string? IsActive;
-		public string? Period;
-		public string? RevenuesAccount;
-		public string? ToDate;
-		public string? Warehouse;
+		public string ForeignExpensAcc;
+		public string ForeignRevenueAcc;
+		public string FromDate;
+		public string IsActive;
+		public string Period;
+		public string RevenuesAccount;
+		public string ToDate;
+		public string Warehouse;
 
 		public GLAccountAdvancedRuleRequest() { }
 

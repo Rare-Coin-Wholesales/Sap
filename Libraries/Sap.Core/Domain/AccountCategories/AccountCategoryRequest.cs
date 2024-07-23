@@ -4,8 +4,8 @@
 	{
 		public const string ACTION = "AccountCategory";
 		public int? CategoryCode;
-		public string? CategoryName;
-		public string? CategorySource;
+		public string CategoryName;
+		public string CategorySource;
 
 		public AccountCategoryRequest() { }
 
@@ -14,7 +14,7 @@
 			CategoryCode = id;
 		}
 
-		public AccountCategoryRequest(int? categoryCode, string? categoryName, string? categorySource)
+		public AccountCategoryRequest(int? categoryCode, string categoryName, string categorySource)
 		{
 			CategoryCode = categoryCode;
 			CategoryName = categoryName;

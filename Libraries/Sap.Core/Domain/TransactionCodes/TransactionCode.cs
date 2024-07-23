@@ -2,7 +2,7 @@
 {
 	public partial class TransactionCode : BaseEntity
 	{
-		public string? Code;
-		public string? Description;
+		public string Code;
+		public string Description;
 	}
 }
