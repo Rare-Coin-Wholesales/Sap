@@ -1,0 +1,71 @@
+﻿using ScarletWitch.Sap_ArrowAndBranchWinery.Domain;
+
+namespace ApiToScarletWitchMapper
+{
+	public partial class Mapper
+	{
+		public virtual JournalEntry ToSql(Sap.Core.Domain.JournalEntries.JournalEntry x)
+		{
+			return new JournalEntry {
+				JdtNum = x.JdtNum,
+				Number = x.Number,
+				Original = x.Original,
+				Series = x.Series,
+				DueDate = x.DueDate,
+				ReferenceDate = x.ReferenceDate,
+				TaxDate = x.TaxDate,
+				WTSum = x.WTSum,
+				WTSumFC = x.WTSumFC,
+				WTSumSC = x.WTSumSC,
+				AdjustTransaction = x.AdjustTransaction,
+				AllocationNumberIL = x.AllocationNumberIL,
+				AttachmentEntry = x.AttachmentEntry,
+				AutomaticWT = x.AutomaticWT,
+				AutoVAT = x.AutoVAT,
+				BaseReference = x.BaseReference,
+				BlanketAgreementNumber = x.BlanketAgreementNumber,
+				BlockDunningLetter = x.BlockDunningLetter,
+				CertificationNumber = x.CertificationNumber,
+				Cig = x.Cig,
+				Corisptivi = x.Corisptivi,
+				Cup = x.Cup,
+				DeferredTax = x.DeferredTax,
+				DocumentType = x.DocumentType,
+				ECDPostingType = x.ECDPostingType,
+				ExcludeFromTaxReportControlStatementVAT = x.ExcludeFromTaxReportControlStatementVAT,
+				ExposedTransNumber = x.ExposedTransNumber,
+				FolioNumber = x.FolioNumber,
+				FolioNumberFrom = x.FolioNumberFrom,
+				FolioNumberTo = x.FolioNumberTo,
+				FolioPrefixString = x.FolioPrefixString,
+				Indicator = x.Indicator,
+				IsCostCenterTransfer = x.IsCostCenterTransfer,
+				Letter = x.Letter,
+				LocationCode = x.LocationCode,
+				Memo = x.Memo,
+				OperationCode = x.OperationCode,
+				OriginalJournal = x.OriginalJournal,
+				PointOfIssueCode = x.PointOfIssueCode,
+				Printed = x.Printed,
+				PrivateKeyVersion = x.PrivateKeyVersion,
+				ProjectCode = x.ProjectCode,
+				Reference = x.Reference,
+				Reference2 = x.Reference2,
+				Reference3 = x.Reference3,
+				Report347 = x.Report347,
+				ReportEU = x.ReportEU,
+				ReportingSectionControlStatementVAT = x.ReportingSectionControlStatementVAT,
+				ResidenceNumberType = x.ResidenceNumberType,
+				SAFTTransactionType = x.SAFTTransactionType,
+				SAPPassport = x.SAPPassport,
+				SignatureDigest = x.SignatureDigest,
+				SignatureInputMessage = x.SignatureInputMessage,
+				StampTax = x.StampTax,
+				StornoDate = x.StornoDate,
+				TransactionCode = x.TransactionCode,
+				UseAutoStorno = x.UseAutoStorno,
+				VatDate = x.VatDate,
+			};
+		}
+	}
+}

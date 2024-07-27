@@ -1,0 +1,20 @@
+﻿using ScarletWitch.Sap_ArrowAndBranchWinery.Domain;
+
+namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries
+{
+	/// <summary>
+	/// JournalEntry service interface
+	/// </summary>
+	public interface IJournalEntryService
+	{
+		/// <summary>
+		/// Inserts a <see cref="JournalEntry"/>.
+		/// </summary>
+		/// <param name="x">The <see cref="JournalEntry"/>.</param>
+		void Insert(JournalEntry x);
+		/// <summary>
+		/// Truncates the <see cref="JournalEntry"/> table.
+		/// </summary>
+		void TruncateTable();
+	}
+}

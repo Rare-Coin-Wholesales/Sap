@@ -15,11 +15,9 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 
         public decimal? Total { get; set; }
 
-        [StringLength(255)]
-        public string DunningLevel { get; set; }
+        public int? DunningLevel { get; set; }
 
-        [StringLength(255)]
-        public string InstallmentId { get; set; }
+        public int? InstallmentId { get; set; }
 
         [StringLength(255)]
         public string LastDunningDate { get; set; }

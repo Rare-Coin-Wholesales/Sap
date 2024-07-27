@@ -1,12 +1,10 @@
-﻿using System;
-using System.Threading;
-using Sap.Core;
+﻿using Sap.Core;
 using Sap.Core.Http;
 using Sap.Core.Services.Security;
 
 namespace Sap.Automation
 {
-    class Program
+	class Program
 	{
 		private static readonly EncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
@@ -23,7 +21,7 @@ namespace Sap.Automation
 			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var testString = "Welcome@2";
+			var testString = "Welcome@1";
 			var encrypted = _encryptionUtil.Encrypt(testString);
 			Console.WriteLine($"encrypted: {encrypted}\n");
 			var decrypted = _encryptionUtil.Decrypt(encrypted);

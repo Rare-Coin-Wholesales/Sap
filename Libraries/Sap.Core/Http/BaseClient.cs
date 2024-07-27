@@ -12,6 +12,7 @@ namespace Sap.Core.Http
 	{
 		private static object _locker = new object();
 		private static volatile HttpClient _client;
+		public const SecurityProtocolType TLS13 = (SecurityProtocolType) 12288;
 
 		protected static HttpClient Client
 		{
@@ -20,7 +21,7 @@ namespace Sap.Core.Http
 					lock (_locker) {
 						if (_client == null) {
 							try {
-								ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls13 | SecurityProtocolType.Tls12;
+								ServicePointManager.SecurityProtocol |= TLS13 | SecurityProtocolType.Tls12;
 								ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls11;
 							}
 
@@ -29,6 +30,7 @@ namespace Sap.Core.Http
 							}
 
 							ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Tls;
+							ServicePointManager.SecurityProtocol &= ~SecurityProtocolType.Ssl3;
 							_client = new HttpClient();
 						}
 					}
