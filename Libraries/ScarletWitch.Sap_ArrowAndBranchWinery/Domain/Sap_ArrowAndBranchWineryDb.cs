@@ -346,15 +346,15 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 
 			modelBuilder.Entity<ChartOfAccount>()
 				.Property(e => e.Balance)
-				.IsUnicode(false);
+				.HasPrecision(19, 4);
 
 			modelBuilder.Entity<ChartOfAccount>()
 				.Property(e => e.BalanceFrgnCurr)
-				.IsUnicode(false);
+				.HasPrecision(19, 4);
 
 			modelBuilder.Entity<ChartOfAccount>()
 				.Property(e => e.BalanceSyscurr)
-				.IsUnicode(false);
+				.HasPrecision(19, 4);
 
 			modelBuilder.Entity<ChartOfAccount>()
 				.Property(e => e.AccountPurposeCode)
@@ -733,12 +733,10 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 				.HasPrecision(19, 3);
 
 			modelBuilder.Entity<DocumentInstallment>()
-				.Property(e => e.DunningLevel)
-				.IsUnicode(false);
+				.Property(e => e.DunningLevel);
 
 			modelBuilder.Entity<DocumentInstallment>()
-				.Property(e => e.InstallmentId)
-				.IsUnicode(false);
+				.Property(e => e.InstallmentId);
 
 			modelBuilder.Entity<DocumentInstallment>()
 				.Property(e => e.LastDunningDate)

@@ -11,14 +11,11 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
     {
         public int Id { get; set; }
 
-        [StringLength(255)]
-        public string Balance { get; set; }
+        public decimal? Balance { get; set; }
 
-        [StringLength(255)]
-        public string BalanceFrgnCurr { get; set; }
+        public decimal? BalanceFrgnCurr { get; set; }
 
-        [StringLength(255)]
-        public string BalanceSyscurr { get; set; }
+        public decimal? BalanceSyscurr { get; set; }
 
         public int? AccountLevel { get; set; }
 

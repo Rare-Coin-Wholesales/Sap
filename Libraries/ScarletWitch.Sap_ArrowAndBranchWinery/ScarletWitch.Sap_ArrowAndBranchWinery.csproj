@@ -105,6 +105,64 @@
     <Compile Include="Services\AccountSegmentations\AccountSegmentationService.cs" />
     <Compile Include="Services\AccountSegmentations\IAccountSegmentationService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BillOfExchangeTransactions\BillOfExchangeTransactionService.cs" />
+    <Compile Include="Services\BillOfExchangeTransactions\IBillOfExchangeTransactionService.cs" />
+    <Compile Include="Services\ChartOfAccounts\ChartOfAccountService.cs" />
+    <Compile Include="Services\ChartOfAccounts\IChartOfAccountService.cs" />
+    <Compile Include="Services\ChecksforPayments\ChecksforPaymentService.cs" />
+    <Compile Include="Services\ChecksforPayments\IChecksforPaymentService.cs" />
+    <Compile Include="Services\Common\AddressExtensionService.cs" />
+    <Compile Include="Services\Common\BillOfExchangeService.cs" />
+    <Compile Include="Services\Common\CashFlowAssignmentService.cs" />
+    <Compile Include="Services\Common\DocumentInstallmentService.cs" />
+    <Compile Include="Services\Common\DocumentLineService.cs" />
+    <Compile Include="Services\Common\DownPaymentsToDrawDetailService.cs" />
+    <Compile Include="Services\Common\DownPaymentsToDrawService.cs" />
+    <Compile Include="Services\Common\EWayBillDetailsService.cs" />
+    <Compile Include="Services\Common\LineTaxJurisdictionService.cs" />
+    <Compile Include="Services\Common\PaymentDocumentReferencesCollectionService.cs" />
+    <Compile Include="Services\Common\PaymentInvoiceService.cs" />
+    <Compile Include="Services\Common\PurchaseTaxInvoiceLineService.cs" />
+    <Compile Include="Services\Common\PurchaseTaxInvoiceOperationCodeService.cs" />
+    <Compile Include="Services\Common\SalesTaxInvoiceLineService.cs" />
+    <Compile Include="Services\Common\SalesTaxInvoiceOperationCodeService.cs" />
+    <Compile Include="Services\Common\TaxExtensionService.cs" />
+    <Compile Include="Services\CreditNotes\CreditNoteService.cs" />
+    <Compile Include="Services\CreditNotes\ICreditNoteService.cs" />
+    <Compile Include="Services\Deposits\DepositService.cs" />
+    <Compile Include="Services\Deposits\IDepositService.cs" />
+    <Compile Include="Services\FAAccountDeterminations\FAAccountDeterminationService.cs" />
+    <Compile Include="Services\FAAccountDeterminations\IFAAccountDeterminationService.cs" />
+    <Compile Include="Services\GLAccountAdvancedRules\GLAccountAdvancedRuleService.cs" />
+    <Compile Include="Services\GLAccountAdvancedRules\IGLAccountAdvancedRuleService.cs" />
+    <Compile Include="Services\HouseBankAccounts\HouseBankAccountService.cs" />
+    <Compile Include="Services\HouseBankAccounts\IHouseBankAccountService.cs" />
+    <Compile Include="Services\IncomingPayments\IIncomingPaymentService.cs" />
+    <Compile Include="Services\IncomingPayments\IncomingPaymentService.cs" />
+    <Compile Include="Services\Invoices\IInvoiceService.cs" />
+    <Compile Include="Services\Invoices\InvoiceService.cs" />
+    <Compile Include="Services\JournalEntries\IJournalEntryService.cs" />
+    <Compile Include="Services\JournalEntries\JournalEntryService.cs" />
+    <Compile Include="Services\JournalEntryDocumentTypes\IJournalEntryDocumentTypeService.cs" />
+    <Compile Include="Services\JournalEntryDocumentTypes\JournalEntryDocumentTypeService.cs" />
+    <Compile Include="Services\PurchaseCreditNotes\IPurchaseCreditNoteService.cs" />
+    <Compile Include="Services\PurchaseCreditNotes\PurchaseCreditNoteService.cs" />
+    <Compile Include="Services\PurchaseInvoices\IPurchaseInvoiceService.cs" />
+    <Compile Include="Services\PurchaseInvoices\PurchaseInvoiceService.cs" />
+    <Compile Include="Services\PurchaseOrders\IPurchaseOrderService.cs" />
+    <Compile Include="Services\PurchaseOrders\PurchaseOrderService.cs" />
+    <Compile Include="Services\PurchaseQuotations\IPurchaseQuotationService.cs" />
+    <Compile Include="Services\PurchaseQuotations\PurchaseQuotationService.cs" />
+    <Compile Include="Services\PurchaseTaxInvoices\IPurchaseTaxInvoiceService.cs" />
+    <Compile Include="Services\PurchaseTaxInvoices\PurchaseTaxInvoiceService.cs" />
+    <Compile Include="Services\Quotations\IQuotationService.cs" />
+    <Compile Include="Services\Quotations\QuotationService.cs" />
+    <Compile Include="Services\SalesTaxInvoices\ISalesTaxInvoiceService.cs" />
+    <Compile Include="Services\SalesTaxInvoices\SalesTaxInvoiceService.cs" />
+    <Compile Include="Services\TransactionCodes\ITransactionCodeService.cs" />
+    <Compile Include="Services\TransactionCodes\TransactionCodeService.cs" />
+    <Compile Include="Services\VendorPayments\IVendorPaymentService.cs" />
+    <Compile Include="Services\VendorPayments\VendorPaymentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -112,7 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sap.Core\Sap.Core.csproj">
-      <Project>{4E1F5C5E-2BBF-496B-A9AD-87105F89ED44}</Project>
+      <Project>{55AAA34D-DD9D-404E-B6AC-CF2F0B59813C}</Project>
       <Name>Sap.Core</Name>
     </ProjectReference>
   </ItemGroup>

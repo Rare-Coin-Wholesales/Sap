@@ -42,11 +42,35 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountCategories\Mapper.cs" />
+    <Compile Include="AccountSegmentationCategories\Mapper.cs" />
+    <Compile Include="AccountSegmentations\Mapper.cs" />
+    <Compile Include="BillOfExchangeTransactions\Mapper.cs" />
+    <Compile Include="ChartOfAccounts\Mapper.cs" />
+    <Compile Include="ChecksforPayments\Mapper.cs" />
+    <Compile Include="Common\Mapper.cs" />
+    <Compile Include="CreditNotes\Mapper.cs" />
+    <Compile Include="Deposits\Mapper.cs" />
+    <Compile Include="FAAccountDeterminations\Mapper.cs" />
+    <Compile Include="GLAccountAdvancedRules\Mapper.cs" />
+    <Compile Include="HouseBankAccounts\Mapper.cs" />
+    <Compile Include="IncomingPayments\Mapper.cs" />
+    <Compile Include="Invoices\Mapper.cs" />
+    <Compile Include="JournalEntries\Mapper.cs" />
+    <Compile Include="JournalEntryDocumentTypes\Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PurchaseCreditNotes\Mapper.cs" />
+    <Compile Include="PurchaseInvoices\Mapper.cs" />
+    <Compile Include="PurchaseOrders\Mapper.cs" />
+    <Compile Include="PurchaseQuotations\Mapper.cs" />
+    <Compile Include="PurchaseTaxInvoices\Mapper.cs" />
+    <Compile Include="Quotations\Mapper.cs" />
+    <Compile Include="SalesTaxInvoices\Mapper.cs" />
+    <Compile Include="TransactionCodes\Mapper.cs" />
+    <Compile Include="VendorPayments\Mapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sap.Core\Sap.Core.csproj">
-      <Project>{4e1f5c5e-2bbf-496b-a9ad-87105f89ed44}</Project>
+      <Project>{55aaa34d-dd9d-404e-b6ac-cf2f0b59813c}</Project>
       <Name>Sap.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj">
@@ -54,5 +78,6 @@
       <Name>ScarletWitch.Sap_ArrowAndBranchWinery</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
