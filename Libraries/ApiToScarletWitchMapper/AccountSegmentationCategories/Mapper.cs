@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual AccountSegmentationCategory ToSql(Sap.Core.Domain.AccountSegmentationCategories.AccountSegmentationCategory x)
+		public virtual AccountSegmentationCategory ToSql(Sap.Api.Domain.AccountSegmentationCategories.AccountSegmentationCategory x)
 		{
 			return new AccountSegmentationCategory {
 				Code = x.Code,

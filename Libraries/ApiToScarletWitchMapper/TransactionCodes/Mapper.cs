@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual TransactionCode ToSql(Sap.Core.Domain.TransactionCodes.TransactionCode x)
+		public virtual TransactionCode ToSql(Sap.Api.Domain.TransactionCodes.TransactionCode x)
 		{
 			return new TransactionCode {
 				Code = x.Code,

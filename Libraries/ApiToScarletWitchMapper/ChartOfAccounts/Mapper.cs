@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual ChartOfAccount ToSql(Sap.Core.Domain.ChartOfAccounts.ChartOfAccount x)
+		public virtual ChartOfAccount ToSql(Sap.Api.Domain.ChartOfAccounts.ChartOfAccount x)
 		{
 			return new ChartOfAccount {
 				Balance = x.Balance,

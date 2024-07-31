@@ -29,6 +29,8 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 		public virtual DbSet<HouseBankAccount> HouseBankAccounts { get; set; }
 		public virtual DbSet<IncomingPayment> IncomingPayments { get; set; }
 		public virtual DbSet<Invoice> Invoices { get; set; }
+		public virtual DbSet<Invoice_DocumentLine> Invoice_DocumentLine { get; set; }
+		public virtual DbSet<Item> Items { get; set; }
 		public virtual DbSet<JournalEntry> JournalEntries { get; set; }
 		public virtual DbSet<JournalEntryDocumentType> JournalEntryDocumentTypes { get; set; }
 		public virtual DbSet<JournalEntryLine> JournalEntryLines { get; set; }
@@ -731,12 +733,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 			modelBuilder.Entity<DocumentInstallment>()
 				.Property(e => e.Total)
 				.HasPrecision(19, 3);
-
-			modelBuilder.Entity<DocumentInstallment>()
-				.Property(e => e.DunningLevel);
-
-			modelBuilder.Entity<DocumentInstallment>()
-				.Property(e => e.InstallmentId);
 
 			modelBuilder.Entity<DocumentInstallment>()
 				.Property(e => e.LastDunningDate)

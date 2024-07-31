@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual Deposit ToSql(Sap.Core.Domain.Deposits.Deposit x)
+		public virtual Deposit ToSql(Sap.Api.Domain.Deposits.Deposit x)
 		{
 			return new Deposit {
 				AbsEntry = x.AbsEntry,

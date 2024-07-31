@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual AddressExtension ToSql(Sap.Core.Domain.Common.AddressExtension x)
+		public virtual AddressExtension ToSql(Sap.Api.Domain.Common.AddressExtension x)
 		{
 			return new AddressExtension {
 				DocEntry = x.DocEntry,
@@ -69,14 +69,14 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual BillOfExchange ToSql(Sap.Core.Domain.Common.BillOfExchange x)
+		public virtual BillOfExchange ToSql(Sap.Api.Domain.Common.BillOfExchange x)
 		{
 			return new BillOfExchange {
 
 			};
 		}
 		
-		public virtual CashFlowAssignment ToSql(Sap.Core.Domain.Common.CashFlowAssignment x)
+		public virtual CashFlowAssignment ToSql(Sap.Api.Domain.Common.CashFlowAssignment x)
 		{
 			return new CashFlowAssignment {
 				AmountLC = x.AmountLC,
@@ -84,7 +84,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual DocumentInstallment ToSql(Sap.Core.Domain.Common.DocumentInstallment x)
+		public virtual DocumentInstallment ToSql(Sap.Api.Domain.Common.DocumentInstallment x)
 		{
 			return new DocumentInstallment {
 				Percentage = x.Percentage,
@@ -97,7 +97,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual DocumentLine ToSql(Sap.Core.Domain.Common.DocumentLine x)
+		public virtual DocumentLine ToSql(Sap.Api.Domain.Common.DocumentLine x)
 		{
 			return new DocumentLine {
 				ActualDeliveryDate = x.ActualDeliveryDate,
@@ -320,7 +320,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual DownPaymentsToDraw ToSql(Sap.Core.Domain.Common.DownPaymentsToDraw x)
+		public virtual DownPaymentsToDraw ToSql(Sap.Api.Domain.Common.DownPaymentsToDraw x)
 		{
 			return new DownPaymentsToDraw {
 				DocEntry = x.DocEntry,
@@ -345,7 +345,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual DownPaymentsToDrawDetail ToSql(Sap.Core.Domain.Common.DownPaymentsToDrawDetail x)
+		public virtual DownPaymentsToDrawDetail ToSql(Sap.Api.Domain.Common.DownPaymentsToDrawDetail x)
 		{
 			return new DownPaymentsToDrawDetail {
 				DocEntry = x.DocEntry,
@@ -369,14 +369,14 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual EWayBillDetail ToSql(Sap.Core.Domain.Common.EWayBillDetails x)
+		public virtual EWayBillDetail ToSql(Sap.Api.Domain.Common.EWayBillDetails x)
 		{
 			return new EWayBillDetail {
 
 			};
 		}
 		
-		public virtual LineTaxJurisdiction ToSql(Sap.Core.Domain.Common.LineTaxJurisdiction x)
+		public virtual LineTaxJurisdiction ToSql(Sap.Api.Domain.Common.LineTaxJurisdiction x)
 		{
 			return new LineTaxJurisdiction {
 				DocEntry = x.DocEntry,
@@ -401,7 +401,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual PaymentDocumentReferencesCollection ToSql(Sap.Core.Domain.Common.PaymentDocumentReferencesCollection x)
+		public virtual PaymentDocumentReferencesCollection ToSql(Sap.Api.Domain.Common.PaymentDocumentReferencesCollection x)
 		{
 			return new PaymentDocumentReferencesCollection {
 				IssueDate = x.IssueDate,
@@ -415,7 +415,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual PaymentInvoice ToSql(Sap.Core.Domain.Common.PaymentInvoice x)
+		public virtual PaymentInvoice ToSql(Sap.Api.Domain.Common.PaymentInvoice x)
 		{
 			return new PaymentInvoice {
 				DocEntry = x.DocEntry,
@@ -445,35 +445,35 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 		
-		public virtual PurchaseTaxInvoiceLine ToSql(Sap.Core.Domain.Common.PurchaseTaxInvoiceLine x)
+		public virtual PurchaseTaxInvoiceLine ToSql(Sap.Api.Domain.Common.PurchaseTaxInvoiceLine x)
 		{
 			return new PurchaseTaxInvoiceLine {
 				RefEntry1 = x.RefEntry1,
 			};
 		}
 		
-		public virtual PurchaseTaxInvoiceOperationCode ToSql(Sap.Core.Domain.Common.PurchaseTaxInvoiceOperationCode x)
+		public virtual PurchaseTaxInvoiceOperationCode ToSql(Sap.Api.Domain.Common.PurchaseTaxInvoiceOperationCode x)
 		{
 			return new PurchaseTaxInvoiceOperationCode {
 				OpCode = x.OpCode,
 			};
 		}
 		
-		public virtual SalesTaxInvoiceLine ToSql(Sap.Core.Domain.Common.SalesTaxInvoiceLine x)
+		public virtual SalesTaxInvoiceLine ToSql(Sap.Api.Domain.Common.SalesTaxInvoiceLine x)
 		{
 			return new SalesTaxInvoiceLine {
 				RefEntry1 = x.RefEntry1,
 			};
 		}
 		
-		public virtual SalesTaxInvoiceOperationCode ToSql(Sap.Core.Domain.Common.SalesTaxInvoiceOperationCode x)
+		public virtual SalesTaxInvoiceOperationCode ToSql(Sap.Api.Domain.Common.SalesTaxInvoiceOperationCode x)
 		{
 			return new SalesTaxInvoiceOperationCode {
 				OpCode = x.OpCode,
 			};
 		}
 		
-		public virtual TaxExtension ToSql(Sap.Core.Domain.Common.TaxExtension x)
+		public virtual TaxExtension ToSql(Sap.Api.Domain.Common.TaxExtension x)
 		{
 			return new TaxExtension {
 				DocEntry = x.DocEntry,

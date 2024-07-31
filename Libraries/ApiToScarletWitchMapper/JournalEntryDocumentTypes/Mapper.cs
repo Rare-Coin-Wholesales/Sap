@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual JournalEntryDocumentType ToSql(Sap.Core.Domain.JournalEntryDocumentTypes.JournalEntryDocumentType x)
+		public virtual JournalEntryDocumentType ToSql(Sap.Api.Domain.JournalEntryDocumentTypes.JournalEntryDocumentType x)
 		{
 			return new JournalEntryDocumentType {
 				JournalEntryType = x.JournalEntryType,

@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual FAAccountDetermination ToSql(Sap.Core.Domain.FAAccountDeterminations.FAAccountDetermination x)
+		public virtual FAAccountDetermination ToSql(Sap.Api.Domain.FAAccountDeterminations.FAAccountDetermination x)
 		{
 			return new FAAccountDetermination {
 				AccumulatedOrdinaryDepr = x.AccumulatedOrdinaryDepr,

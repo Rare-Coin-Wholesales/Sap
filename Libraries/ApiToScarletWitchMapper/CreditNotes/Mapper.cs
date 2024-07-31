@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual CreditNote ToSql(Sap.Core.Domain.CreditNotes.CreditNote x)
+		public virtual CreditNote ToSql(Sap.Api.Domain.CreditNotes.CreditNote x)
 		{
 			return new CreditNote {
 				DocEntry = x.DocEntry,

@@ -1,6 +1,8 @@
-﻿using Sap.Core;
-using Sap.Core.Http;
-using Sap.Core.Services.Security;
+﻿using System.Threading;
+using System;
+using Sap.Api.Http;
+using Sap.Core;
+using Sap.Services.Security;
 
 namespace Sap.Automation
 {
@@ -21,27 +23,6 @@ namespace Sap.Automation
 			var response = client.Login(CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var testString = "Welcome@1";
-			var encrypted = _encryptionUtil.Encrypt(testString);
-			Console.WriteLine($"encrypted: {encrypted}\n");
-			var decrypted = _encryptionUtil.Decrypt(encrypted);
-			Console.WriteLine($"decrypted: {decrypted}\n");
-			Console.WriteLine();
-			Thread.Sleep(1000);
-
-			encrypted = _encryptionUtil.Encrypt(testString);
-			Console.WriteLine($"encrypted: {encrypted}\n");
-			decrypted = _encryptionUtil.Decrypt(encrypted);
-			Console.WriteLine($"decrypted: {decrypted}\n");
-			Console.WriteLine();
-			Thread.Sleep(1000);
-
-			encrypted = _encryptionUtil.Encrypt(testString);
-			Console.WriteLine($"encrypted: {encrypted}\n");
-			decrypted = _encryptionUtil.Decrypt(encrypted);
-			Console.WriteLine($"decrypted: {decrypted}\n");
-			Console.WriteLine();
-			Thread.Sleep(1000);
 
 
 			Console.WriteLine("\n\nEnding SAP Automation . . .\n\n");

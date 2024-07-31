@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual JournalEntry ToSql(Sap.Core.Domain.JournalEntries.JournalEntry x)
+		public virtual JournalEntry ToSql(Sap.Api.Domain.JournalEntries.JournalEntry x)
 		{
 			return new JournalEntry {
 				JdtNum = x.JdtNum,
@@ -65,6 +65,76 @@ namespace ApiToScarletWitchMapper
 				TransactionCode = x.TransactionCode,
 				UseAutoStorno = x.UseAutoStorno,
 				VatDate = x.VatDate,
+			};
+		}
+
+		public virtual JournalEntryLine ToSql(Sap.Api.Domain.JournalEntries.JournalEntryLine x)
+		{
+			return new JournalEntryLine {
+				DocumentArray = x.DocumentArray,
+				DocumentLine = x.DocumentLine,
+				LineID = x.LineID,
+				DueDate = x.DueDate,
+				ReferenceDate1 = x.ReferenceDate1,
+				TaxDate = x.TaxDate,
+				BaseSum = x.BaseSum,
+				Credit = x.Credit,
+				CreditSys = x.CreditSys,
+				Debit = x.Debit,
+				DebitSys = x.DebitSys,
+				EqualizationTaxAmount = x.EqualizationTaxAmount,
+				FCCredit = x.FCCredit,
+				FCDebit = x.FCDebit,
+				GrossValue = x.GrossValue,
+				SystemBaseAmount = x.SystemBaseAmount,
+				SystemEqualizationTaxAmount = x.SystemEqualizationTaxAmount,
+				SystemTotalTax = x.SystemTotalTax,
+				SystemVatAmount = x.SystemVatAmount,
+				TotalTax = x.TotalTax,
+				VatAmount = x.VatAmount,
+				AccountCode = x.AccountCode,
+				AdditionalReference = x.AdditionalReference,
+				BlockReason = x.BlockReason,
+				BPLID = x.BPLID,
+				BPLName = x.BPLName,
+				CheckAbs = x.CheckAbs,
+				Cig = x.Cig,
+				ContraAccount = x.ContraAccount,
+				ControlAccount = x.ControlAccount,
+				CostElementCode = x.CostElementCode,
+				CostingCode = x.CostingCode,
+				CostingCode2 = x.CostingCode2,
+				CostingCode3 = x.CostingCode3,
+				CostingCode4 = x.CostingCode4,
+				CostingCode5 = x.CostingCode5,
+				Cup = x.Cup,
+				ExpensesClassificationCategory = x.ExpensesClassificationCategory,
+				ExpensesClassificationType = x.ExpensesClassificationType,
+				ExposedTransNumber = x.ExposedTransNumber,
+				FCCurrency = x.FCCurrency,
+				FederalTaxID = x.FederalTaxID,
+				IncomeClassificationCategory = x.IncomeClassificationCategory,
+				IncomeClassificationType = x.IncomeClassificationType,
+				LineMemo = x.LineMemo,
+				LocationCode = x.LocationCode,
+				PaymentBlock = x.PaymentBlock,
+				PaymentOrdered = x.PaymentOrdered,
+				ProjectCode = x.ProjectCode,
+				Reference1 = x.Reference1,
+				Reference2 = x.Reference2,
+				ReferenceDate2 = x.ReferenceDate2,
+				ShortName = x.ShortName,
+				TaxCode = x.TaxCode,
+				TaxGroup = x.TaxGroup,
+				TaxPostAccount = x.TaxPostAccount,
+				VATClassificationCategory = x.VATClassificationCategory,
+				VATClassificationType = x.VATClassificationType,
+				VatDate = x.VatDate,
+				VATExemptionCause = x.VATExemptionCause,
+				VatLine = x.VatLine,
+				VATRegNum = x.VATRegNum,
+				WTLiable = x.WTLiable,
+				WTRow = x.WTRow,
 			};
 		}
 	}
