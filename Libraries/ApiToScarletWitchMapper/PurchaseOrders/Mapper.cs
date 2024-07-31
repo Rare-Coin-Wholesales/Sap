@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual PurchaseOrder ToSql(Sap.Core.Domain.PurchaseOrders.PurchaseOrder x)
+		public virtual PurchaseOrder ToSql(Sap.Api.Domain.PurchaseOrders.PurchaseOrder x)
 		{
 			return new PurchaseOrder {
 				CashDiscountDateOffset = x.CashDiscountDateOffset,

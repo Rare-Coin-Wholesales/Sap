@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual ChecksforPayment ToSql(Sap.Core.Domain.ChecksforPayments.ChecksforPayment x)
+		public virtual ChecksforPayment ToSql(Sap.Api.Domain.ChecksforPayments.ChecksforPayment x)
 		{
 			return new ChecksforPayment {
 				CheckKey = x.CheckKey,

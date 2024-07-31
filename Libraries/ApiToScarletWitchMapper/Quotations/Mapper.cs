@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual Quotation ToSql(Sap.Core.Domain.Quotations.Quotation x)
+		public virtual Quotation ToSql(Sap.Api.Domain.Quotations.Quotation x)
 		{
 			return new Quotation {
 				DocEntry = x.DocEntry,

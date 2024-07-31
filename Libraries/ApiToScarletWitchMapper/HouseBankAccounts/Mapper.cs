@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual HouseBankAccount ToSql(Sap.Core.Domain.HouseBankAccounts.HouseBankAccount x)
+		public virtual HouseBankAccount ToSql(Sap.Api.Domain.HouseBankAccounts.HouseBankAccount x)
 		{
 			return new HouseBankAccount {
 				AbsoluteEntry = x.AbsoluteEntry,

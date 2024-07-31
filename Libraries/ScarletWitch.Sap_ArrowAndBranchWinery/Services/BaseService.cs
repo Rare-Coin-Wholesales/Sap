@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Entity.Validation;
 using Sap.Core;
-using Sap.Core.Services.Security;
+using Sap.Services.Security;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Domain;
 
 namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services

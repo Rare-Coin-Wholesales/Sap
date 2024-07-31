@@ -1,7 +1,7 @@
 using ApiToScarletWitchMapper;
+using Sap.Api.Http;
 using Sap.Core;
-using Sap.Core.Http;
-using Sap.Core.Services.Security;
+using Sap.Services.Security;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountSegmentationCategories;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountSegmentations;
@@ -15,6 +15,7 @@ using ScarletWitch.Sap_ArrowAndBranchWinery.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.HouseBankAccounts;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.IncomingPayments;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Invoices;
+using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Items;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseCreditNotes;
@@ -422,6 +423,48 @@ namespace Sap.Tests.IntegrationTests
 					try {
 						_invoiceService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
+
+						foreach (var line in v.DocumentLines) {
+							try {
+								_invoiceService.InsertDocumentLine(_mapper.ToSql(line));
+								Assert.True(true);
+							}
+
+							catch {
+								Assert.True(false);
+							}
+						}
+					}
+
+					catch {
+						Assert.True(false);
+					}
+				}
+			}
+		}
+		#endregion
+
+		#region Item
+		private readonly ItemService _itemService = new();
+
+		[Fact]
+		public void Test_Item_Integration()
+		{
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.ListItems();
+
+			if (list == null || list.Count == 0)
+				Assert.False(false);
+			else {
+				_itemService.TruncateTable();
+
+				foreach (var v in list) {
+					try {
+						_itemService.Insert(_mapper.ToSql(v));
+						Assert.True(true);
 					}
 
 					catch {
@@ -453,6 +496,17 @@ namespace Sap.Tests.IntegrationTests
 					try {
 						_journalEntryService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
+
+						foreach (var line in v.JournalEntryLines) {
+							try {
+								_journalEntryService.InsertJournalEntryLine(_mapper.ToSql(line));
+								Assert.True(true);
+							}
+
+							catch {
+								Assert.True(false);
+							}
+						}
 					}
 
 					catch {

@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual SalesTaxInvoice ToSql(Sap.Core.Domain.SalesTaxInvoices.SalesTaxInvoice x)
+		public virtual SalesTaxInvoice ToSql(Sap.Api.Domain.SalesTaxInvoices.SalesTaxInvoice x)
 		{
 			return new SalesTaxInvoice {
 				DocEntry = x.DocEntry,

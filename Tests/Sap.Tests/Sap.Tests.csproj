@@ -27,7 +27,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\ApiToScarletWitchMapper\ApiToScarletWitchMapper.csproj" />
-    <ProjectReference Include="..\..\Libraries\Sap.Core\Sap.Core.csproj" />
+    <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj" />
+    <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj" />
   </ItemGroup>
 

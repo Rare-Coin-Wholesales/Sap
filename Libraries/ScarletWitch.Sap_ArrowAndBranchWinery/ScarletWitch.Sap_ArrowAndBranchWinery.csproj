@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ScarletWitch.Sap_ArrowAndBranchWinery</RootNamespace>
     <AssemblyName>ScarletWitch.Sap_ArrowAndBranchWinery</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,6 +76,8 @@
     <Compile Include="Domain\HouseBankAccount.cs" />
     <Compile Include="Domain\IncomingPayment.cs" />
     <Compile Include="Domain\Invoice.cs" />
+    <Compile Include="Domain\Invoice_DocumentLine.cs" />
+    <Compile Include="Domain\Item.cs" />
     <Compile Include="Domain\JournalEntry.cs" />
     <Compile Include="Domain\JournalEntryDocumentType.cs" />
     <Compile Include="Domain\JournalEntryLine.cs" />
@@ -161,6 +164,8 @@
     <Compile Include="Services\SalesTaxInvoices\SalesTaxInvoiceService.cs" />
     <Compile Include="Services\TransactionCodes\ITransactionCodeService.cs" />
     <Compile Include="Services\TransactionCodes\TransactionCodeService.cs" />
+    <Compile Include="Services\Items\IItemService.cs" />
+    <Compile Include="Services\Items\ItemService.cs" />
     <Compile Include="Services\VendorPayments\IVendorPaymentService.cs" />
     <Compile Include="Services\VendorPayments\VendorPaymentService.cs" />
   </ItemGroup>
@@ -169,9 +174,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sap.Core\Sap.Core.csproj">
-      <Project>{55AAA34D-DD9D-404E-B6AC-CF2F0B59813C}</Project>
-      <Name>Sap.Core</Name>
+    <ProjectReference Include="..\Sap\Sap.csproj">
+      <Project>{02aa86ea-1f77-4eaf-8482-cb69a3181fca}</Project>
+      <Name>Sap</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

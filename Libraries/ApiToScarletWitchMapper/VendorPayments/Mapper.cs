@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual VendorPayment ToSql(Sap.Core.Domain.VendorPayments.VendorPayment x)
+		public virtual VendorPayment ToSql(Sap.Api.Domain.VendorPayments.VendorPayment x)
 		{
 			return new VendorPayment {
 				DocEntry = x.DocEntry,

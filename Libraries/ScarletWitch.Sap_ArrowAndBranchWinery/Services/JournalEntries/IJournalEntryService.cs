@@ -13,6 +13,11 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries
 		/// <param name="x">The <see cref="JournalEntry"/>.</param>
 		void Insert(JournalEntry x);
 		/// <summary>
+		/// Inserts a <see cref="JournalEntryLine"/>.
+		/// </summary>
+		/// <param name="x">The <see cref="JournalEntryLine"/>.</param>
+		void InsertJournalEntryLine(JournalEntryLine x);
+		/// <summary>
 		/// Truncates the <see cref="JournalEntry"/> table.
 		/// </summary>
 		void TruncateTable();

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ApiToScarletWitchMapper</RootNamespace>
     <AssemblyName>ApiToScarletWitchMapper</AssemblyName>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -66,12 +67,17 @@
     <Compile Include="Quotations\Mapper.cs" />
     <Compile Include="SalesTaxInvoices\Mapper.cs" />
     <Compile Include="TransactionCodes\Mapper.cs" />
+    <Compile Include="Items\Mapper.cs" />
     <Compile Include="VendorPayments\Mapper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Sap.Core\Sap.Core.csproj">
-      <Project>{55aaa34d-dd9d-404e-b6ac-cf2f0b59813c}</Project>
-      <Name>Sap.Core</Name>
+    <ProjectReference Include="..\Sap.Api\Sap.Api.csproj">
+      <Project>{d3505318-2863-4148-9911-fb3d6b522b41}</Project>
+      <Name>Sap.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sap\Sap.csproj">
+      <Project>{02aa86ea-1f77-4eaf-8482-cb69a3181fca}</Project>
+      <Name>Sap</Name>
     </ProjectReference>
     <ProjectReference Include="..\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj">
       <Project>{da21efd0-18e5-4126-bf63-f03420abb994}</Project>

@@ -4,7 +4,7 @@ namespace ApiToScarletWitchMapper
 {
 	public partial class Mapper
 	{
-		public virtual GLAccountAdvancedRule ToSql(Sap.Core.Domain.GLAccountAdvancedRules.GLAccountAdvancedRule x)
+		public virtual GLAccountAdvancedRule ToSql(Sap.Api.Domain.GLAccountAdvancedRules.GLAccountAdvancedRule x)
 		{
 			return new GLAccountAdvancedRule {
 				AbsoluteEntry = x.AbsoluteEntry,

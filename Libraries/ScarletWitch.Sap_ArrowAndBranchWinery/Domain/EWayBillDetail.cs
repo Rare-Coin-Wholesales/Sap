@@ -6,6 +6,7 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("EWayBillDetail")]
     public partial class EWayBillDetail
     {
         public int Id { get; set; }
