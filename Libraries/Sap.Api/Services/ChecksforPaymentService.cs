@@ -1,12 +1,11 @@
-﻿using System.Text;
-using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Sap.Api.Domain.ChecksforPayments;
-using Sap.Core;
 using Sap.Core.Http;
 
 namespace Sap.Api.Http
@@ -17,7 +16,7 @@ namespace Sap.Api.Http
 		/// Gets an instance of <see cref="ChecksforPayment"/> with the given CheckKey.
 		/// </summary>
 		/// <param name="checkKey">The CheckKey.</param>
-		public async Task<string> GetChecksforPaymentById(int checkKey)
+		public async Task<string> GetChecksforPaymentById(string checkKey)
 		{
 			var endpoint = String.Format($"{BaseUrl}{ChecksforPaymentRequest.ACTION}({checkKey})");
 

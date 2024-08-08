@@ -206,6 +206,18 @@ namespace Sap.Tests.IntegrationTests
 					try {
 						_checksforPaymentService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
+
+						foreach (var line in v.ChecksforPaymentLines) {
+							try {
+								line.CheckKey = v.CheckKey.ToString();
+								_checksforPaymentService.Insert(_mapper.ToSql(line));
+								Assert.True(true);
+							}
+
+							catch {
+								Assert.True(false);
+							}
+						}
 					}
 
 					catch {
@@ -499,6 +511,7 @@ namespace Sap.Tests.IntegrationTests
 
 						foreach (var line in v.JournalEntryLines) {
 							try {
+								line.JdtNum = v.JdtNum;
 								_journalEntryService.InsertJournalEntryLine(_mapper.ToSql(line));
 								Assert.True(true);
 							}
@@ -817,6 +830,30 @@ namespace Sap.Tests.IntegrationTests
 					try {
 						_vendorPaymentService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
+
+						foreach (var line in v.PaymentChecks) {
+							try {
+								line.DocEntry = v.DocEntry;
+								_vendorPaymentService.Insert(_mapper.ToSql(line));
+								Assert.True(true);
+							}
+
+							catch {
+								Assert.True(false);
+							}
+						}
+
+						foreach (var line in v.PaymentInvoices) {
+							try {
+								line.VendorPaymentDocEntry = v.DocEntry;
+								_vendorPaymentService.Insert(_mapper.ToSql(line));
+								Assert.True(true);
+							}
+
+							catch {
+								Assert.True(false);
+							}
+						}
 					}
 
 					catch {

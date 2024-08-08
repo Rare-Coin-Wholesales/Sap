@@ -11,59 +11,79 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
     {
         public int Id { get; set; }
 
-        public int? DocEntry { get; set; }
+        [StringLength(4000)]
+        public string VendorPaymentDocEntry { get; set; }
 
-        public int? DocLine { get; set; }
+        [StringLength(4000)]
+        public string LineNum { get; set; }
 
-        public int? DocNum { get; set; }
+        [StringLength(4000)]
+        public string DocEntry { get; set; }
 
-        public int? InstallmentId { get; set; }
+        [StringLength(4000)]
+        public string DocNum { get; set; }
 
-        public int? LineNum { get; set; }
+        [StringLength(4000)]
+        public string SumApplied { get; set; }
 
-        public decimal? AppliedFC { get; set; }
+        [StringLength(4000)]
+        public string AppliedFC { get; set; }
 
-        public decimal? AppliedSys { get; set; }
+        [StringLength(4000)]
+        public string AppliedSys { get; set; }
 
-        public decimal? DiscountPercent { get; set; }
+        [StringLength(4000)]
+        public string DocRate { get; set; }
 
-        public decimal? DocRate { get; set; }
+        [StringLength(4000)]
+        public string DocLine { get; set; }
 
-        public decimal? PaidSum { get; set; }
-
-        public decimal? SumApplied { get; set; }
-
-        public decimal? TotalDiscount { get; set; }
-
-        public decimal? TotalDiscountFC { get; set; }
-
-        public decimal? TotalDiscountSC { get; set; }
-
-        public decimal? WitholdingTaxApplied { get; set; }
-
-        public decimal? WitholdingTaxAppliedFC { get; set; }
-
-        public decimal? WitholdingTaxAppliedSC { get; set; }
-
-        [StringLength(255)]
-        public string DistributionRule { get; set; }
-
-        [StringLength(255)]
-        public string DistributionRule2 { get; set; }
-
-        [StringLength(255)]
-        public string DistributionRule3 { get; set; }
-
-        [StringLength(255)]
-        public string DistributionRule4 { get; set; }
-
-        [StringLength(255)]
-        public string DistributionRule5 { get; set; }
-
-        [StringLength(255)]
+        [StringLength(4000)]
         public string InvoiceType { get; set; }
 
-        [StringLength(255)]
+        [StringLength(4000)]
+        public string DiscountPercent { get; set; }
+
+        [StringLength(4000)]
+        public string PaidSum { get; set; }
+
+        [StringLength(4000)]
+        public string InstallmentId { get; set; }
+
+        [StringLength(4000)]
+        public string WitholdingTaxApplied { get; set; }
+
+        [StringLength(4000)]
+        public string WitholdingTaxAppliedFC { get; set; }
+
+        [StringLength(4000)]
+        public string WitholdingTaxAppliedSC { get; set; }
+
+        [StringLength(4000)]
         public string LinkDate { get; set; }
+
+        [StringLength(4000)]
+        public string DistributionRule { get; set; }
+
+        [StringLength(4000)]
+        public string DistributionRule2 { get; set; }
+
+        [StringLength(4000)]
+        public string DistributionRule3 { get; set; }
+
+        [StringLength(4000)]
+        public string DistributionRule4 { get; set; }
+
+        [StringLength(4000)]
+        public string DistributionRule5 { get; set; }
+
+        [StringLength(4000)]
+        public string TotalDiscount { get; set; }
+
+        [StringLength(4000)]
+        public string TotalDiscountFC { get; set; }
+
+        [StringLength(4000)]
+        public string TotalDiscountSC { get; set; }
     }
 }

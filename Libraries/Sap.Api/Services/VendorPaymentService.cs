@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Sap.Api.Domain.VendorPayments;
-using Sap.Core;
 using Sap.Core.Http;
 
 namespace Sap.Api.Http
@@ -17,7 +16,7 @@ namespace Sap.Api.Http
 		/// Invokes the method 'CancelbyCurrentSystemDate' on this <see cref="VendorPayment"/> with the specified DocEntry.
 		/// </summary>
 		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CancelByCurrentSystemDateVendorPayment(int docEntry)
+		public async Task<string> CancelByCurrentSystemDateVendorPayment(string docEntry)
 		{
 			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/CancelbyCurrentSystemDate");
 
@@ -36,7 +35,7 @@ namespace Sap.Api.Http
 				if (ex.InnerException == null) {
 					var log = "";
 					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelByCurrentSystemDateVendorPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.CancelByCurrentSystemDateVendorPayment(string docEntry).{Environment.NewLine}");
 					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
@@ -50,7 +49,7 @@ namespace Sap.Api.Http
 		/// Invokes the method 'Cancel' on this <see cref="VendorPayment"/> with the specified DocEntry.
 		/// </summary>
 		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CancelVendorPayment(int docEntry)
+		public async Task<string> CancelVendorPayment(string docEntry)
 		{
 			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/Cancel");
 
@@ -69,7 +68,7 @@ namespace Sap.Api.Http
 				if (ex.InnerException == null) {
 					var log = "";
 					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelVendorPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.CancelVendorPayment(string docEntry).{Environment.NewLine}");
 					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
@@ -83,7 +82,7 @@ namespace Sap.Api.Http
 		/// Invokes the method 'GetApprovalTemplates' on this <see cref="VendorPayment"/> with the specified DocEntry.
 		/// </summary>
 		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> GetApprovalTemplatesVendorPayment(int docEntry)
+		public async Task<string> GetApprovalTemplatesVendorPayment(string docEntry)
 		{
 			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/GetApprovalTemplates");
 
@@ -102,7 +101,7 @@ namespace Sap.Api.Http
 				if (ex.InnerException == null) {
 					var log = "";
 					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.GetApprovalTemplatesVendorPayment(int docEntry).{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.GetApprovalTemplatesVendorPayment(string docEntry).{Environment.NewLine}");
 					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
@@ -116,7 +115,7 @@ namespace Sap.Api.Http
 		/// Gets an instance of <see cref="VendorPayment"/> with the given BankDocEntry.
 		/// </summary>
 		/// <param name="docEntry">The DocEntry.</param>
-		public async Task<string> GetVendorPaymentById(int docEntry)
+		public async Task<string> GetVendorPaymentById(string docEntry)
 		{
 			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})");
 
@@ -131,7 +130,7 @@ namespace Sap.Api.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetVendorPaymentById(int docEntry='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, docEntry);
+					var log = String.Format("{0}{2}Exception thrown in SapClient.GetVendorPaymentById(string docEntry='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, docEntry);
 					throw new Exception(log);
 				}
 

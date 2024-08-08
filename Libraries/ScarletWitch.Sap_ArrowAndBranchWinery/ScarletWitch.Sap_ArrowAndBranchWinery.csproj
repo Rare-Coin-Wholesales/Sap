@@ -63,6 +63,7 @@
     <Compile Include="Domain\CashFlowAssignment.cs" />
     <Compile Include="Domain\ChartOfAccount.cs" />
     <Compile Include="Domain\ChecksforPayment.cs" />
+    <Compile Include="Domain\ChecksforPaymentLine.cs" />
     <Compile Include="Domain\CreditLine.cs" />
     <Compile Include="Domain\CreditNote.cs" />
     <Compile Include="Domain\Deposit.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Domain\JournalEntryDocumentType.cs" />
     <Compile Include="Domain\JournalEntryLine.cs" />
     <Compile Include="Domain\LineTaxJurisdiction.cs" />
+    <Compile Include="Domain\PaymentCheck.cs" />
     <Compile Include="Domain\PaymentDocumentReferencesCollection.cs" />
     <Compile Include="Domain\PaymentInvoice.cs" />
     <Compile Include="Domain\PurchaseCreditNote.cs" />
@@ -170,7 +172,9 @@
     <Compile Include="Services\VendorPayments\VendorPaymentService.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

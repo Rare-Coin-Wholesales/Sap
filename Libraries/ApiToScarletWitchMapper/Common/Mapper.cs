@@ -414,37 +414,7 @@ namespace ApiToScarletWitchMapper
 				Remark = x.Remark,
 			};
 		}
-		
-		public virtual PaymentInvoice ToSql(Sap.Api.Domain.Common.PaymentInvoice x)
-		{
-			return new PaymentInvoice {
-				DocEntry = x.DocEntry,
-				DocLine = x.DocLine,
-				DocNum = x.DocNum,
-				InstallmentId = x.InstallmentId,
-				LineNum = x.LineNum,
-				AppliedFC = x.AppliedFC,
-				AppliedSys = x.AppliedSys,
-				DiscountPercent = x.DiscountPercent,
-				DocRate = x.DocRate,
-				PaidSum = x.PaidSum,
-				SumApplied = x.SumApplied,
-				TotalDiscount = x.TotalDiscount,
-				TotalDiscountFC = x.TotalDiscountFC,
-				TotalDiscountSC = x.TotalDiscountSC,
-				WitholdingTaxApplied = x.WitholdingTaxApplied,
-				WitholdingTaxAppliedFC = x.WitholdingTaxAppliedFC,
-				WitholdingTaxAppliedSC = x.WitholdingTaxAppliedSC,
-				DistributionRule = x.DistributionRule,
-				DistributionRule2 = x.DistributionRule2,
-				DistributionRule3 = x.DistributionRule3,
-				DistributionRule4 = x.DistributionRule4,
-				DistributionRule5 = x.DistributionRule5,
-				InvoiceType = x.InvoiceType,
-				LinkDate = x.LinkDate,
-			};
-		}
-		
+
 		public virtual PurchaseTaxInvoiceLine ToSql(Sap.Api.Domain.Common.PurchaseTaxInvoiceLine x)
 		{
 			return new PurchaseTaxInvoiceLine {
