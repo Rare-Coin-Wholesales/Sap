@@ -17,7 +17,7 @@ namespace Sap.Api.Http
 		/// Invokes the method 'Cancel' on this <see cref="JournalEntry"/> with the specified JdtNum.
 		/// </summary>
 		/// <param name="jdtNum">The JdtNum</param>
-		public async Task<string> CancelJournalEntry(int jdtNum)
+		public async Task<string> CancelJournalEntry(string jdtNum)
 		{
 			var endpoint = String.Format($"{BaseUrl}{JournalEntryRequest.ACTION}({jdtNum})/Cancel");
 
@@ -36,7 +36,7 @@ namespace Sap.Api.Http
 				if (ex.InnerException == null) {
 					var log = "";
 					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelJournalEntry(int jdtNum).{Environment.NewLine}");
+					log = String.Format($"{log}Exception thrown in SapClient.CancelJournalEntry(string jdtNum).{Environment.NewLine}");
 					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
 					throw new Exception(log);
 				}
@@ -50,7 +50,7 @@ namespace Sap.Api.Http
 		/// Gets an instance of <see cref="JournalEntry"/> with the given BankJdtNum.
 		/// </summary>
 		/// <param name="jdtNum">The JdtNum.</param>
-		public async Task<string> GetJournalEntryById(int jdtNum)
+		public async Task<string> GetJournalEntryById(string jdtNum)
 		{
 			var endpoint = String.Format($"{BaseUrl}{JournalEntryRequest.ACTION}({jdtNum})");
 
@@ -65,7 +65,7 @@ namespace Sap.Api.Http
 			catch (Exception ex) {
 				#region Log
 				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetJournalEntryById(int jdtNum='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, jdtNum);
+					var log = String.Format("{0}{2}Exception thrown in SapClient.GetJournalEntryById(string jdtNum='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, jdtNum);
 					throw new Exception(log);
 				}
 

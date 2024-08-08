@@ -1,73 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Sap.Api.Domain.JournalEntries
 {
 	public partial class JournalEntryRequest : BaseRequest
 	{
-		#region Fields
 		public const string ACTION = "JournalEntries";
-		public DateTime? DueDate;
-		public DateTime? ReferenceDate;
-		public DateTime? TaxDate;
-		public decimal? WTSum;
-		public decimal? WTSumFC;
-		public decimal? WTSumSC;
-		public IList<JournalEntryLine> JournalEntryLines;
-		public IList<object> ElectronicProtocols;
-		public IList<object> WithholdingTaxDataCollection;
-		public int? JdtNum;
-		public int? Number;
-		public int? Original;
-		public int? Series;
-		public string AdjustTransaction;
-		public string AllocationNumberIL;
-		public string AttachmentEntry;
-		public string AutomaticWT;
-		public string AutoVAT;
-		public string BaseReference;
-		public string BlanketAgreementNumber;
-		public string BlockDunningLetter;
-		public string CertificationNumber;
-		public string Cig;
-		public string Corisptivi;
-		public string Cup;
-		public string DeferredTax;
-		public string DocumentType;
-		public string ECDPostingType;
-		public string ExcludeFromTaxReportControlStatementVAT;
-		public string ExposedTransNumber;
-		public string FolioNumber;
-		public string FolioNumberFrom;
-		public string FolioNumberTo;
-		public string FolioPrefixString;
-		public string Indicator;
-		public string IsCostCenterTransfer;
-		public string Letter;
-		public string LocationCode;
+		#region Fields
+		public string ReferenceDate;
 		public string Memo;
-		public string OperationCode;
-		public string OriginalJournal;
-		public string PointOfIssueCode;
-		public string Printed;
-		public string PrivateKeyVersion;
-		public string ProjectCode;
 		public string Reference;
 		public string Reference2;
-		public string Reference3;
-		public string Report347;
-		public string ReportEU;
-		public string ReportingSectionControlStatementVAT;
-		public string ResidenceNumberType;
-		public string SAFTTransactionType;
-		public string SAPPassport;
-		public string SignatureDigest;
-		public string SignatureInputMessage;
-		public string StampTax;
-		public string StornoDate;
 		public string TransactionCode;
+		public string ProjectCode;
+		public string TaxDate;
+		public string JdtNum;
+		public string Indicator;
 		public string UseAutoStorno;
+		public string StornoDate;
 		public string VatDate;
+		public string Series;
+		public string StampTax;
+		public string DueDate;
+		public string AutoVAT;
+		public string Number;
+		public string FolioNumber;
+		public string FolioPrefixString;
+		public string ReportEU;
+		public string Report347;
+		public string Printed;
+		public string LocationCode;
+		public string OriginalJournal;
+		public string Original;
+		public string BaseReference;
+		public string BlockDunningLetter;
+		public string AutomaticWT;
+		public string WTSum;
+		public string WTSumSC;
+		public string WTSumFC;
+		public string SignatureInputMessage;
+		public string SignatureDigest;
+		public string CertificationNumber;
+		public string PrivateKeyVersion;
+		public string Corisptivi;
+		public string Reference3;
+		public string DocumentType;
+		public string DeferredTax;
+		public string BlanketAgreementNumber;
+		public string OperationCode;
+		public string ResidenceNumberType;
+		public string ECDPostingType;
+		public string ExposedTransNumber;
+		public string PointOfIssueCode;
+		public string Letter;
+		public string FolioNumberFrom;
+		public string FolioNumberTo;
+		public string IsCostCenterTransfer;
+		public string ReportingSectionControlStatementVAT;
+		public string ExcludeFromTaxReportControlStatementVAT;
+		public string SAPPassport;
+		public string Cig;
+		public string Cup;
+		public string AdjustTransaction;
+		public string AttachmentEntry;
+		public string SAFTTransactionType;
+		public string AllocationNumberIL;
+		public IList<JournalEntryLine> JournalEntryLines;
+		public IList<object> WithholdingTaxDataCollection;
+		public IList<object> ElectronicProtocols;
 		#endregion
 
 		public JournalEntryRequest()
@@ -77,7 +76,7 @@ namespace Sap.Api.Domain.JournalEntries
 			WithholdingTaxDataCollection = new List<object>();
 		}
 
-		public JournalEntryRequest(int jdtNum)
+		public JournalEntryRequest(string jdtNum)
 		{
 			JdtNum = jdtNum;
 			JournalEntryLines = new List<JournalEntryLine>();

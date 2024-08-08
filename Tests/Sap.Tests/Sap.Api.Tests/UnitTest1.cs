@@ -23,10 +23,22 @@ namespace Sap.Api.Tests
             var list = client.ListAccountCategories();
             Assert.True(list.Any());
         }
-        #endregion
 
-        #region AccountSegmentationCategories
-        [Fact]
+		[Fact]
+		public void Test_GetAccountCategoryById()
+		{
+			var client = new SapClient(BaseUrl);
+			var response = client.Login(CompanyDb, Username, Password);
+			Console.WriteLine($"Result: {response.Result}");
+
+			var list = client.GetAccountCategoryById(-1);
+			Assert.NotNull(list);
+			Assert.NotEmpty(list.Result);
+		}
+		#endregion
+
+		#region AccountSegmentationCategories
+		[Fact]
         public void Test_ListAccountSegmentationCategories()
         {
             var client = new SapClient(BaseUrl);
@@ -108,7 +120,7 @@ namespace Sap.Api.Tests
             var response = client.Login(CompanyDb, Username, Password);
             Console.WriteLine($"Result: {response.Result}");
 
-            var list = client.GetChecksforPaymentById(1);
+            var list = client.GetChecksforPaymentById("6");
             Assert.NotNull(list);
             Assert.NotEmpty(list.Result);
         }
@@ -259,7 +271,7 @@ namespace Sap.Api.Tests
             var response = client.Login(CompanyDb, Username, Password);
             Console.WriteLine($"Result: {response.Result}");
 
-            var list = client.GetInvoiceById(5);
+            var list = client.GetInvoiceById(8);
             Assert.NotNull(list);
             Assert.NotEmpty(list.Result);
         }
@@ -309,8 +321,9 @@ namespace Sap.Api.Tests
             var response = client.Login(CompanyDb, Username, Password);
             Console.WriteLine($"Result: {response.Result}");
 
-            var list = client.GetJournalEntryById(4);
-            Assert.NotNull(list);
+            var list = client.GetJournalEntryById("4");
+
+			Assert.NotNull(list);
             Assert.NotEmpty(list.Result);
         }
         #endregion
@@ -559,7 +572,7 @@ namespace Sap.Api.Tests
             var response = client.Login(CompanyDb, Username, Password);
             Console.WriteLine($"Result: {response.Result}");
 
-            var list = client.GetVendorPaymentById(5);
+            var list = client.GetVendorPaymentById("6");
             Assert.NotNull(list);
             Assert.NotEmpty(list.Result);
         }

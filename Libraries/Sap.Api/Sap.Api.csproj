@@ -61,6 +61,8 @@
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccount.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountRequest.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountResponse.cs" />
+    <Compile Include="Domain\ChecksforPayments\ChecksforPaymentPrintStatus.cs" />
+    <Compile Include="Domain\ChecksforPayments\ChecksforPaymentLine.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPayment.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPaymentRequest.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPaymentResponse.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="Domain\Items\Item.cs" />
     <Compile Include="Domain\Items\ItemRequest.cs" />
     <Compile Include="Domain\Items\ItemResponse.cs" />
+    <Compile Include="Domain\JournalEntries\JournalEntryLine.cs" />
     <Compile Include="Domain\JournalEntries\JournalEntry.cs" />
     <Compile Include="Domain\JournalEntries\JournalEntryRequest.cs" />
     <Compile Include="Domain\JournalEntries\JournalEntryResponse.cs" />
@@ -136,6 +139,9 @@
     <Compile Include="Domain\TransactionCodes\TransactionCode.cs" />
     <Compile Include="Domain\TransactionCodes\TransactionCodeRequest.cs" />
     <Compile Include="Domain\TransactionCodes\TransactionCodeResponse.cs" />
+    <Compile Include="Domain\VendorPayments\BillOfExchange.cs" />
+    <Compile Include="Domain\VendorPayments\PaymentInvoice.cs" />
+    <Compile Include="Domain\VendorPayments\PaymentCheck.cs" />
     <Compile Include="Domain\VendorPayments\VendorPayment.cs" />
     <Compile Include="Domain\VendorPayments\VendorPaymentRequest.cs" />
     <Compile Include="Domain\VendorPayments\VendorPaymentResponse.cs" />

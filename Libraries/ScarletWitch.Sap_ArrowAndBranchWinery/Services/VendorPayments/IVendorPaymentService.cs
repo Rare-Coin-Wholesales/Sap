@@ -8,6 +8,16 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services.VendorPayments
 	public interface IVendorPaymentService
 	{
 		/// <summary>
+		/// Inserts a <see cref="PaymentCheck"/>.
+		/// </summary>
+		/// <param name="x">The <see cref="PaymentCheck"/>.</param>
+		void Insert(PaymentCheck x);
+		/// <summary>
+		/// Inserts a <see cref="PaymentInvoice"/>.
+		/// </summary>
+		/// <param name="x">The <see cref="PaymentInvoice"/>.</param>
+		void Insert(PaymentInvoice x);
+		/// <summary>
 		/// Inserts a <see cref="VendorPayment"/>.
 		/// </summary>
 		/// <param name="x">The <see cref="VendorPayment"/>.</param>
