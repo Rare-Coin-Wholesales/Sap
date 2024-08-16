@@ -38,14 +38,11 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services
 				foreach (var validationErrors in dbEx.EntityValidationErrors)
 					foreach (var er in validationErrors.ValidationErrors)
 						msg = String.Format("{0}Property: {1} Error: {2}{3}", msg, er.PropertyName, er.ErrorMessage, Environment.NewLine);
-
-				return msg;
 			}
 
 			else if (ex.InnerException == null) {
 				msg = String.Format($"{msg}{ex.Message}{Environment.NewLine}");
 				msg = String.Format($"{msg}{ex}{Environment.NewLine}{Environment.NewLine}");
-				return msg;
 			}
 
 			return msg;

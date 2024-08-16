@@ -13,10 +13,15 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 		public virtual DbSet<AddressExtension> AddressExtensions { get; set; }
 		public virtual DbSet<BillOfExchange> BillOfExchanges { get; set; }
 		public virtual DbSet<BillOfExchangeTransaction> BillOfExchangeTransactions { get; set; }
+		public virtual DbSet<BPAddress> BPAddresses { get; set; }
+		public virtual DbSet<BPIntrastatExtension> BPIntrastatExtensions { get; set; }
+		public virtual DbSet<BPPaymentMethod> BPPaymentMethods { get; set; }
+		public virtual DbSet<BusinessPartner> BusinessPartners { get; set; }
 		public virtual DbSet<CashFlowAssignment> CashFlowAssignments { get; set; }
 		public virtual DbSet<ChartOfAccount> ChartOfAccounts { get; set; }
 		public virtual DbSet<ChecksforPayment> ChecksforPayments { get; set; }
 		public virtual DbSet<ChecksforPaymentLine> ChecksforPaymentLines { get; set; }
+		public virtual DbSet<ContactEmployee> ContactEmployees { get; set; }
 		public virtual DbSet<CreditLine> CreditLines { get; set; }
 		public virtual DbSet<CreditNote> CreditNotes { get; set; }
 		public virtual DbSet<Deposit> Deposits { get; set; }

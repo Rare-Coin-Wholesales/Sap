@@ -60,10 +60,15 @@
     <Compile Include="Domain\AddressExtension.cs" />
     <Compile Include="Domain\BillOfExchange.cs" />
     <Compile Include="Domain\BillOfExchangeTransaction.cs" />
+    <Compile Include="Domain\BPAddress.cs" />
+    <Compile Include="Domain\BPIntrastatExtension.cs" />
+    <Compile Include="Domain\BPPaymentMethod.cs" />
+    <Compile Include="Domain\BusinessPartner.cs" />
     <Compile Include="Domain\CashFlowAssignment.cs" />
     <Compile Include="Domain\ChartOfAccount.cs" />
     <Compile Include="Domain\ChecksforPayment.cs" />
     <Compile Include="Domain\ChecksforPaymentLine.cs" />
+    <Compile Include="Domain\ContactEmployee.cs" />
     <Compile Include="Domain\CreditLine.cs" />
     <Compile Include="Domain\CreditNote.cs" />
     <Compile Include="Domain\Deposit.cs" />
@@ -110,6 +115,8 @@
     <Compile Include="Services\AccountSegmentations\AccountSegmentationService.cs" />
     <Compile Include="Services\AccountSegmentations\IAccountSegmentationService.cs" />
     <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BusinessPartners\BusinessPartnerService.cs" />
+    <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\BillOfExchangeTransactionService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\IBillOfExchangeTransactionService.cs" />
     <Compile Include="Services\ChartOfAccounts\ChartOfAccountService.cs" />
