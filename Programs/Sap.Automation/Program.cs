@@ -1,31 +1,54 @@
-﻿using System.Threading;
-using System;
-using Sap.Api.Http;
-using Sap.Core;
-using Sap.Services.Security;
+﻿using System;
 
 namespace Sap.Automation
 {
 	class Program
 	{
-		private static readonly EncryptionUtil _encryptionUtil = new EncryptionUtil();
-		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
-		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-
 		static void Main(string[] args)
 		{
-			Console.WriteLine("\nStarting SAP Automation . . .\n");
-			Console.WriteLine($"Username: {Username}");
-			Console.WriteLine($"Password: {Password}\n");
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
+			Common.StartProgram();
 
+			try {
+				new AccountCategoryUtil().GetAllAccountCategorys();
+				//new AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys();
+				//new AccountSegmentationUtil().GetAllAccountSegmentations();
+				//new BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions();
+				//new BusinessPartnerUtil().GetAllBusinessPartners();
+				//new ChartOfAccountUtil().GetAllChartOfAccounts();
+				//new ChecksforPaymentUtil().GetAllChecksforPayments();
+				//new CreditNoteUtil().GetAllCreditNotes();
+				//new DepositUtil().GetAllDeposits();
+				//new FAAccountDeterminationUtil().GetAllFAAccountDeterminations();
+				//new GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules();
+				//new HouseBankAccountUtil().GetAllHouseBankAccounts();
+				//new IncomingPaymentUtil().GetAllIncomingPayments();
+				//new InvoiceUtil().GetAllInvoices();
+				//new ItemUtil().GetAllItems();
+				//new JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes();
+				//new JournalEntryUtil().GetAllJournalEntrys();
+				//new PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
+				//new PurchaseInvoiceUtil().GetAllPurchaseInvoices();
+				//new PurchaseOrderUtil().GetAllPurchaseOrders();
+				//new PurchaseQuotationUtil().GetAllPurchaseQuotations();
+				//new PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices();
+				//new QuotationUtil().GetAllQuotations();
+				//new SalesTaxInvoiceUtil().GetAllSalesTaxInvoices();
+				//new TransactionCodeUtil().GetAllTransactionCodes();
+				//new VendorPaymentUtil().GetAllVendorPayments();
+			}
 
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null)
+					Common.logger.Error("{0}{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
+				else
+					throw;
 
-			Console.WriteLine("\n\nEnding SAP Automation . . .\n\n");
+				Common.EndProgram(1);
+				#endregion
+			}
+
+			Common.EndProgram(0);
 		}
 	}
 }

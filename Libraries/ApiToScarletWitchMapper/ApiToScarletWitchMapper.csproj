@@ -45,6 +45,7 @@
     <Compile Include="AccountCategories\Mapper.cs" />
     <Compile Include="AccountSegmentationCategories\Mapper.cs" />
     <Compile Include="AccountSegmentations\Mapper.cs" />
+    <Compile Include="BusinessPartners\Mapper.cs" />
     <Compile Include="BillOfExchangeTransactions\Mapper.cs" />
     <Compile Include="ChartOfAccounts\Mapper.cs" />
     <Compile Include="ChecksforPayments\Mapper.cs" />

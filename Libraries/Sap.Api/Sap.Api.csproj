@@ -58,6 +58,13 @@
     <Compile Include="Domain\BillOfExchangeTransactions\BillOfExchangeTransaction.cs" />
     <Compile Include="Domain\BillOfExchangeTransactions\BillOfExchangeTransactionRequest.cs" />
     <Compile Include="Domain\BillOfExchangeTransactions\BillOfExchangeTransactionResponse.cs" />
+    <Compile Include="Domain\BusinessPartners\BPPaymentMethod.cs" />
+    <Compile Include="Domain\BusinessPartners\BPIntrastatExtension.cs" />
+    <Compile Include="Domain\BusinessPartners\BPAddress.cs" />
+    <Compile Include="Domain\BusinessPartners\BusinessPartner.cs" />
+    <Compile Include="Domain\BusinessPartners\BusinessPartnerRequest.cs" />
+    <Compile Include="Domain\BusinessPartners\BusinessPartnerResponse.cs" />
+    <Compile Include="Domain\BusinessPartners\ContactEmployee.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccount.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountRequest.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountResponse.cs" />
@@ -150,6 +157,7 @@
     <Compile Include="Services\AccountCategoryService.cs" />
     <Compile Include="Services\AccountSegmentationCategoryService.cs" />
     <Compile Include="Services\AccountSegmentationService.cs" />
+    <Compile Include="Services\BusinessPartnerService.cs" />
     <Compile Include="Services\BillOfExchangeTransactionService.cs" />
     <Compile Include="Services\ChartOfAccountService.cs" />
     <Compile Include="Services\ChecksforPaymentService.cs" />
