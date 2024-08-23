@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.PurchaseCreditNotes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseCreditNotes;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly PurchaseCreditNoteService _purchaseCreditNoteService = new PurchaseCreditNoteService();
 
-		public void GetAllPurchaseCreditNotes()
+		public async Task GetAllPurchaseCreditNotes(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllPurchaseCreditNotes().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListPurchaseCreditNotes();
+			var list = await serviceLayer.Request(PurchaseCreditNoteRequest.ACTION).GetAllAsync<PurchaseCreditNote>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

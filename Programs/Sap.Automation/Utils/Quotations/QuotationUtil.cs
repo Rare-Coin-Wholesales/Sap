@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.Quotations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Quotations;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly QuotationService _quotationService = new QuotationService();
 
-		public void GetAllQuotations()
+		public async Task GetAllQuotations(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllQuotations().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListQuotations();
+			var list = await serviceLayer.Request(QuotationRequest.ACTION).GetAllAsync<Quotation>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

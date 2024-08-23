@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.BillOfExchangeTransactions;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.BillOfExchangeTransactions;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly BillOfExchangeTransactionService _billOfExchangeTransactionService = new BillOfExchangeTransactionService();
 
-		public void GetAllBillOfExchangeTransactions()
+		public async Task GetAllBillOfExchangeTransactions(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllBillOfExchangeTransactions().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListBillOfExchangeTransactions();
+			var list = await serviceLayer.Request(BillOfExchangeTransactionRequest.ACTION).GetAllAsync<BillOfExchangeTransaction>();
 
 			if (list == null || list.Count == 0)
 				return;

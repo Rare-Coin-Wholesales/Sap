@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.JournalEntries;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly JournalEntryService _journalEntryService = new JournalEntryService();
 
-		public void GetAllJournalEntrys()
+		public async Task GetAllJournalEntrys(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllJournalEntrys().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListJournalEntries();
+			var list = await serviceLayer.Request(JournalEntryRequest.ACTION).GetAllAsync<JournalEntry>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

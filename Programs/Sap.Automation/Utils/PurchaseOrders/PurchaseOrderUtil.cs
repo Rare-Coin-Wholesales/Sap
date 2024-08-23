@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.PurchaseOrders;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseOrders;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly PurchaseOrderService _purchaseOrderService = new PurchaseOrderService();
 
-		public void GetAllPurchaseOrders()
+		public async Task GetAllPurchaseOrders(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllPurchaseOrders().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListPurchaseOrders();
+			var list = await serviceLayer.Request(PurchaseOrderRequest.ACTION).GetAllAsync<PurchaseOrder>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

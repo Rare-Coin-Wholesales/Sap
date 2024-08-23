@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.PurchaseQuotations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseQuotations;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly PurchaseQuotationService _purchaseQuotationService = new PurchaseQuotationService();
 
-		public void GetAllPurchaseQuotations()
+		public async Task GetAllPurchaseQuotations(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllPurchaseQuotations().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListPurchaseQuotations();
+			var list = await serviceLayer.Request(PurchaseQuotationRequest.ACTION).GetAllAsync<PurchaseQuotation>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

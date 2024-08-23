@@ -1,6 +1,4 @@
-﻿using Sap.Core;
-
-namespace Sap.Api.Domain
+﻿namespace Sap.Api.Domain
 {
 	public abstract class BaseRequest
 	{

@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.TransactionCodes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.TransactionCodes;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly TransactionCodeService _transactionCodeService = new TransactionCodeService();
 
-		public void GetAllTransactionCodes()
+		public async Task GetAllTransactionCodes(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllTransactionCodes().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListTransactionCodes();
+			var list = await serviceLayer.Request(TransactionCodeRequest.ACTION).GetAllAsync<TransactionCode>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

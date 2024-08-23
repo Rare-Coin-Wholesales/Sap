@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.PurchaseTaxInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseTaxInvoices;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly PurchaseTaxInvoiceService _purchaseTaxInvoiceService = new PurchaseTaxInvoiceService();
 
-		public void GetAllPurchaseTaxInvoices()
+		public async Task GetAllPurchaseTaxInvoices(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllPurchaseTaxInvoices().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListPurchaseTaxInvoices();
+			var list = await serviceLayer.Request(PurchaseTaxInvoiceRequest.ACTION).GetAllAsync<PurchaseTaxInvoice>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

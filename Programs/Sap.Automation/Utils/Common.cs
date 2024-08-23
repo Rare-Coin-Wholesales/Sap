@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 using ApiToScarletWitchMapper;
 using NLog;
+using Sap.Api.Http;
 using Sap.Core;
 using Sap.Services.Security;
 
@@ -17,11 +18,14 @@ namespace Sap.Automation
 		public static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		public static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
 		public static DateTime StartTime;
+		public static SapClient client;
+		public static Task<string> response;
 
 		public static void StartProgram()
 		{
 			StartTime = DateTime.UtcNow;
 			logger.Info("Starting SAP Automation . . .");
+			client = new SapClient(BaseUrl);
 		}
 
 		/// <summary>
@@ -36,17 +40,13 @@ namespace Sap.Automation
 			logger.Info("Ending SAP Automation . . .");
 			string body, subject;
 			var ts = endTime - StartTime;
-			var log = new List<string> { "Ending program" };
 
 			if (ts.TotalSeconds < 61)
-				log.Add(String.Format("It took {0} sec to complete", ts.ToString(@"s\.fff")));
+				logger.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
 			else if (ts.TotalMinutes < 61)
-				log.Add(String.Format("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds));
+				logger.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
 			else
-				log.Add(String.Format("It took {0}h {1}m to complete", ts.Hours, ts.Minutes));
-
-			foreach (var l in log)
-				logger.Info(l);
+				logger.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
 
 			logger.Info("{0}{0}", Environment.NewLine);
 			LogManager.Flush();

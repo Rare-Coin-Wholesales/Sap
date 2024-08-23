@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.FAAccountDeterminations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.FAAccountDeterminations;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly FAAccountDeterminationService _fAAccountDeterminationService = new FAAccountDeterminationService();
 
-		public void GetAllFAAccountDeterminations()
+		public async Task GetAllFAAccountDeterminations(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllFAAccountDeterminations().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListFAAccountDeterminations();
+			var list = await serviceLayer.Request(FAAccountDeterminationRequest.ACTION).GetAllAsync<FAAccountDetermination>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

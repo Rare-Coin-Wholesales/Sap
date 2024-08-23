@@ -9,537 +9,863 @@ namespace Sap.Api.Domain.Invoices
 	public partial class Invoice : BaseEntity
 	{
 		#region Fields
-		public AddressExtension AddressExtension;
-		public DateTime? CreationDate;
-		public DateTime? DocDate;
-		public DateTime? DocDueDate;
-		public DateTime? TaxDate;
-		public DateTime? UpdateDate;
-		public decimal? BaseAmount;
-		public decimal? BaseAmountFC;
-		public decimal? BaseAmountSC;
-		public decimal? DiscountPercent;
-		public decimal? DocRate;
-		public decimal? DocTotal;
-		public decimal? DocTotalFc;
-		public decimal? DocTotalSys;
-		public decimal? DownPayment;
-		public decimal? DownPaymentAmount;
-		public decimal? DownPaymentAmountFC;
-		public decimal? DownPaymentAmountSC;
-		public decimal? DownPaymentPercentage;
-		public decimal? PaidToDate;
-		public decimal? PaidToDateFC;
-		public decimal? PaidToDateSys;
-		public decimal? RoundingDiffAmount;
-		public decimal? RoundingDiffAmountFC;
-		public decimal? RoundingDiffAmountSC;
-		public decimal? TotalDiscount;
-		public decimal? TotalDiscountFC;
-		public decimal? TotalDiscountSC;
-		public decimal? TotalEqualizationTax;
-		public decimal? TotalEqualizationTaxFC;
-		public decimal? TotalEqualizationTaxSC;
-		public decimal? VatPercent;
-		public decimal? VatSum;
-		public decimal? VatSumFc;
-		public decimal? VatSumSys;
-		public decimal? WTAmount;
-		public decimal? WTAmountFC;
-		public decimal? WTAmountSC;
-		public decimal? WTApplied;
-		public decimal? WTAppliedFC;
-		public decimal? WTAppliedSC;
-		public decimal? WTExemptedAmount;
-		public decimal? WTExemptedAmountFC;
-		public decimal? WTExemptedAmountSC;
-		public decimal? WTNonSubjectAmount;
-		public decimal? WTNonSubjectAmountFC;
-		public decimal? WTNonSubjectAmountSC;
-		public EWayBillDetails EWayBillDetails;
-		public IList<DocumentInstallment> DocumentInstallments;
-		public IList<Invoice_DocumentLine> DocumentLines;
-		public IList<DownPaymentsToDraw> DownPaymentsToDraw;
-		public IList<object> DocumentAdditionalExpenses;
-		public IList<object> DocumentApprovalRequests;
-		public IList<object> DocumentPackages;
-		public IList<object> DocumentReferences;
-		public IList<object> DocumentSpecialLines;
-		public IList<object> ElectronicProtocols;
-		public IList<object> WithholdingTaxDataCollection;
-		public IList<object> WithholdingTaxDataWTXCollection;
-		public int? BaseType;
-		public int? CashDiscountDateOffset;
-		public int? ContactPersonCode;
-		public int? DataVersion;
-		public int? DocEntry;
-		public int? DocNum;
-		public int? ExtraDays;
-		public int? ExtraMonth;
-		public int? FinancialPeriod;
-		public int? IssuingReason;
-		public int? LanguageCode;
-		public int? NumberOfInstallments;
-		public int? PaymentGroupCode;
-		public int? RelatedType;
-		public int? SalesPersonCode;
-		public int? Segment;
-		public int? Series;
-		public int? TransNum;
-		public int? TransportationCode;
-		public int? UserSign;
-		public string AddLegIn;
-		public string Address;
-		public string Address2;
-		public string AgentCode;
-		public string AllocationNumberIL;
-		public string AnnualInvoiceDeclarationReference;
-		public string ApplyCurrentVATRatesForDownPaymentsToDraw;
-		public string ApplyTaxOnFirstInstallment;
-		public string ArchiveNonremovableSalesQuotation;
-		public string AssetValueDate;
-		public string ATDocumentType;
-		public string AttachmentEntry;
-		public string AuthorizationCode;
-		public string AuthorizationStatus;
-		public string BaseEntry;
-		public string BillOfExchangeReserved;
-		public string BlanketAgreementNumber;
-		public string BlockDunning;
-		public string Box1099;
-		public string BPChannelCode;
-		public string BPChannelContact;
-		public string BPLIDAssignedToInvoice;
-		public string BPLName;
-		public string CancelDate;
-		public string Cancelled;
-		public string CancelStatus;
-		public string CardCode;
-		public string CardName;
-		public string CentralBankIndicator;
-		public string CertificationNumber;
-		public string Cig;
-		public string ClosingDate;
-		public string ClosingOption;
-		public string ClosingRemarks;
-		public string Comments;
-		public string CommissionTrade;
-		public string CommissionTradeReturn;
-		public string Confirmed;
-		public string ControlAccount;
-		public string CreateOnlineQuotation;
-		public string CreateQRCodeFrom;
-		public string Cup;
-		public string CustOffice;
-		public string DANFELgTxt;
-		public string DateOfReportingControlStatementVAT;
-		public string DeferredTax;
-		public string DocCurrency;
-		public string DocObjectCode;
-		public string DocTime;
-		public string DocType;
-		public string DocumentDelivery;
-		public string DocumentsOwner;
-		public string DocumentStatus;
-		public string DocumentSubType;
-		public string DocumentTaxID;
-		public string DownPaymentStatus;
-		public string DownPaymentType;
-		public string ECommerceGSTIN;
-		public string ECommerceOperator;
-		public string EDocErrorCode;
-		public string EDocErrorMessage;
-		public string EDocExportFormat;
-		public string EDocGenerationType;
-		public string EDocNum;
-		public string EDocSeries;
-		public string EDocStatus;
-		public string EDocType;
-		public string ElecCommMessage;
-		public string ElecCommStatus;
-		public string EndDeliveryDate;
-		public string EndDeliveryTime;
-		public string ETaxNumber;
-		public string ETaxWebSite;
-		public string ExcludeFromTaxReportControlStatementVAT;
-		public string ExemptionValidityDateFrom;
-		public string ExemptionValidityDateTo;
-		public string ExternalCorrectedDocNum;
-		public string FatherCard;
-		public string FatherType;
-		public string FCEAsPaymentMeans;
-		public string FCI;
-		public string FederalTaxID;
-		public string FiscalDocNum;
-		public string FolioNumber;
-		public string FolioNumberFrom;
-		public string FolioNumberTo;
-		public string FolioPrefixString;
-		public string Form1099;
-		public string GroupHandWritten;
-		public string GroupNumber;
-		public string GroupSeries;
-		public string GSTTransactionType;
-		public string GTSChecker;
-		public string GTSPayee;
-		public string HandWritten;
-		public string ImportFileNum;
-		public string IndFinal;
-		public string Indicator;
-		public string InsuranceOperation347;
-		public string InterimType;
-		public string InternalCorrectedDocNum;
-		public string InventoryStatus;
-		public string InvoicePayment;
-		public string IsAlteration;
-		public string IsPayToBank;
-		public string JournalMemo;
-		public string LastPageFolioNumber;
-		public string LegTextF;
-		public string Letter;
-		public string ManualNumber;
-		public string MaximumCashDiscount;
-		public string NetProcedure;
-		public string NextCorrectingDocument;
-		public string NotRelevantForMonthlyInvoice;
-		public string NTSApproved;
-		public string NTSApprovedNumber;
-		public string NumAtCard;
 		[JsonProperty("odata.etag")]
 		public string OdataEtag;
-		public string OpenForLandedCosts;
-		public string OpeningRemarks;
-		public string OriginalCreditOrDebitDate;
-		public string OriginalCreditOrDebitNo;
-		public string OriginalRefDate;
-		public string OriginalRefNo;
-		public string PartialSupply;
-		public string PaymentBlock;
-		public string PaymentBlockEntry;
-		public string PaymentMethod;
-		public string PaymentReference;
-		public string PayToBankAccountNo;
-		public string PayToBankBranch;
-		public string PayToBankCode;
-		public string PayToBankCountry;
-		public string PayToCode;
-		public string PeriodIndicator;
-		public string Pick;
-		public string PickRemark;
-		public string PickStatus;
-		public string PlasticPackagingTaxRelevant;
-		public string PointOfIssueCode;
-		public string POSCashierNumber;
-		public string POSCashRegister;
-		public string POSDailySummaryNo;
-		public string POSEquipmentNumber;
-		public string POSManufacturerSerialNumber;
-		public string POSReceiptNo;
-		public string PriceMode;
+
+		[JsonProperty("DocEntry")]
+		public int? DocEntry;
+
+		[JsonProperty("DocNum")]
+		public int? DocNum;
+
+		[JsonProperty("DocType")]
+		public string DocType;
+
+		[JsonProperty("HandWritten")]
+		public string HandWritten;
+
+		[JsonProperty("Printed")]
 		public string Printed;
-		public string PrintSEPADirect;
-		public string PrivateKeyVersion;
-		public string Project;
-		public string Receiver;
+
+		[JsonProperty("DocDate")]
+		public DateTime? DocDate;
+
+		[JsonProperty("DocDueDate")]
+		public DateTime? DocDueDate;
+
+		[JsonProperty("CardCode")]
+		public string CardCode;
+
+		[JsonProperty("CardName")]
+		public string CardName;
+
+		[JsonProperty("Address")]
+		public string Address;
+
+		[JsonProperty("NumAtCard")]
+		public string NumAtCard;
+
+		[JsonProperty("DocTotal")]
+		public decimal? DocTotal;
+
+		[JsonProperty("AttachmentEntry")]
+		public string AttachmentEntry;
+
+		[JsonProperty("DocCurrency")]
+		public string DocCurrency;
+
+		[JsonProperty("DocRate")]
+		public decimal? DocRate;
+
+		[JsonProperty("Reference1")]
 		public string Reference1;
+
+		[JsonProperty("Reference2")]
 		public string Reference2;
-		public string RelatedEntry;
-		public string Releaser;
-		public string RelevantToGTS;
-		public string ReopenManuallyClosedOrCanceledDocument;
-		public string ReopenOriginalDocument;
-		public string ReportingSectionControlStatementVAT;
-		public string RequriedDate;
-		public string Reserve;
-		public string ReserveInvoice;
-		public string ReuseDocumentNum;
-		public string ReuseNotaFiscalNum;
-		public string Revision;
-		public string RevisionPo;
-		public string Rounding;
-		public string SAPPassport;
-		public string SequenceCode;
-		public string SequenceModel;
-		public string SequenceSerial;
-		public string SeriesString;
-		public string ServiceGrossProfitPercent;
-		public string ShipFrom;
-		public string ShipPlace;
-		public string ShipState;
-		public string ShipToCode;
-		public string ShowSCN;
-		public string SignatureDigest;
-		public string SignatureInputMessage;
-		public string SpecifiedClosingDate;
-		public string StartDeliveryDate;
-		public string StartDeliveryTime;
-		public string StartFrom;
-		public string Submitted;
-		public string SubSeriesString;
+
+		[JsonProperty("Comments")]
+		public string Comments;
+
+		[JsonProperty("JournalMemo")]
+		public string JournalMemo;
+
+		[JsonProperty("PaymentGroupCode")]
+		public int? PaymentGroupCode;
+
+		[JsonProperty("DocTime")]
+		public string DocTime;
+
+		[JsonProperty("SalesPersonCode")]
+		public int? SalesPersonCode;
+
+		[JsonProperty("TransportationCode")]
+		public int? TransportationCode;
+
+		[JsonProperty("Confirmed")]
+		public string Confirmed;
+
+		[JsonProperty("ImportFileNum")]
+		public string ImportFileNum;
+
+		[JsonProperty("SummeryType")]
 		public string SummeryType;
-		public string Supplier;
-		public string TaxExemptionLetterNum;
-		public string TaxOnInstallments;
-		public string TrackingNumber;
-		public string UpdateTime;
-		public string UseBillToAddrToDetermineTax;
-		public string UseCorrectionVATGroup;
-		public string UseShpdGoodsAct;
-		public string VatDate;
-		public string VATRegNum;
-		public string VehiclePlate;
+
+		[JsonProperty("ContactPersonCode")]
+		public int? ContactPersonCode;
+
+		[JsonProperty("ShowSCN")]
+		public string ShowSCN;
+
+		[JsonProperty("Series")]
+		public int? Series;
+
+		[JsonProperty("TaxDate")]
+		public DateTime? TaxDate;
+
+		[JsonProperty("PartialSupply")]
+		public string PartialSupply;
+
+		[JsonProperty("DocObjectCode")]
+		public string DocObjectCode;
+
+		[JsonProperty("ShipToCode")]
+		public string ShipToCode;
+
+		[JsonProperty("Indicator")]
+		public string Indicator;
+
+		[JsonProperty("FederalTaxID")]
+		public string FederalTaxID;
+
+		[JsonProperty("DiscountPercent")]
+		public decimal? DiscountPercent;
+
+		[JsonProperty("PaymentReference")]
+		public string PaymentReference;
+
+		[JsonProperty("CreationDate")]
+		public DateTime? CreationDate;
+
+		[JsonProperty("UpdateDate")]
+		public DateTime? UpdateDate;
+
+		[JsonProperty("FinancialPeriod")]
+		public int? FinancialPeriod;
+
+		[JsonProperty("UserSign")]
+		public int? UserSign;
+
+		[JsonProperty("TransNum")]
+		public int? TransNum;
+
+		[JsonProperty("VatSum")]
+		public decimal? VatSum;
+
+		[JsonProperty("VatSumSys")]
+		public decimal? VatSumSys;
+
+		[JsonProperty("VatSumFc")]
+		public decimal? VatSumFc;
+
+		[JsonProperty("NetProcedure")]
+		public string NetProcedure;
+
+		[JsonProperty("DocTotalFc")]
+		public decimal? DocTotalFc;
+
+		[JsonProperty("DocTotalSys")]
+		public decimal? DocTotalSys;
+
+		[JsonProperty("Form1099")]
+		public string Form1099;
+
+		[JsonProperty("Box1099")]
+		public string Box1099;
+
+		[JsonProperty("RevisionPo")]
+		public string RevisionPo;
+
+		[JsonProperty("RequriedDate")]
+		public DateTime? RequriedDate;
+
+		[JsonProperty("CancelDate")]
+		public DateTime? CancelDate;
+
+		[JsonProperty("BlockDunning")]
+		public string BlockDunning;
+
+		[JsonProperty("Submitted")]
+		public string Submitted;
+
+		[JsonProperty("Segment")]
+		public int? Segment;
+
+		[JsonProperty("PickStatus")]
+		public string PickStatus;
+
+		[JsonProperty("Pick")]
+		public string Pick;
+
+		[JsonProperty("PaymentMethod")]
+		public string PaymentMethod;
+
+		[JsonProperty("PaymentBlock")]
+		public string PaymentBlock;
+
+		[JsonProperty("PaymentBlockEntry")]
+		public string PaymentBlockEntry;
+
+		[JsonProperty("CentralBankIndicator")]
+		public string CentralBankIndicator;
+
+		[JsonProperty("MaximumCashDiscount")]
+		public string MaximumCashDiscount;
+
+		[JsonProperty("Reserve")]
+		public string Reserve;
+
+		[JsonProperty("Project")]
+		public string Project;
+
+		[JsonProperty("ExemptionValidityDateFrom")]
+		public DateTime? ExemptionValidityDateFrom;
+
+		[JsonProperty("ExemptionValidityDateTo")]
+		public DateTime? ExemptionValidityDateTo;
+
+		[JsonProperty("WareHouseUpdateType")]
 		public string WareHouseUpdateType;
+
+		[JsonProperty("Rounding")]
+		public string Rounding;
+
+		[JsonProperty("ExternalCorrectedDocNum")]
+		public string ExternalCorrectedDocNum;
+
+		[JsonProperty("InternalCorrectedDocNum")]
+		public string InternalCorrectedDocNum;
+
+		[JsonProperty("NextCorrectingDocument")]
+		public string NextCorrectingDocument;
+
+		[JsonProperty("DeferredTax")]
+		public string DeferredTax;
+
+		[JsonProperty("TaxExemptionLetterNum")]
+		public string TaxExemptionLetterNum;
+
+		[JsonProperty("WTApplied")]
+		public decimal? WTApplied;
+
+		[JsonProperty("WTAppliedFC")]
+		public decimal? WTAppliedFC;
+
+		[JsonProperty("BillOfExchangeReserved")]
+		public string BillOfExchangeReserved;
+
+		[JsonProperty("AgentCode")]
+		public string AgentCode;
+
+		[JsonProperty("WTAppliedSC")]
+		public decimal? WTAppliedSC;
+
+		[JsonProperty("TotalEqualizationTax")]
+		public decimal? TotalEqualizationTax;
+
+		[JsonProperty("TotalEqualizationTaxFC")]
+		public decimal? TotalEqualizationTaxFC;
+
+		[JsonProperty("TotalEqualizationTaxSC")]
+		public decimal? TotalEqualizationTaxSC;
+
+		[JsonProperty("NumberOfInstallments")]
+		public int? NumberOfInstallments;
+
+		[JsonProperty("ApplyTaxOnFirstInstallment")]
+		public string ApplyTaxOnFirstInstallment;
+
+		[JsonProperty("TaxOnInstallments")]
+		public string TaxOnInstallments;
+
+		[JsonProperty("WTNonSubjectAmount")]
+		public decimal? WTNonSubjectAmount;
+
+		[JsonProperty("WTNonSubjectAmountSC")]
+		public decimal? WTNonSubjectAmountSC;
+
+		[JsonProperty("WTNonSubjectAmountFC")]
+		public decimal? WTNonSubjectAmountFC;
+
+		[JsonProperty("WTExemptedAmount")]
+		public decimal? WTExemptedAmount;
+
+		[JsonProperty("WTExemptedAmountSC")]
+		public decimal? WTExemptedAmountSC;
+
+		[JsonProperty("WTExemptedAmountFC")]
+		public decimal? WTExemptedAmountFC;
+
+		[JsonProperty("BaseAmount")]
+		public decimal? BaseAmount;
+
+		[JsonProperty("BaseAmountSC")]
+		public decimal? BaseAmountSC;
+
+		[JsonProperty("BaseAmountFC")]
+		public decimal? BaseAmountFC;
+
+		[JsonProperty("WTAmount")]
+		public decimal? WTAmount;
+
+		[JsonProperty("WTAmountSC")]
+		public decimal? WTAmountSC;
+
+		[JsonProperty("WTAmountFC")]
+		public decimal? WTAmountFC;
+
+		[JsonProperty("VatDate")]
+		public DateTime? VatDate;
+
+		[JsonProperty("DocumentsOwner")]
+		public string DocumentsOwner;
+
+		[JsonProperty("FolioPrefixString")]
+		public string FolioPrefixString;
+
+		[JsonProperty("FolioNumber")]
+		public string FolioNumber;
+
+		[JsonProperty("DocumentSubType")]
+		public string DocumentSubType;
+
+		[JsonProperty("BPChannelCode")]
+		public string BPChannelCode;
+
+		[JsonProperty("BPChannelContact")]
+		public string BPChannelContact;
+
+		[JsonProperty("Address2")]
+		public string Address2;
+
+		[JsonProperty("DocumentStatus")]
+		public string DocumentStatus;
+
+		[JsonProperty("PeriodIndicator")]
+		public string PeriodIndicator;
+
+		[JsonProperty("PayToCode")]
+		public string PayToCode;
+
+		[JsonProperty("ManualNumber")]
+		public string ManualNumber;
+
+		[JsonProperty("UseShpdGoodsAct")]
+		public string UseShpdGoodsAct;
+
+		[JsonProperty("IsPayToBank")]
+		public string IsPayToBank;
+
+		[JsonProperty("PayToBankCountry")]
+		public string PayToBankCountry;
+
+		[JsonProperty("PayToBankCode")]
+		public string PayToBankCode;
+
+		[JsonProperty("PayToBankAccountNo")]
+		public string PayToBankAccountNo;
+
+		[JsonProperty("PayToBankBranch")]
+		public string PayToBankBranch;
+
+		[JsonProperty("BPL_IDAssignedToInvoice")]
+		public string BPLIDAssignedToInvoice;
+
+		[JsonProperty("DownPayment")]
+		public decimal? DownPayment;
+
+		[JsonProperty("ReserveInvoice")]
+		public string ReserveInvoice;
+
+		[JsonProperty("LanguageCode")]
+		public int? LanguageCode;
+
+		[JsonProperty("TrackingNumber")]
+		public string TrackingNumber;
+
+		[JsonProperty("PickRemark")]
+		public string PickRemark;
+
+		[JsonProperty("ClosingDate")]
+		public DateTime? ClosingDate;
+
+		[JsonProperty("SequenceCode")]
+		public string SequenceCode;
+
+		[JsonProperty("SequenceSerial")]
+		public string SequenceSerial;
+
+		[JsonProperty("SeriesString")]
+		public string SeriesString;
+
+		[JsonProperty("SubSeriesString")]
+		public string SubSeriesString;
+
+		[JsonProperty("SequenceModel")]
+		public string SequenceModel;
+
+		[JsonProperty("UseCorrectionVATGroup")]
+		public string UseCorrectionVATGroup;
+
+		[JsonProperty("TotalDiscount")]
+		public decimal? TotalDiscount;
+
+		[JsonProperty("DownPaymentAmount")]
+		public decimal? DownPaymentAmount;
+
+		[JsonProperty("DownPaymentPercentage")]
+		public decimal? DownPaymentPercentage;
+
+		[JsonProperty("DownPaymentType")]
+		public string DownPaymentType;
+
+		[JsonProperty("DownPaymentAmountSC")]
+		public decimal? DownPaymentAmountSC;
+
+		[JsonProperty("DownPaymentAmountFC")]
+		public decimal? DownPaymentAmountFC;
+
+		[JsonProperty("VatPercent")]
+		public decimal? VatPercent;
+
+		[JsonProperty("ServiceGrossProfitPercent")]
+		public decimal? ServiceGrossProfitPercent;
+
+		[JsonProperty("OpeningRemarks")]
+		public string OpeningRemarks;
+
+		[JsonProperty("ClosingRemarks")]
+		public string ClosingRemarks;
+
+		[JsonProperty("RoundingDiffAmount")]
+		public decimal? RoundingDiffAmount;
+
+		[JsonProperty("RoundingDiffAmountFC")]
+		public decimal? RoundingDiffAmountFC;
+
+		[JsonProperty("RoundingDiffAmountSC")]
+		public decimal? RoundingDiffAmountSC;
+
+		[JsonProperty("Cancelled")]
+		public string Cancelled;
+
+		[JsonProperty("SignatureInputMessage")]
+		public string SignatureInputMessage;
+
+		[JsonProperty("SignatureDigest")]
+		public string SignatureDigest;
+
+		[JsonProperty("CertificationNumber")]
+		public string CertificationNumber;
+
+		[JsonProperty("PrivateKeyVersion")]
+		public string PrivateKeyVersion;
+
+		[JsonProperty("ControlAccount")]
+		public string ControlAccount;
+
+		[JsonProperty("InsuranceOperation347")]
+		public string InsuranceOperation347;
+
+		[JsonProperty("ArchiveNonremovableSalesQuotation")]
+		public string ArchiveNonremovableSalesQuotation;
+
+		[JsonProperty("GTSChecker")]
+		public string GTSChecker;
+
+		[JsonProperty("GTSPayee")]
+		public string GTSPayee;
+
+		[JsonProperty("ExtraMonth")]
+		public int? ExtraMonth;
+
+		[JsonProperty("ExtraDays")]
+		public int? ExtraDays;
+
+		[JsonProperty("CashDiscountDateOffset")]
+		public int? CashDiscountDateOffset;
+
+		[JsonProperty("StartFrom")]
+		public string StartFrom;
+
+		[JsonProperty("NTSApproved")]
+		public string NTSApproved;
+
+		[JsonProperty("ETaxWebSite")]
+		public string ETaxWebSite;
+
+		[JsonProperty("ETaxNumber")]
+		public string ETaxNumber;
+
+		[JsonProperty("NTSApprovedNumber")]
+		public string NTSApprovedNumber;
+
+		[JsonProperty("EDocGenerationType")]
+		public string EDocGenerationType;
+
+		[JsonProperty("EDocSeries")]
+		public string EDocSeries;
+
+		[JsonProperty("EDocNum")]
+		public string EDocNum;
+
+		[JsonProperty("EDocExportFormat")]
+		public string EDocExportFormat;
+
+		[JsonProperty("EDocStatus")]
+		public string EDocStatus;
+
+		[JsonProperty("EDocErrorCode")]
+		public string EDocErrorCode;
+
+		[JsonProperty("EDocErrorMessage")]
+		public string EDocErrorMessage;
+
+		[JsonProperty("DownPaymentStatus")]
+		public string DownPaymentStatus;
+
+		[JsonProperty("GroupSeries")]
+		public string GroupSeries;
+
+		[JsonProperty("GroupNumber")]
+		public string GroupNumber;
+
+		[JsonProperty("GroupHandWritten")]
+		public string GroupHandWritten;
+
+		[JsonProperty("ReopenOriginalDocument")]
+		public string ReopenOriginalDocument;
+
+		[JsonProperty("ReopenManuallyClosedOrCanceledDocument")]
+		public string ReopenManuallyClosedOrCanceledDocument;
+
+		[JsonProperty("CreateOnlineQuotation")]
+		public string CreateOnlineQuotation;
+
+		[JsonProperty("POSEquipmentNumber")]
+		public string POSEquipmentNumber;
+
+		[JsonProperty("POSManufacturerSerialNumber")]
+		public string POSManufacturerSerialNumber;
+
+		[JsonProperty("POSCashierNumber")]
+		public string POSCashierNumber;
+
+		[JsonProperty("ApplyCurrentVATRatesForDownPaymentsToDraw")]
+		public string ApplyCurrentVATRatesForDownPaymentsToDraw;
+
+		[JsonProperty("ClosingOption")]
+		public string ClosingOption;
+
+		[JsonProperty("SpecifiedClosingDate")]
+		public DateTime? SpecifiedClosingDate;
+
+		[JsonProperty("OpenForLandedCosts")]
+		public string OpenForLandedCosts;
+
+		[JsonProperty("AuthorizationStatus")]
+		public string AuthorizationStatus;
+
+		[JsonProperty("TotalDiscountFC")]
+		public decimal? TotalDiscountFC;
+
+		[JsonProperty("TotalDiscountSC")]
+		public decimal? TotalDiscountSC;
+
+		[JsonProperty("RelevantToGTS")]
+		public string RelevantToGTS;
+
+		[JsonProperty("BPLName")]
+		public string BPLName;
+
+		[JsonProperty("VATRegNum")]
+		public string VATRegNum;
+
+		[JsonProperty("AnnualInvoiceDeclarationReference")]
+		public string AnnualInvoiceDeclarationReference;
+
+		[JsonProperty("Supplier")]
+		public string Supplier;
+
+		[JsonProperty("Releaser")]
+		public string Releaser;
+
+		[JsonProperty("Receiver")]
+		public string Receiver;
+
+		[JsonProperty("BlanketAgreementNumber")]
+		public string BlanketAgreementNumber;
+
+		[JsonProperty("IsAlteration")]
+		public string IsAlteration;
+
+		[JsonProperty("CancelStatus")]
+		public string CancelStatus;
+
+		[JsonProperty("AssetValueDate")]
+		public DateTime? AssetValueDate;
+
+		[JsonProperty("InvoicePayment")]
+		public string InvoicePayment;
+
+		[JsonProperty("DocumentDelivery")]
+		public string DocumentDelivery;
+
+		[JsonProperty("AuthorizationCode")]
+		public string AuthorizationCode;
+
+		[JsonProperty("StartDeliveryDate")]
+		public DateTime? StartDeliveryDate;
+
+		[JsonProperty("StartDeliveryTime")]
+		public string StartDeliveryTime;
+
+		[JsonProperty("EndDeliveryDate")]
+		public DateTime? EndDeliveryDate;
+
+		[JsonProperty("EndDeliveryTime")]
+		public string EndDeliveryTime;
+
+		[JsonProperty("VehiclePlate")]
+		public string VehiclePlate;
+
+		[JsonProperty("ATDocumentType")]
+		public string ATDocumentType;
+
+		[JsonProperty("ElecCommStatus")]
+		public string ElecCommStatus;
+
+		[JsonProperty("ElecCommMessage")]
+		public string ElecCommMessage;
+
+		[JsonProperty("ReuseDocumentNum")]
+		public string ReuseDocumentNum;
+
+		[JsonProperty("ReuseNotaFiscalNum")]
+		public string ReuseNotaFiscalNum;
+
+		[JsonProperty("PrintSEPADirect")]
+		public string PrintSEPADirect;
+
+		[JsonProperty("FiscalDocNum")]
+		public string FiscalDocNum;
+
+		[JsonProperty("POSDailySummaryNo")]
+		public string POSDailySummaryNo;
+
+		[JsonProperty("POSReceiptNo")]
+		public string POSReceiptNo;
+
+		[JsonProperty("PointOfIssueCode")]
+		public string PointOfIssueCode;
+
+		[JsonProperty("Letter")]
+		public string Letter;
+
+		[JsonProperty("FolioNumberFrom")]
+		public string FolioNumberFrom;
+
+		[JsonProperty("FolioNumberTo")]
+		public string FolioNumberTo;
+
+		[JsonProperty("InterimType")]
+		public string InterimType;
+
+		[JsonProperty("RelatedType")]
+		public int? RelatedType;
+
+		[JsonProperty("RelatedEntry")]
+		public string RelatedEntry;
+
+		[JsonProperty("SAPPassport")]
+		public string SAPPassport;
+
+		[JsonProperty("DocumentTaxID")]
+		public string DocumentTaxID;
+
+		[JsonProperty("DateOfReportingControlStatementVAT")]
+		public DateTime? DateOfReportingControlStatementVAT;
+
+		[JsonProperty("ReportingSectionControlStatementVAT")]
+		public string ReportingSectionControlStatementVAT;
+
+		[JsonProperty("ExcludeFromTaxReportControlStatementVAT")]
+		public string ExcludeFromTaxReportControlStatementVAT;
+
+		[JsonProperty("POS_CashRegister")]
+		public string POSCashRegister;
+
+		[JsonProperty("UpdateTime")]
+		public string UpdateTime;
+
+		[JsonProperty("CreateQRCodeFrom")]
+		public string CreateQRCodeFrom;
+
+		[JsonProperty("PriceMode")]
+		public string PriceMode;
+
+		[JsonProperty("OriginalRefNo")]
+		public string OriginalRefNo;
+
+		[JsonProperty("OriginalRefDate")]
+		public DateTime? OriginalRefDate;
+
+		[JsonProperty("Revision")]
+		public string Revision;
+
+		[JsonProperty("GSTTransactionType")]
+		public string GSTTransactionType;
+
+		[JsonProperty("OriginalCreditOrDebitNo")]
+		public string OriginalCreditOrDebitNo;
+
+		[JsonProperty("OriginalCreditOrDebitDate")]
+		public DateTime? OriginalCreditOrDebitDate;
+
+		[JsonProperty("ECommerceOperator")]
+		public string ECommerceOperator;
+
+		[JsonProperty("ECommerceGSTIN")]
+		public string ECommerceGSTIN;
+
+		[JsonProperty("ShipFrom")]
+		public string ShipFrom;
+
+		[JsonProperty("CommissionTrade")]
+		public string CommissionTrade;
+
+		[JsonProperty("CommissionTradeReturn")]
+		public string CommissionTradeReturn;
+
+		[JsonProperty("UseBillToAddrToDetermineTax")]
+		public string UseBillToAddrToDetermineTax;
+
+		[JsonProperty("IssuingReason")]
+		public int? IssuingReason;
+
+		[JsonProperty("Cig")]
+		public string Cig;
+
+		[JsonProperty("Cup")]
+		public string Cup;
+
+		[JsonProperty("EDocType")]
+		public string EDocType;
+
+		[JsonProperty("FCEAsPaymentMeans")]
+		public string FCEAsPaymentMeans;
+
+		[JsonProperty("PaidToDate")]
+		public decimal? PaidToDate;
+
+		[JsonProperty("PaidToDateFC")]
+		public decimal? PaidToDateFC;
+
+		[JsonProperty("PaidToDateSys")]
+		public decimal? PaidToDateSys;
+
+		[JsonProperty("BaseType")]
+		public int? BaseType;
+
+		[JsonProperty("BaseEntry")]
+		public string BaseEntry;
+
+		[JsonProperty("FatherCard")]
+		public string FatherCard;
+
+		[JsonProperty("FatherType")]
+		public string FatherType;
+
+		[JsonProperty("ShipState")]
+		public string ShipState;
+
+		[JsonProperty("ShipPlace")]
+		public string ShipPlace;
+
+		[JsonProperty("CustOffice")]
+		public string CustOffice;
+
+		[JsonProperty("FCI")]
+		public string FCI;
+
+		[JsonProperty("AddLegIn")]
+		public string AddLegIn;
+
+		[JsonProperty("LegTextF")]
+		public string LegTextF;
+
+		[JsonProperty("DANFELgTxt")]
+		public string DANFELgTxt;
+
+		[JsonProperty("IndFinal")]
+		public string IndFinal;
+
+		[JsonProperty("DataVersion")]
+		public int? DataVersion;
+
+		[JsonProperty("LastPageFolioNumber")]
+		public string LastPageFolioNumber;
+
+		[JsonProperty("InventoryStatus")]
+		public string InventoryStatus;
+
+		[JsonProperty("PlasticPackagingTaxRelevant")]
+		public string PlasticPackagingTaxRelevant;
+
+		[JsonProperty("NotRelevantForMonthlyInvoice")]
+		public string NotRelevantForMonthlyInvoice;
+
+		[JsonProperty("AllocationNumberIL")]
+		public string AllocationNumberIL;
+
+		[JsonProperty("Document_ApprovalRequests")]
+		public IList<object> DocumentApprovalRequests;
+
+		[JsonProperty("DocumentLines")]
+		public IList<DocumentLine> DocumentLines;
+
+		[JsonProperty("EWayBillDetails")]
+		public EWayBillDetails EWayBillDetails;
+
+		[JsonProperty("ElectronicProtocols")]
+		public IList<object> ElectronicProtocols;
+
+		[JsonProperty("DocumentAdditionalExpenses")]
+		public IList<object> DocumentAdditionalExpenses;
+
+		[JsonProperty("WithholdingTaxDataWTXCollection")]
+		public IList<object> WithholdingTaxDataWTXCollection;
+
+		[JsonProperty("WithholdingTaxDataCollection")]
+		public IList<object> WithholdingTaxDataCollection;
+
+		[JsonProperty("DocumentPackages")]
+		public IList<object> DocumentPackages;
+
+		[JsonProperty("DocumentSpecialLines")]
+		public IList<object> DocumentSpecialLines;
+
+		[JsonProperty("DocumentInstallments")]
+		public IList<DocumentInstallment> DocumentInstallments;
+
+		[JsonProperty("DownPaymentsToDraw")]
+		public IList<object> DownPaymentsToDraw;
+
+		[JsonProperty("TaxExtension")]
 		public TaxExtension TaxExtension;
+
+		[JsonProperty("AddressExtension")]
+		public AddressExtension AddressExtension;
+
+		[JsonProperty("DocumentReferences")]
+		public IList<object> DocumentReferences;
 		#endregion
 
 		public Invoice()
 		{
 			AddressExtension = new AddressExtension();
-			EWayBillDetails = new EWayBillDetails();
-			DocumentInstallments = new List<DocumentInstallment>();
-			DocumentLines = new List<Invoice_DocumentLine>();
-			DownPaymentsToDraw = new List<DownPaymentsToDraw>();
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
+			DocumentInstallments = new List<DocumentInstallment>();
+			DocumentLines = new List<DocumentLine>();
 			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();
+			DownPaymentsToDraw = new List<object>();
 			ElectronicProtocols = new List<object>();
+			EWayBillDetails = new EWayBillDetails();
+			TaxExtension = new TaxExtension();
 			WithholdingTaxDataCollection = new List<object>();
 			WithholdingTaxDataWTXCollection = new List<object>();
-			TaxExtension = new TaxExtension();
 		}
-	}
-
-	public class Invoice_DocumentLine : BaseEntity
-	{
-		#region Fields
-		public string LineNum;
-		public string ItemCode;
-		public string ItemDescription;
-		public string Quantity;
-		public string ShipDate;
-		public string Price;
-		public string PriceAfterVAT;
-		public string Currency;
-		public string Rate;
-		public string DiscountPercent;
-		public string VendorNum;
-		public string SerialNum;
-		public string WarehouseCode;
-		public string SalesPersonCode;
-		public string CommisionPercent;
-		public string TreeType;
-		public string AccountCode;
-		public string UseBaseUnits;
-		public string SupplierCatNum;
-		public string CostingCode;
-		public string ProjectCode;
-		public string BarCode;
-		public string VatGroup;
-		public string Height1;
-		public string Hight1Unit;
-		public string Height2;
-		public string Height2Unit;
-		public string Lengh1;
-		public string Lengh1Unit;
-		public string Lengh2;
-		public string Lengh2Unit;
-		public string Weight1;
-		public string Weight1Unit;
-		public string Weight2;
-		public string Weight2Unit;
-		public string Factor1;
-		public string Factor2;
-		public string Factor3;
-		public string Factor4;
-		public string BaseType;
-		public string BaseEntry;
-		public string BaseLine;
-		public string Volume;
-		public string VolumeUnit;
-		public string Width1;
-		public string Width1Unit;
-		public string Width2;
-		public string Width2Unit;
-		public string Address;
-		public string TaxCode;
-		public string TaxType;
-		public string TaxLiable;
-		public string PickStatus;
-		public string PickQuantity;
-		public string PickListIdNumber;
-		public string OriginalItem;
-		public string BackOrder;
-		public string FreeText;
-		public string ShippingMethod;
-		public string POTargetNum;
-		public string POTargetEntry;
-		public string POTargetRowNum;
-		public string CorrectionInvoiceItem;
-		public string CorrInvAmountToStock;
-		public string CorrInvAmountToDiffAcct;
-		public string AppliedTax;
-		public string AppliedTaxFC;
-		public string AppliedTaxSC;
-		public string WTLiable;
-		public string DeferredTax;
-		public string EqualizationTaxPercent;
-		public string TotalEqualizationTax;
-		public string TotalEqualizationTaxFC;
-		public string TotalEqualizationTaxSC;
-		public string NetTaxAmount;
-		public string NetTaxAmountFC;
-		public string NetTaxAmountSC;
-		public string MeasureUnit;
-		public string UnitsOfMeasurment;
-		public string LineTotal;
-		public string TaxPercentagePerRow;
-		public string TaxTotal;
-		public string ConsumerSalesForecast;
-		public string ExciseAmount;
-		public string TaxPerUnit;
-		public string TotalInclTax;
-		public string CountryOrg;
-		public string SWW;
-		public string TransactionType;
-		public string DistributeExpense;
-		public string RowTotalFC;
-		public string RowTotalSC;
-		public string LastBuyInmPrice;
-		public string LastBuyDistributeSumFc;
-		public string LastBuyDistributeSumSc;
-		public string LastBuyDistributeSum;
-		public string StockDistributesumForeign;
-		public string StockDistributesumSystem;
-		public string StockDistributesum;
-		public string StockInmPrice;
-		public string PickStatusEx;
-		public string TaxBeforeDPM;
-		public string TaxBeforeDPMFC;
-		public string TaxBeforeDPMSC;
-		public string CFOPCode;
-		public string CSTCode;
-		public string Usage;
-		public string TaxOnly;
-		public string VisualOrder;
-		public string BaseOpenQuantity;
-		public string UnitPrice;
-		public string LineStatus;
-		public string PackageQuantity;
-		public string Text;
-		public string LineType;
-		public string COGSCostingCode;
-		public string COGSAccountCode;
-		public string ChangeAssemlyBoMWarehouse;
-		public string GrossBuyPrice;
-		public string GrossBase;
-		public string GrossProfitTotalBasePrice;
-		public string CostingCode2;
-		public string CostingCode3;
-		public string CostingCode4;
-		public string CostingCode5;
-		public string ItemDetails;
-		public string LocationCode;
-		public string ActualDeliveryDate;
-		public string RemainingOpenQuantity;
-		public string OpenAmount;
-		public string OpenAmountFC;
-		public string OpenAmountSC;
-		public string ExLineNo;
-		public string RequiredDate;
-		public string RequiredQuantity;
-		public string COGSCostingCode2;
-		public string COGSCostingCode3;
-		public string COGSCostingCode4;
-		public string COGSCostingCode5;
-		public string CSTforIPI;
-		public string CSTforPIS;
-		public string CSTforCOFINS;
-		public string CreditOriginCode;
-		public string WithoutInventoryMovement;
-		public string AgreementNo;
-		public string AgreementRowNumber;
-		public string ActualBaseEntry;
-		public string ActualBaseLine;
-		public string DocEntry;
-		public string Surpluses;
-		public string DefectAndBreakup;
-		public string Shortages;
-		public string ConsiderQuantity;
-		public string PartialRetirement;
-		public string RetirementQuantity;
-		public string RetirementAPC;
-		public string ThirdParty;
-		public string PoNum;
-		public string PoItmNum;
-		public string ExpenseType;
-		public string ReceiptNumber;
-		public string ExpenseOperationType;
-		public string FederalTaxID;
-		public string GrossProfit;
-		public string GrossProfitFC;
-		public string GrossProfitSC;
-		public string PriceSource;
-		public string StgSeqNum;
-		public string StgEntry;
-		public string StgDesc;
-		public string UoMEntry;
-		public string UoMCode;
-		public string InventoryQuantity;
-		public string RemainingOpenInventoryQuantity;
-		public string ParentLineNum;
-		public string Incoterms;
-		public string TransportMode;
-		public string NatureOfTransaction;
-		public string DestinationCountryForImport;
-		public string DestinationRegionForImport;
-		public string OriginCountryForExport;
-		public string OriginRegionForExport;
-		public string ItemType;
-		public string ChangeInventoryQuantityIndependently;
-		public string FreeOfChargeBP;
-		public string SACEntry;
-		public string HSNEntry;
-		public string GrossPrice;
-		public string GrossTotal;
-		public string GrossTotalFC;
-		public string GrossTotalSC;
-		public string NCMCode;
-		public string NVECode;
-		public string IndEscala;
-		public string CtrSealQty;
-		public string CNJPMan;
-		public string CESTCode;
-		public string UFFiscalBenefitCode;
-		public string ReverseCharge;
-		public string ShipToCode;
-		public string ShipToDescription;
-		public string OwnerCode;
-		public string ExternalCalcTaxRate;
-		public string ExternalCalcTaxAmount;
-		public string ExternalCalcTaxAmountFC;
-		public string ExternalCalcTaxAmountSC;
-		public string StandardItemIdentification;
-		public string CommodityClassification;
-		public string WeightOfRecycledPlastic;
-		public string PlasticPackageExemptionReason;
-		public string LegalText;
-		public string Cig;
-		public string Cup;
-		public string UnencumberedReason;
-		public string CUSplit;
-		public string ListNum;
-		public string RecognizedTaxCode;
-		public IList<LineTaxJurisdiction> LineTaxJurisdictions;
-		public IList<object> ExportProcesses;
-		public IList<object> EBooksDetails;
-		public IList<object> DocumentLineAdditionalExpenses;
-		public IList<object> WithholdingTaxLines;
-		public IList<object> SerialNumbers;
-		public IList<object> BatchNumbers;
-		public IList<object> CCDNumbers;
-		public IList<object> DocumentLinesBinAllocations;
-		#endregion
 	}
 }

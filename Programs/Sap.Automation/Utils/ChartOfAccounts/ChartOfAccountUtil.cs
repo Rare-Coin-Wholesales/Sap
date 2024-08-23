@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.ChartOfAccounts;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.ChartOfAccounts;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly ChartOfAccountService _chartOfAccountService = new ChartOfAccountService();
 
-		public void GetAllChartOfAccounts()
+		public async Task GetAllChartOfAccounts(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllChartOfAccounts().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListChartOfAccounts();
+			var list = await serviceLayer.Request(ChartOfAccountRequest.ACTION).GetAllAsync<ChartOfAccount>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

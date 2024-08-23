@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.Items;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Items;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly ItemService _itemService = new ItemService();
 
-		public void GetAllItems()
+		public async Task GetAllItems(SLConnection serviceLayer)
 		{
-			Common.logger.Trace("Begin method GetAllItems().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListItems();
+			Common.logger.Trace("Begin method GetAllItems(SLConnection serviceLayer).");
+			var list = await serviceLayer.Request("Items").GetAllAsync<Item>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

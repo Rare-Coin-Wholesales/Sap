@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.BusinessPartners;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.BusinessPartners;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly BusinessPartnerService _businessPartnerService = new BusinessPartnerService();
 
-		public void GetAllBusinessPartners()
+		public async Task GetAllBusinessPartners(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllBusinessPartners().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListBusinessPartners();
+			var list = await serviceLayer.Request(BusinessPartnerRequest.ACTION).GetAllAsync<BusinessPartner>();
 
 			if (list == null || list.Count == 0)
 				return;

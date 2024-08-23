@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.GLAccountAdvancedRules;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.GLAccountAdvancedRules;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly GLAccountAdvancedRuleService _gLAccountAdvancedRuleService = new GLAccountAdvancedRuleService();
 
-		public void GetAllGLAccountAdvancedRules()
+		public async Task GetAllGLAccountAdvancedRules(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllGLAccountAdvancedRules().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListGLAccountAdvancedRules();
+			var list = await serviceLayer.Request(GLAccountAdvancedRuleRequest.ACTION).GetAllAsync<GLAccountAdvancedRule>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");
