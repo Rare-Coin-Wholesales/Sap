@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.HouseBankAccounts;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.HouseBankAccounts;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly HouseBankAccountService _houseBankAccountService = new HouseBankAccountService();
 
-		public void GetAllHouseBankAccounts()
+		public async Task GetAllHouseBankAccounts(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllHouseBankAccounts().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListHouseBankAccounts();
+			var list = await serviceLayer.Request(HouseBankAccountRequest.ACTION).GetAllAsync<HouseBankAccount>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

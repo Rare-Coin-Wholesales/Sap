@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.AccountCategories;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories;
 
 namespace Sap.Automation
@@ -8,16 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly AccountCategoryService _accountCategoryService = new AccountCategoryService();
 
-		public void GetAllAccountCategorys()
+		public async Task GetAllAccountCategorys(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllAccountCategorys().");
-			Common.logger.Trace($"Common.BaseUrl: '{Common.BaseUrl}'");
-			Common.logger.Trace($"Common.CompanyDb: '{Common.CompanyDb}'");
-			Common.logger.Trace($"Common.Username: '{Common.Username}'");
-			Common.logger.Trace($"Common.Password: '{Common.Password}'");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListAccountCategories();
+			var list = await serviceLayer.Request(AccountCategoryRequest.ACTION).GetAllAsync<AccountCategory>();
 			_accountCategoryService.TruncateTable();
 
 			foreach (var v in list) {

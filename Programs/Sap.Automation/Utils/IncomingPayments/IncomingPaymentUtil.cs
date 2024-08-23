@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.IncomingPayments;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.IncomingPayments;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly IncomingPaymentService _incomingPaymentService = new IncomingPaymentService();
 
-		public void GetAllIncomingPayments()
+		public async Task GetAllIncomingPayments(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllIncomingPayments().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListIncomingPayments();
+			var list = await serviceLayer.Request(IncomingPaymentRequest.ACTION).GetAllAsync<IncomingPayment>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

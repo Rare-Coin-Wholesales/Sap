@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntryDocumentTypes;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly JournalEntryDocumentTypeService _journalEntryDocumentTypeService = new JournalEntryDocumentTypeService();
 
-		public void GetAllJournalEntryDocumentTypes()
+		public async Task GetAllJournalEntryDocumentTypes(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllJournalEntryDocumentTypes().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListJournalEntryDocumentTypes();
+			var list = await serviceLayer.Request(JournalEntryDocumentTypeRequest.ACTION).GetAllAsync<JournalEntryDocumentType>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

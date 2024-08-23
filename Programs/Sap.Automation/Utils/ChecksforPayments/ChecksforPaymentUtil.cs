@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.ChecksforPayments;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.ChecksforPayments;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly ChecksforPaymentService _checksforPaymentService = new ChecksforPaymentService();
 
-		public void GetAllChecksforPayments()
+		public async Task GetAllChecksforPayments(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllChecksforPayments().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListChecksforPayments();
+			var list = await serviceLayer.Request(ChecksforPaymentRequest.ACTION).GetAllAsync<ChecksforPayment>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

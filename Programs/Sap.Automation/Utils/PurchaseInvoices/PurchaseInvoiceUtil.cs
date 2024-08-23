@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.PurchaseInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseInvoices;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly PurchaseInvoiceService _purchaseInvoiceService = new PurchaseInvoiceService();
 
-		public void GetAllPurchaseInvoices()
+		public async Task GetAllPurchaseInvoices(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllPurchaseInvoices().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListPurchaseInvoices();
+			var list = await serviceLayer.Request(PurchaseInvoiceRequest.ACTION).GetAllAsync<PurchaseInvoice>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

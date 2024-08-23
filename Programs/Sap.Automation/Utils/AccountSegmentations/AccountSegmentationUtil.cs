@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.AccountSegmentations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountSegmentations;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly AccountSegmentationService _accountSegmentationService = new AccountSegmentationService();
 
-		public void GetAllAccountSegmentations()
+		public async Task GetAllAccountSegmentations(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllAccountSegmentations().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListAccountSegmentations();
+			var list = await serviceLayer.Request(AccountSegmentationRequest.ACTION).GetAllAsync<AccountSegmentation>();
 			_accountSegmentationService.TruncateTable();
 
 			foreach (var v in list) {

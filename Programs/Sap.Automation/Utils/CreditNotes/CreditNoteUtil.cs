@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.CreditNotes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.CreditNotes;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly CreditNoteService _creditNoteService = new CreditNoteService();
 
-		public void GetAllCreditNotes()
+		public async Task GetAllCreditNotes(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllCreditNotes().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListCreditNotes();
+			var list = await serviceLayer.Request(CreditNoteRequest.ACTION).GetAllAsync<CreditNote>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

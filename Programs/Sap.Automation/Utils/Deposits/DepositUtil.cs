@@ -1,5 +1,7 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
+using Sap.Api.Domain.Deposits;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Deposits;
 
 namespace Sap.Automation
@@ -8,12 +10,10 @@ namespace Sap.Automation
 	{
 		private readonly DepositService _depositService = new DepositService();
 
-		public void GetAllDeposits()
+		public async Task GetAllDeposits(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllDeposits().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListDeposits();
+			var list = await serviceLayer.Request(DepositRequest.ACTION).GetAllAsync<Deposit>();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

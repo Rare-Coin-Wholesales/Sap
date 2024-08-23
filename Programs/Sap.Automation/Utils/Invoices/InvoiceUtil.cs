@@ -1,5 +1,6 @@
 ﻿using System;
-using Sap.Api.Http;
+using System.Threading.Tasks;
+using B1SLayer;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Invoices;
 
 namespace Sap.Automation
@@ -8,12 +9,10 @@ namespace Sap.Automation
 	{
 		private readonly InvoiceService _invoiceService = new InvoiceService();
 
-		public void GetAllInvoices()
+		public async Task GetAllInvoices(SLConnection serviceLayer)
 		{
 			Common.logger.Trace("Begin method GetAllInvoices().");
-			var client = new SapClient(Common.BaseUrl);
-			var _ = client.Login(Common.CompanyDb, Common.Username, Common.Password);
-			var list = client.ListInvoices();
+			var list = await new Api.Services.InvoiceService(serviceLayer).GetAll();
 
 			if (list == null || list.Count == 0) {
 				Common.logger.Warn("List is empty.");

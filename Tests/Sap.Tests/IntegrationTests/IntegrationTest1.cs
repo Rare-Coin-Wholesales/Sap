@@ -1,5 +1,7 @@
 using ApiToScarletWitchMapper;
+using B1SLayer;
 using Sap.Api.Http;
+using Sap.Api.Services;
 using Sap.Core;
 using Sap.Services.Security;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories;
@@ -39,6 +41,7 @@ namespace Sap.Tests.IntegrationTests
 		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
+		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, CompanyDb, Username, Password);
 
 		#region AccountCategory
 		private readonly AccountCategoryService _accountCategoryService = new();
@@ -490,16 +493,13 @@ namespace Sap.Tests.IntegrationTests
 		#endregion
 
 		#region Invoice
-		private readonly InvoiceService _invoiceService = new();
+		private readonly ScarletWitch.Sap_ArrowAndBranchWinery.Services.Invoices.InvoiceService _invoiceService = new();
 
 		[Fact]
-		public void Test_Invoice_Integration()
+		public async Task Test_GetAllInvoicesAsync()
 		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListInvoices();
+			var _invoiceServiceNew = new Api.Services.InvoiceService(ServiceLayer);
+			var list = await _invoiceServiceNew.GetAll();
 
 			if (list == null || list.Count == 0)
 				Assert.False(false);
@@ -528,6 +528,15 @@ namespace Sap.Tests.IntegrationTests
 					}
 				}
 			}
+
+			//var log = "";
+
+			//foreach (var v in list)
+			//	log = String.Format($"{log}{v.DocEntry}{Environment.NewLine}");
+
+			//var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
+			//Directory.CreateDirectory(folder);
+			//File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_GetAllInvoicesAsync.log", folder, DateTime.Now), log);
 		}
 		#endregion
 
