@@ -5,6 +5,10 @@ namespace Sap.Api.Services
 {
 	public abstract class BaseService
 	{
+		public const string CANCEL_STATUS_NO = "csNo";
+		public const string CANCEL_STATUS_YES = "csYes";
+		public const string CANCELLED_NO = "tNO";
+		public const string CANCELLED_YES = "tYES";
 		public SLConnection ServiceLayer;
 
 		public BaseService(SLConnection serviceLayer)

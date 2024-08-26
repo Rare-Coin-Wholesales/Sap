@@ -1,310 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using B1SLayer;
 using Sap.Api.Domain.PurchaseInvoices;
-using Sap.Core;
-using Sap.Core.Http;
 
-namespace Sap.Api.Http
+namespace Sap.Api.Services
 {
-	public partial class SapClient : BaseClient
+	public partial class PurchaseInvoiceService : BaseService
 	{
-		/// <summary>
-		/// Invokes the method 'Cancel' on this <see cref="PurchaseInvoice"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CancelPurchaseInvoice(int docEntry)
+		public const string ACTION = "PurchaseInvoices";
+
+		public PurchaseInvoiceService(SLConnection ServiceLayer) : base(ServiceLayer) { }
+
+		public async void CancelAsync(PurchaseInvoice x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({docEntry})/Cancel");
+			x.CancelDate = DateTime.UtcNow;
+			x.Cancelled = CANCELLED_YES;
+			x.CancelStatus = CANCEL_STATUS_YES;
 
 			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-					return responseData;
-				}
+				await ServiceLayer.Request(ACTION, x.DocEntry).PatchAsync(x);
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelPurchaseInvoice(int docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.CancelAsync(PurchaseInvoice x)");
 
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}
 
-		/// <summary>
-		/// Invokes the method 'Close' on this <see cref="PurchaseInvoice"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> ClosePurchaseInvoice(int docEntry)
+		public async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({docEntry})/Close");
-
 			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-					return responseData;
-				}
+				var created = await ServiceLayer.Request(ACTION).PostAsync<PurchaseInvoice>(x);
+				return created;
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.ClosePurchaseInvoice(int docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.CreateAsync(PurchaseInvoice x)");
 
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}
 
-		/// <summary>
-		/// Invokes the method 'CreateCancellationDocument' on this <see cref="PurchaseInvoice"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CreateCancellationDocumentPurchaseInvoice(int docEntry)
+		public async Task<IList<PurchaseInvoice>> GetAll()
 		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({docEntry})/CreateCancellationDocument");
-
 			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CreateCancellationDocumentPurchaseInvoice(int docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
-		}
-
-		/// <summary>
-		/// Gets an instance of <see cref="PurchaseInvoice"/> with the given BankDocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry.</param>
-		public async Task<string> GetPurchaseInvoiceById(int docEntry)
-		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({docEntry})");
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetPurchaseInvoiceById(int docEntry='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, docEntry);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
-		}
-
-		/// <summary>
-		/// Friendly version of ListPurchaseInvoices() that will loop through all pages and return a list of objects instead of a <see cref="Task"/>.
-		/// </summary>
-		/// <returns>A list of <see cref="PurchaseInvoice"/>.</returns>
-		public IList<PurchaseInvoice> ListPurchaseInvoices()
-		{
-			var list = new List<PurchaseInvoice>();
-			var response = ListPurchaseInvoices(null);
-			var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(response.Result);
-
-			if (purchaseInvoiceResponse == null)
+				var list = await ServiceLayer.Request(ACTION).GetAllAsync<PurchaseInvoice>();
 				return list;
-
-			list.AddRange(purchaseInvoiceResponse.PurchaseInvoices);
-
-			while (!String.IsNullOrWhiteSpace(purchaseInvoiceResponse?.OdataNextLink)) {
-				response = ListPurchaseInvoices(purchaseInvoiceResponse.OdataNextLink);
-				purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(response.Result);
-
-				if (purchaseInvoiceResponse == null)
-					return list;
-
-				list.AddRange(purchaseInvoiceResponse.PurchaseInvoices);
-			}
-
-			return list;
-		}
-
-		/// <summary>
-		/// Gets a list of <see cref="PurchaseInvoice"/>s.
-		/// </summary>
-		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListPurchaseInvoices(string nextLink)
-		{
-			string endpoint;
-
-			if (String.IsNullOrWhiteSpace(nextLink))
-				endpoint = Path.Combine(BaseUrl, PurchaseInvoiceRequest.ACTION);
-			else
-				endpoint = Path.Combine(BaseUrl, nextLink);
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.ListPurchaseInvoices(string nextLink='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, nextLink);
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.GetAll()");
 
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}
 
-		/// <summary>
-		/// Updates an instance of <see cref="PurchaseInvoice"/> with the given payload of type <see cref="PurchaseInvoice"/> in JSON format and with the specified ID.
-		/// </summary>
-		/// <param name="x">The <see cref="PurchaseInvoice"/>.</param>
-		public async Task<string> PatchPurchaseInvoice(PurchaseInvoice x)
+		public async Task<PurchaseInvoice> GetByDocEntry(int docEntry)
 		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({x.DocEntry})");
-
 			try {
-				var purchaseInvoiceRequest = new PurchaseInvoiceRequest(x);
-				var json = purchaseInvoiceRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PutAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-						return responseData;
-					}
-				}
+				var x = await ServiceLayer.Request(ACTION, docEntry).GetAsync<PurchaseInvoice>();
+				return x;
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.PatchPurchaseInvoice(PurchaseInvoice x).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.GetByDocEntry(int docEntry)");
 
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}
 
-		/// <summary>
-		/// Creates an instance of <see cref="PurchaseInvoice"/> with the given payload of type <see cref="PurchaseInvoice"/> in JSON format.
-		/// </summary>
-		/// <param name="x">The <see cref="PurchaseInvoice"/>.</param>
-		public async Task<string> PostPurchaseInvoice(PurchaseInvoice x)
+		public async void UpdateAsync(PurchaseInvoice x)
 		{
 			try {
-				var endpoint = Path.Combine(BaseUrl, PurchaseInvoiceRequest.ACTION);
-				var purchaseInvoiceRequest = new PurchaseInvoiceRequest(x);
-				var json = purchaseInvoiceRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PostAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-						return responseData;
-					}
-				}
+				await ServiceLayer.Request(ACTION, x.DocEntry).PatchAsync(x);
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.PostPurchaseInvoice(PurchaseInvoice x).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.UpdateAsync(PurchaseInvoice x)");
 
-				else throw;
-				#endregion
-			}
-		}
-
-		/// <summary>
-		/// Invokes the method 'Reopen' on this <see cref="PurchaseInvoice"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> ReopenPurchaseInvoice(int docEntry)
-		{
-			var endpoint = String.Format($"{BaseUrl}{PurchaseInvoiceRequest.ACTION}({docEntry})/Reopen");
-
-			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var purchaseInvoiceResponse = JsonConvert.DeserializeObject<PurchaseInvoiceResponse>(responseData);
-
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.ReopenPurchaseInvoice(int docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}

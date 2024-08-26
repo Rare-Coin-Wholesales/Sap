@@ -46,6 +46,7 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 		public virtual DbSet<PaymentInvoice> PaymentInvoices { get; set; }
 		public virtual DbSet<PurchaseCreditNote> PurchaseCreditNotes { get; set; }
 		public virtual DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
+		public virtual DbSet<PurchaseInvoice_DocumentLine> PurchaseInvoice_DocumentLine { get; set; }
 		public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
 		public virtual DbSet<PurchaseQuotation> PurchaseQuotations { get; set; }
 		public virtual DbSet<PurchaseTaxInvoice> PurchaseTaxInvoices { get; set; }
@@ -4060,6 +4061,318 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Domain
 			modelBuilder.Entity<PurchaseInvoice>()
 				.Property(e => e.WareHouseUpdateType)
 				.IsUnicode(false);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Quantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Price)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.PriceAfterVAT)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Rate)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.DiscountPercent)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.CommisionPercent)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Height1)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Height2)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Lengh1)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Lengh2)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Weight1)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Weight2)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Factor1)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Factor2)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Factor3)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Factor4)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Volume)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Width1)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Width2)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.PickQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.CorrInvAmountToStock)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.CorrInvAmountToDiffAcct)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.AppliedTax)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.AppliedTaxFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.AppliedTaxSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.EqualizationTaxPercent)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TotalEqualizationTax)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TotalEqualizationTaxFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TotalEqualizationTaxSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.NetTaxAmount)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.NetTaxAmountFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.NetTaxAmountSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.UnitsOfMeasurment)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.LineTotal)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxPercentagePerRow)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxTotal)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.ExciseAmount)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxPerUnit)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TotalInclTax)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RowTotalFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RowTotalSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.LastBuyInmPrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.LastBuyDistributeSumFc)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.LastBuyDistributeSumSc)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.LastBuyDistributeSum)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.StockDistributesumForeign)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.StockDistributesumSystem)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.StockDistributesum)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.StockInmPrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxBeforeDPM)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxBeforeDPMFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.TaxBeforeDPMSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.BaseOpenQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.UnitPrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.PackageQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossBuyPrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossProfitTotalBasePrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RemainingOpenQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.OpenAmount)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.OpenAmountFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.OpenAmountSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RequiredQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Surpluses)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.DefectAndBreakup)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.Shortages)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RetirementQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RetirementAPC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossProfit)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossProfitFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossProfitSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.InventoryQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.RemainingOpenInventoryQuantity)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossPrice)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossTotal)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossTotalFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.GrossTotalSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.CtrSealQty)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<PurchaseInvoice_DocumentLine>()
+				.Property(e => e.WeightOfRecycledPlastic)
+				.HasPrecision(19, 4);
 
 			modelBuilder.Entity<PurchaseOrder>()
 				.Property(e => e.BaseAmount)

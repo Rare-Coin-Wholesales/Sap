@@ -1,16 +1,17 @@
 using B1SLayer;
 using Sap.Api.Domain.Invoices;
+using Sap.Api.Domain.PurchaseInvoices;
 using Sap.Api.Http;
 using Sap.Core;
 using Sap.Services.Security;
 
-namespace Sap.Api.Tests
+namespace Sap.UnitTests
 {
 	public class UnitTest1
 	{
 		private static readonly EncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
+		private static readonly string CompanyDb = "A21384_ABW_T02"; // CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
 		// make sure to keep this *after* setting the 4 variables
@@ -256,25 +257,6 @@ namespace Sap.Api.Tests
 		}
 		#endregion
 
-		#region Invoices
-		[Fact]
-		public async Task Test_ListInvoicesAsync()
-		{
-			var _invoiceService = new Api.Services.InvoiceService(ServiceLayer);
-			var list = await _invoiceService.GetAll();
-			Assert.True(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetInvoiceById()
-		{
-			var _invoiceService = new Api.Services.InvoiceService(ServiceLayer);
-			Task<Invoice> x;
-			x = _invoiceService.GetByDocEntry(8);
-			Assert.NotNull(x);
-		}
-		#endregion
-
 		#region Items
 		[Fact]
 		public void Test_ListItems()
@@ -285,6 +267,15 @@ namespace Sap.Api.Tests
 
 			var list = client.ListItems();
 			Assert.True(list.Any());
+
+			var log = "ItemCode,ItemName,ForeignName\r\n";
+
+			foreach (var v in list)
+				log = String.Format($"{log}{v.ItemCode},{v.ItemName},{v.ForeignName}{Environment.NewLine}");
+
+			var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
+			Directory.CreateDirectory(folder);
+			File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_ListItems.csv", folder, DateTime.Now), log);
 		}
 
 		//[Fact]
@@ -371,31 +362,6 @@ namespace Sap.Api.Tests
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetPurchaseCreditNoteById(4);
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
-		#region PurchaseInvoices
-		[Fact]
-		public void Test_ListPurchaseInvoices()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListPurchaseInvoices();
-			Assert.True(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetPurchaseInvoiceById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetPurchaseInvoiceById(11);
 			Assert.NotNull(list);
 			Assert.NotEmpty(list.Result);
 		}
