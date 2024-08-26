@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Sap.Api.Domain.Common;
 using Sap.Core;
 
 namespace Sap.Api.Domain.Invoices
@@ -811,7 +810,7 @@ namespace Sap.Api.Domain.Invoices
 		public IList<object> DocumentApprovalRequests;
 
 		[JsonProperty("DocumentLines")]
-		public IList<DocumentLine> DocumentLines;
+		public IList<Invoice_DocumentLine> DocumentLines;
 
 		[JsonProperty("EWayBillDetails")]
 		public EWayBillDetails EWayBillDetails;
@@ -856,7 +855,7 @@ namespace Sap.Api.Domain.Invoices
 			DocumentAdditionalExpenses = new List<object>();
 			DocumentApprovalRequests = new List<object>();
 			DocumentInstallments = new List<DocumentInstallment>();
-			DocumentLines = new List<DocumentLine>();
+			DocumentLines = new List<Invoice_DocumentLine>();
 			DocumentPackages = new List<object>();
 			DocumentReferences = new List<object>();
 			DocumentSpecialLines = new List<object>();

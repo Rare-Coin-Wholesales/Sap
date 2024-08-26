@@ -5,7 +5,7 @@ using Sap.Core;
 
 namespace Sap.Api.Domain.Invoices
 {
-	public partial class DocumentLine : BaseEntity
+	public partial class Invoice_DocumentLine : BaseEntity
 	{
 		#region Fields
 		[JsonProperty("LineNum")]
@@ -687,7 +687,7 @@ namespace Sap.Api.Domain.Invoices
 		public IList<object> DocumentLinesBinAllocations;
 		#endregion
 
-		public DocumentLine()
+		public Invoice_DocumentLine()
 		{
 			BatchNumbers = new List<object>();
 			CCDNumbers = new List<object>();

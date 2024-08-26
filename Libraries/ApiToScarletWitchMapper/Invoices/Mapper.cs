@@ -277,7 +277,7 @@ namespace ApiToScarletWitchMapper
 			};
 		}
 
-		public virtual Invoice_DocumentLine ToSql(Sap.Api.Domain.Invoices.DocumentLine x)
+		public virtual Invoice_DocumentLine ToSql(Sap.Api.Domain.Invoices.Invoice_DocumentLine x)
 		{
 			return new Invoice_DocumentLine {
 				LineNum = String.Format("{0}", x.LineNum),

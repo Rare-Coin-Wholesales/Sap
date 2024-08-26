@@ -151,7 +151,8 @@
     <Compile Include="Domain\IncomingPayments\IncomingPaymentResponse.cs" />
     <Compile Include="Domain\Invoices\AddressExtension.cs" />
     <Compile Include="Domain\Invoices\DocumentInstallment.cs" />
-    <Compile Include="Domain\Invoices\DocumentLine.cs" />
+    <Compile Include="Domain\Invoices\EWayBillDetails.cs" />
+    <Compile Include="Domain\Invoices\Invoice_DocumentLine.cs" />
     <Compile Include="Domain\Invoices\Invoice.cs" />
     <Compile Include="Domain\Invoices\InvoiceRequest.cs" />
     <Compile Include="Domain\Invoices\InvoiceResponse.cs" />
@@ -172,9 +173,15 @@
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNote.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteRequest.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteResponse.cs" />
+    <Compile Include="Domain\PurchaseInvoices\AddressExtension.cs" />
+    <Compile Include="Domain\PurchaseInvoices\DocumentInstallment.cs" />
+    <Compile Include="Domain\PurchaseInvoices\EWayBillDetails.cs" />
+    <Compile Include="Domain\PurchaseInvoices\LineTaxJurisdiction.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoice.cs" />
+    <Compile Include="Domain\PurchaseInvoices\PurchaseInvoice_DocumentLine.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoiceRequest.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoiceResponse.cs" />
+    <Compile Include="Domain\PurchaseInvoices\TaxExtension.cs" />
     <Compile Include="Domain\PurchaseOrders\PurchaseOrder.cs" />
     <Compile Include="Domain\PurchaseOrders\PurchaseOrderRequest.cs" />
     <Compile Include="Domain\PurchaseOrders\PurchaseOrderResponse.cs" />

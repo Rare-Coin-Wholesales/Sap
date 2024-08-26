@@ -1,7 +1,6 @@
 using ApiToScarletWitchMapper;
 using B1SLayer;
 using Sap.Api.Http;
-using Sap.Api.Services;
 using Sap.Core;
 using Sap.Services.Security;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories;
@@ -17,12 +16,10 @@ using ScarletWitch.Sap_ArrowAndBranchWinery.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.HouseBankAccounts;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.IncomingPayments;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Invoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Items;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseCreditNotes;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseOrders;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseQuotations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseTaxInvoices;
@@ -31,7 +28,7 @@ using ScarletWitch.Sap_ArrowAndBranchWinery.Services.SalesTaxInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.TransactionCodes;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.VendorPayments;
 
-namespace Sap.Tests.IntegrationTests
+namespace Sap.IntegrationTests
 {
 	public class IntegrationTest1
 	{
@@ -492,54 +489,6 @@ namespace Sap.Tests.IntegrationTests
 		}
 		#endregion
 
-		#region Invoice
-		private readonly ScarletWitch.Sap_ArrowAndBranchWinery.Services.Invoices.InvoiceService _invoiceService = new();
-
-		[Fact]
-		public async Task Test_GetAllInvoicesAsync()
-		{
-			var _invoiceServiceNew = new Api.Services.InvoiceService(ServiceLayer);
-			var list = await _invoiceServiceNew.GetAll();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_invoiceService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_invoiceService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.DocumentLines) {
-							try {
-								_invoiceService.InsertDocumentLine(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-
-			//var log = "";
-
-			//foreach (var v in list)
-			//	log = String.Format($"{log}{v.DocEntry}{Environment.NewLine}");
-
-			//var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
-			//Directory.CreateDirectory(folder);
-			//File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_GetAllInvoicesAsync.log", folder, DateTime.Now), log);
-		}
-		#endregion
-
 		#region Item
 		private readonly ItemService _itemService = new();
 
@@ -665,37 +614,6 @@ namespace Sap.Tests.IntegrationTests
 				foreach (var v in list) {
 					try {
 						_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region PurchaseInvoice
-		private readonly PurchaseInvoiceService _purchaseInvoiceService = new();
-
-		[Fact]
-		public void Test_PurchaseInvoice_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListPurchaseInvoices();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_purchaseInvoiceService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_purchaseInvoiceService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
 					}
 

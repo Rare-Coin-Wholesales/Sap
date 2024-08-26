@@ -93,6 +93,7 @@
     <Compile Include="Domain\PaymentInvoice.cs" />
     <Compile Include="Domain\PurchaseCreditNote.cs" />
     <Compile Include="Domain\PurchaseInvoice.cs" />
+    <Compile Include="Domain\PurchaseInvoice_DocumentLine.cs" />
     <Compile Include="Domain\PurchaseOrder.cs" />
     <Compile Include="Domain\PurchaseQuotation.cs" />
     <Compile Include="Domain\PurchaseTaxInvoice.cs" />
