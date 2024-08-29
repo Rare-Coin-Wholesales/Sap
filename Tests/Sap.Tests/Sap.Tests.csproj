@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -27,9 +27,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\ApiToScarletWitchMapper\ApiToScarletWitchMapper.csproj" />
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj" />
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchRareCoins\ScarletWitch.Sap_ArrowAndBranchRareCoins.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj" />
   </ItemGroup>
 
