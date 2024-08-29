@@ -9,7 +9,7 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services
 	/// <summary>
 	/// Base service.
 	/// </summary>
-	public abstract class BaseService
+	public partial class BaseService
 	{
 		protected EncryptionUtil _encryptionUtil;
 		protected Sap_ArrowAndBranchWineryDb _dbContext;
@@ -46,6 +46,29 @@ namespace ScarletWitch.Sap_ArrowAndBranchWinery.Services
 			}
 
 			return msg;
+		}
+
+		/// <summary>
+		/// Starts SQL Agent job "SAP_ArrowAndBranchWinery || Triggered". The stored procedure that gets called depends on the Job ID being
+		/// "90372814-D196-41D7-BE45-5A6CE6DF5614". If the job is ever dropped & recreated, or migrated to a new server, it must be adjusted in
+		/// the stored procedure.
+		/// </summary>
+		public virtual void StartJob_SAP_ArrowAndBranchWinery_Triggered()
+		{
+			try {
+				_dbContext.Database.ExecuteSqlCommand("[dbo].[StartJob_SAP_ArrowAndBranchWinery_Triggered]");
+			}
+
+			catch (Exception ex) {
+				#region Handle Exception
+				var msg = GetFullErrorText(ex);
+
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
+				#endregion
+			}
 		}
 
 		/// <summary>

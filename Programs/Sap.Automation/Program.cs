@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using B1SLayer;
 using Sap.Automation.Utils.Logging;
+using ScarletWitch.Sap_ArrowAndBranchWinery.Services;
 
 namespace Sap.Automation
 {
@@ -43,6 +44,7 @@ namespace Sap.Automation
 				await new SalesTaxInvoiceUtil().GetAllSalesTaxInvoices(serviceLayer);
 				await new TransactionCodeUtil().GetAllTransactionCodes(serviceLayer);
 				await new VendorPaymentUtil().GetAllVendorPayments(serviceLayer);
+				new BaseService().StartJob_SAP_ArrowAndBranchWinery_Triggered();
 			}
 
 			catch (Exception ex) {

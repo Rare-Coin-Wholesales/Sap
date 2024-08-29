@@ -117,9 +117,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Libraries\ApiToScarletWitchMapper\ApiToScarletWitchMapper.csproj">
-      <Project>{7AC6D830-6B51-47F1-820D-2BDD4AE5038B}</Project>
-      <Name>ApiToScarletWitchMapper</Name>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj">
+      <Project>{7ac6d830-6b51-47f1-820d-2bdd4ae5038b}</Project>
+      <Name>Sap.ApiToScarAabwMapper</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj">
       <Project>{D3505318-2863-4148-9911-FB3D6B522B41}</Project>
@@ -128,6 +128,10 @@
     <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj">
       <Project>{02AA86EA-1F77-4EAF-8482-CB69A3181FCA}</Project>
       <Name>Sap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchRareCoins\ScarletWitch.Sap_ArrowAndBranchRareCoins.csproj">
+      <Project>{915a2e68-f7d5-4b8b-b1e0-6bfa04926469}</Project>
+      <Name>ScarletWitch.Sap_ArrowAndBranchRareCoins</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj">
       <Project>{DA21EFD0-18E5-4126-BF63-F03420ABB994}</Project>
