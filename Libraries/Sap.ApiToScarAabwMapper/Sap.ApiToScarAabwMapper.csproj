@@ -7,8 +7,8 @@
     <ProjectGuid>{7AC6D830-6B51-47F1-820D-2BDD4AE5038B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ApiToScarletWitchMapper</RootNamespace>
-    <AssemblyName>ApiToScarletWitchMapper</AssemblyName>
+    <RootNamespace>Sap.ApiToScarAabwMapper</RootNamespace>
+    <AssemblyName>Sap.ApiToScarAabwMapper</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>

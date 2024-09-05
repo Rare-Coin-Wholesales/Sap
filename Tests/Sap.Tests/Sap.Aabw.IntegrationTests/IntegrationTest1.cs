@@ -34,11 +34,12 @@ namespace Sap.Aabw.IntegrationTests
 	{
 		private static readonly EncryptionUtil _encryptionUtil = new();
 		private static readonly Mapper _mapper = new();
+		private static readonly string Aabw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabw_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
-		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, CompanyDb, Username, Password);
+		private static readonly string Test_CompanyDb = "A21384_ABW_T02";
+		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
+		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Aabw_CompanyDb, Username, Password);
 
 		#region AccountCategory
 		private readonly AccountCategoryService _accountCategoryService = new();
@@ -47,7 +48,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_AccountCategory_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountCategories();
@@ -75,7 +76,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_AccountSegmentationCategory_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountSegmentationCategories();
@@ -103,7 +104,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_AccountSegmentation_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListAccountSegmentations();
@@ -131,7 +132,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_BillOfExchangeTransaction_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListBillOfExchangeTransactions();
@@ -162,7 +163,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_BusinessPartner_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListBusinessPartners();
@@ -236,7 +237,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_ChartOfAccount_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListChartOfAccounts();
@@ -267,7 +268,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_ChecksforPayment_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListChecksforPayments();
@@ -310,7 +311,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_CreditNote_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListCreditNotes();
@@ -341,7 +342,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_Deposit_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListDeposits();
@@ -372,7 +373,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_FAAccountDetermination_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListFAAccountDeterminations();
@@ -403,7 +404,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_GLAccountAdvancedRule_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListGLAccountAdvancedRules();
@@ -434,7 +435,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_HouseBankAccount_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListHouseBankAccounts();
@@ -465,7 +466,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_IncomingPayment_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListIncomingPayments();
@@ -496,7 +497,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_Item_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListItems();
@@ -527,7 +528,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_JournalEntry_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListJournalEntries();
@@ -570,7 +571,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_JournalEntryDocumentType_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListJournalEntryDocumentTypes();
@@ -601,7 +602,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_PurchaseCreditNote_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseCreditNotes();
@@ -632,7 +633,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_PurchaseOrder_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseOrders();
@@ -663,7 +664,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_PurchaseQuotation_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseQuotations();
@@ -694,7 +695,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_PurchaseTaxInvoice_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListPurchaseTaxInvoices();
@@ -725,7 +726,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_Quotation_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListQuotations();
@@ -756,7 +757,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_SalesTaxInvoice_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListSalesTaxInvoices();
@@ -787,7 +788,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_TransactionCode_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListTransactionCodes();
@@ -818,7 +819,7 @@ namespace Sap.Aabw.IntegrationTests
 		public void Test_VendorPayment_Integration()
 		{
 			var client = new SapClient(BaseUrl);
-			var response = client.Login(CompanyDb, Username, Password);
+			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.ListVendorPayments();

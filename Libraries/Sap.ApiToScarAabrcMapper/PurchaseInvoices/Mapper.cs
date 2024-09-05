@@ -1,7 +1,7 @@
 ﻿using System;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Domain;
 
-namespace Sap.ApiToScarAabwMapper
+namespace Sap.ApiToScarAabrcMapper
 {
 	public partial class Mapper
 	{
