@@ -9,11 +9,12 @@ namespace Sap.Aabw.IntegrationTests
 	{
 		private static readonly EncryptionUtil _encryptionUtil = new();
 		private static readonly Mapper _mapper = new();
+		private static readonly string Aabw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabw_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_CompanyDb");
-		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, CompanyDb, Username, Password);
+		private static readonly string Test_CompanyDb = "A21384_ABW_T02";
+		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
+		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Aabw_CompanyDb, Username, Password);
 
 		private readonly ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseInvoices.PurchaseInvoiceService _purchaseInvoiceService = new();
 

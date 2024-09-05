@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabrcMapper\Sap.ApiToScarAabrcMapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj" />

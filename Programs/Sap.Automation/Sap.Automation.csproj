@@ -74,35 +74,61 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Utils\Logging\ILogger.cs" />
-    <Compile Include="Utils\Logging\DefaultLogger.cs" />
-    <Compile Include="Utils\VendorPayments\VendorPaymentUtil.cs" />
-    <Compile Include="Utils\TransactionCodes\TransactionCodeUtil.cs" />
-    <Compile Include="Utils\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
-    <Compile Include="Utils\Quotations\QuotationUtil.cs" />
-    <Compile Include="Utils\PurchaseTaxInvoices\PurchaseTaxInvoiceUtil.cs" />
-    <Compile Include="Utils\PurchaseQuotations\PurchaseQuotationUtil.cs" />
-    <Compile Include="Utils\PurchaseOrders\PurchaseOrderUtil.cs" />
-    <Compile Include="Utils\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
-    <Compile Include="Utils\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
-    <Compile Include="Utils\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
-    <Compile Include="Utils\JournalEntrys\JournalEntryUtil.cs" />
-    <Compile Include="Utils\Items\ItemUtil.cs" />
-    <Compile Include="Utils\Invoices\InvoiceUtil.cs" />
-    <Compile Include="Utils\IncomingPayments\IncomingPaymentUtil.cs" />
-    <Compile Include="Utils\HouseBankAccounts\HouseBankAccountUtil.cs" />
-    <Compile Include="Utils\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
-    <Compile Include="Utils\FAAccountDeterminations\FAAccountDeterminationUtil.cs" />
-    <Compile Include="Utils\Deposits\DepositUtil.cs" />
-    <Compile Include="Utils\CreditNotes\CreditNoteUtil.cs" />
-    <Compile Include="Utils\ChecksforPayments\ChecksforPaymentUtil.cs" />
-    <Compile Include="Utils\ChartOfAccounts\ChartOfAccountUtil.cs" />
-    <Compile Include="Utils\BusinessPartners\BusinessPartnerUtil.cs" />
-    <Compile Include="Utils\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
-    <Compile Include="Utils\AccountSegmentations\AccountSegmentationUtil.cs" />
-    <Compile Include="Utils\AccountSegmentationCategories\AccountSegmentationCategoryUtil.cs" />
-    <Compile Include="Utils\AccountCategories\AccountCategoryUtil.cs" />
-    <Compile Include="Utils\Common.cs" />
+    <Compile Include="Aabrc\AccountCategories\AccountCategoryUtil.cs" />
+    <Compile Include="Aabrc\AccountSegmentationCategories\AccountSegmentationCategoryUtil.cs" />
+    <Compile Include="Aabrc\AccountSegmentations\AccountSegmentationUtil.cs" />
+    <Compile Include="Aabrc\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
+    <Compile Include="Aabrc\BusinessPartners\BusinessPartnerUtil.cs" />
+    <Compile Include="Aabrc\ChartOfAccounts\ChartOfAccountUtil.cs" />
+    <Compile Include="Aabrc\ChecksforPayments\ChecksforPaymentUtil.cs" />
+    <Compile Include="Aabrc\CreditNotes\CreditNoteUtil.cs" />
+    <Compile Include="Aabrc\Deposits\DepositUtil.cs" />
+    <Compile Include="Aabrc\FAAccountDeterminations\FAAccountDeterminationUtil.cs" />
+    <Compile Include="Aabrc\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
+    <Compile Include="Aabrc\HouseBankAccounts\HouseBankAccountUtil.cs" />
+    <Compile Include="Aabrc\IncomingPayments\IncomingPaymentUtil.cs" />
+    <Compile Include="Aabrc\Invoices\InvoiceUtil.cs" />
+    <Compile Include="Aabrc\Items\ItemUtil.cs" />
+    <Compile Include="Aabrc\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
+    <Compile Include="Aabrc\JournalEntrys\JournalEntryUtil.cs" />
+    <Compile Include="Aabrc\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
+    <Compile Include="Aabrc\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
+    <Compile Include="Aabrc\PurchaseOrders\PurchaseOrderUtil.cs" />
+    <Compile Include="Aabrc\PurchaseQuotations\PurchaseQuotationUtil.cs" />
+    <Compile Include="Aabrc\PurchaseTaxInvoices\PurchaseTaxInvoiceUtil.cs" />
+    <Compile Include="Aabrc\Quotations\QuotationUtil.cs" />
+    <Compile Include="Aabrc\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
+    <Compile Include="Aabrc\TransactionCodes\TransactionCodeUtil.cs" />
+    <Compile Include="Aabrc\VendorPayments\VendorPaymentUtil.cs" />
+    <Compile Include="Aabw\AccountCategories\AccountCategoryUtil.cs" />
+    <Compile Include="Aabw\AccountSegmentationCategories\AccountSegmentationCategoryUtil.cs" />
+    <Compile Include="Aabw\AccountSegmentations\AccountSegmentationUtil.cs" />
+    <Compile Include="Aabw\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
+    <Compile Include="Aabw\BusinessPartners\BusinessPartnerUtil.cs" />
+    <Compile Include="Aabw\ChartOfAccounts\ChartOfAccountUtil.cs" />
+    <Compile Include="Aabw\ChecksforPayments\ChecksforPaymentUtil.cs" />
+    <Compile Include="Aabw\CreditNotes\CreditNoteUtil.cs" />
+    <Compile Include="Aabw\Deposits\DepositUtil.cs" />
+    <Compile Include="Aabw\FAAccountDeterminations\FAAccountDeterminationUtil.cs" />
+    <Compile Include="Aabw\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
+    <Compile Include="Aabw\HouseBankAccounts\HouseBankAccountUtil.cs" />
+    <Compile Include="Aabw\IncomingPayments\IncomingPaymentUtil.cs" />
+    <Compile Include="Aabw\Invoices\InvoiceUtil.cs" />
+    <Compile Include="Aabw\Items\ItemUtil.cs" />
+    <Compile Include="Aabw\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
+    <Compile Include="Aabw\JournalEntrys\JournalEntryUtil.cs" />
+    <Compile Include="Aabw\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
+    <Compile Include="Aabw\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
+    <Compile Include="Aabw\PurchaseOrders\PurchaseOrderUtil.cs" />
+    <Compile Include="Aabw\PurchaseQuotations\PurchaseQuotationUtil.cs" />
+    <Compile Include="Aabw\PurchaseTaxInvoices\PurchaseTaxInvoiceUtil.cs" />
+    <Compile Include="Aabw\Quotations\QuotationUtil.cs" />
+    <Compile Include="Aabw\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
+    <Compile Include="Aabw\TransactionCodes\TransactionCodeUtil.cs" />
+    <Compile Include="Aabw\VendorPayments\VendorPaymentUtil.cs" />
+    <Compile Include="Common.cs" />
+    <Compile Include="Logging\DefaultLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -117,6 +143,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabrcMapper\Sap.ApiToScarAabrcMapper.csproj">
+      <Project>{cd1d4ba1-640e-4583-af4d-00fc82b9f5e7}</Project>
+      <Name>Sap.ApiToScarAabrcMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj">
       <Project>{7ac6d830-6b51-47f1-820d-2bdd4ae5038b}</Project>
       <Name>Sap.ApiToScarAabwMapper</Name>
