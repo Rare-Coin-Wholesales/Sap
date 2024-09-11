@@ -12,6 +12,8 @@ namespace Sap.Automation
 				await Common.ProcessAabrcAsync();
 			if (Common.doAabw)
 				await Common.ProcessAabwAsync();
+			if (Common.doRcw)
+				await Common.ProcessRcwAsync();
 
 			Common.EndProgram(0);
 		}

@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\EntityFramework.6.5.1\build\EntityFramework.props" Condition="Exists('..\..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1140C7A5-3DFF-44C1-891A-0C706201FA52}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ScarletWitch.Sap_RareCoinWholesalers</RootNamespace>
+    <AssemblyName>ScarletWitch.Sap_RareCoinWholesalers</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.5.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Domain\AccountCategory.cs" />
+    <Compile Include="Domain\AccountSegmentation.cs" />
+    <Compile Include="Domain\AccountSegmentationCategory.cs" />
+    <Compile Include="Domain\AddressExtension.cs" />
+    <Compile Include="Domain\BillOfExchange.cs" />
+    <Compile Include="Domain\BillOfExchangeTransaction.cs" />
+    <Compile Include="Domain\BPAddress.cs" />
+    <Compile Include="Domain\BPIntrastatExtension.cs" />
+    <Compile Include="Domain\BPPaymentMethod.cs" />
+    <Compile Include="Domain\BusinessPartner.cs" />
+    <Compile Include="Domain\CashFlowAssignment.cs" />
+    <Compile Include="Domain\ChartOfAccount.cs" />
+    <Compile Include="Domain\ChecksforPayment.cs" />
+    <Compile Include="Domain\ChecksforPaymentLine.cs" />
+    <Compile Include="Domain\ContactEmployee.cs" />
+    <Compile Include="Domain\CreditLine.cs" />
+    <Compile Include="Domain\CreditNote.cs" />
+    <Compile Include="Domain\Deposit.cs" />
+    <Compile Include="Domain\DocumentInstallment.cs" />
+    <Compile Include="Domain\DocumentLine.cs" />
+    <Compile Include="Domain\DownPaymentsToDraw.cs" />
+    <Compile Include="Domain\DownPaymentsToDrawDetail.cs" />
+    <Compile Include="Domain\EWayBillDetail.cs" />
+    <Compile Include="Domain\FAAccountDetermination.cs" />
+    <Compile Include="Domain\GLAccountAdvancedRule.cs" />
+    <Compile Include="Domain\HouseBankAccount.cs" />
+    <Compile Include="Domain\IncomingPayment.cs" />
+    <Compile Include="Domain\Invoice.cs" />
+    <Compile Include="Domain\Invoice_DocumentLine.cs" />
+    <Compile Include="Domain\Item.cs" />
+    <Compile Include="Domain\JournalEntry.cs" />
+    <Compile Include="Domain\JournalEntryDocumentType.cs" />
+    <Compile Include="Domain\JournalEntryLine.cs" />
+    <Compile Include="Domain\LineTaxJurisdiction.cs" />
+    <Compile Include="Domain\PaymentCheck.cs" />
+    <Compile Include="Domain\PaymentDocumentReferencesCollection.cs" />
+    <Compile Include="Domain\PaymentInvoice.cs" />
+    <Compile Include="Domain\PurchaseCreditNote.cs" />
+    <Compile Include="Domain\PurchaseInvoice.cs" />
+    <Compile Include="Domain\PurchaseInvoice_DocumentLine.cs" />
+    <Compile Include="Domain\PurchaseOrder.cs" />
+    <Compile Include="Domain\PurchaseQuotation.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoice.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoiceLine.cs" />
+    <Compile Include="Domain\PurchaseTaxInvoiceOperationCode.cs" />
+    <Compile Include="Domain\Quotation.cs" />
+    <Compile Include="Domain\SalesTaxInvoice.cs" />
+    <Compile Include="Domain\SalesTaxInvoiceLine.cs" />
+    <Compile Include="Domain\SalesTaxInvoiceOperationCode.cs" />
+    <Compile Include="Domain\Sap_RareCoinWholesalersDb.cs" />
+    <Compile Include="Domain\TaxExtension.cs" />
+    <Compile Include="Domain\TransactionCode.cs" />
+    <Compile Include="Domain\VendorPayment.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sap_RareCoinWholesalersDb.cs" />
+    <Compile Include="Services\AccountCategories\AccountCategoryService.cs" />
+    <Compile Include="Services\AccountCategories\IAccountCategoryService.cs" />
+    <Compile Include="Services\AccountSegmentationCategories\AccountSegmentationCategoryService.cs" />
+    <Compile Include="Services\AccountSegmentationCategories\IAccountSegmentationCategoryService.cs" />
+    <Compile Include="Services\AccountSegmentations\AccountSegmentationService.cs" />
+    <Compile Include="Services\AccountSegmentations\IAccountSegmentationService.cs" />
+    <Compile Include="Services\BaseService.cs" />
+    <Compile Include="Services\BusinessPartners\BusinessPartnerService.cs" />
+    <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
+    <Compile Include="Services\BillOfExchangeTransactions\BillOfExchangeTransactionService.cs" />
+    <Compile Include="Services\BillOfExchangeTransactions\IBillOfExchangeTransactionService.cs" />
+    <Compile Include="Services\ChartOfAccounts\ChartOfAccountService.cs" />
+    <Compile Include="Services\ChartOfAccounts\IChartOfAccountService.cs" />
+    <Compile Include="Services\ChecksforPayments\ChecksforPaymentService.cs" />
+    <Compile Include="Services\ChecksforPayments\IChecksforPaymentService.cs" />
+    <Compile Include="Services\Common\AddressExtensionService.cs" />
+    <Compile Include="Services\Common\BillOfExchangeService.cs" />
+    <Compile Include="Services\Common\CashFlowAssignmentService.cs" />
+    <Compile Include="Services\Common\DocumentInstallmentService.cs" />
+    <Compile Include="Services\Common\DocumentLineService.cs" />
+    <Compile Include="Services\Common\DownPaymentsToDrawDetailService.cs" />
+    <Compile Include="Services\Common\DownPaymentsToDrawService.cs" />
+    <Compile Include="Services\Common\EWayBillDetailsService.cs" />
+    <Compile Include="Services\Common\LineTaxJurisdictionService.cs" />
+    <Compile Include="Services\Common\PaymentDocumentReferencesCollectionService.cs" />
+    <Compile Include="Services\Common\PaymentInvoiceService.cs" />
+    <Compile Include="Services\Common\PurchaseTaxInvoiceLineService.cs" />
+    <Compile Include="Services\Common\PurchaseTaxInvoiceOperationCodeService.cs" />
+    <Compile Include="Services\Common\SalesTaxInvoiceLineService.cs" />
+    <Compile Include="Services\Common\SalesTaxInvoiceOperationCodeService.cs" />
+    <Compile Include="Services\Common\TaxExtensionService.cs" />
+    <Compile Include="Services\CreditNotes\CreditNoteService.cs" />
+    <Compile Include="Services\CreditNotes\ICreditNoteService.cs" />
+    <Compile Include="Services\Deposits\DepositService.cs" />
+    <Compile Include="Services\Deposits\IDepositService.cs" />
+    <Compile Include="Services\FAAccountDeterminations\FAAccountDeterminationService.cs" />
+    <Compile Include="Services\FAAccountDeterminations\IFAAccountDeterminationService.cs" />
+    <Compile Include="Services\GLAccountAdvancedRules\GLAccountAdvancedRuleService.cs" />
+    <Compile Include="Services\GLAccountAdvancedRules\IGLAccountAdvancedRuleService.cs" />
+    <Compile Include="Services\HouseBankAccounts\HouseBankAccountService.cs" />
+    <Compile Include="Services\HouseBankAccounts\IHouseBankAccountService.cs" />
+    <Compile Include="Services\IncomingPayments\IIncomingPaymentService.cs" />
+    <Compile Include="Services\IncomingPayments\IncomingPaymentService.cs" />
+    <Compile Include="Services\Invoices\IInvoiceService.cs" />
+    <Compile Include="Services\Invoices\InvoiceService.cs" />
+    <Compile Include="Services\JournalEntries\IJournalEntryService.cs" />
+    <Compile Include="Services\JournalEntries\JournalEntryService.cs" />
+    <Compile Include="Services\JournalEntryDocumentTypes\IJournalEntryDocumentTypeService.cs" />
+    <Compile Include="Services\JournalEntryDocumentTypes\JournalEntryDocumentTypeService.cs" />
+    <Compile Include="Services\PurchaseCreditNotes\IPurchaseCreditNoteService.cs" />
+    <Compile Include="Services\PurchaseCreditNotes\PurchaseCreditNoteService.cs" />
+    <Compile Include="Services\PurchaseInvoices\IPurchaseInvoiceService.cs" />
+    <Compile Include="Services\PurchaseInvoices\PurchaseInvoiceService.cs" />
+    <Compile Include="Services\PurchaseOrders\IPurchaseOrderService.cs" />
+    <Compile Include="Services\PurchaseOrders\PurchaseOrderService.cs" />
+    <Compile Include="Services\PurchaseQuotations\IPurchaseQuotationService.cs" />
+    <Compile Include="Services\PurchaseQuotations\PurchaseQuotationService.cs" />
+    <Compile Include="Services\PurchaseTaxInvoices\IPurchaseTaxInvoiceService.cs" />
+    <Compile Include="Services\PurchaseTaxInvoices\PurchaseTaxInvoiceService.cs" />
+    <Compile Include="Services\Quotations\IQuotationService.cs" />
+    <Compile Include="Services\Quotations\QuotationService.cs" />
+    <Compile Include="Services\SalesTaxInvoices\ISalesTaxInvoiceService.cs" />
+    <Compile Include="Services\SalesTaxInvoices\SalesTaxInvoiceService.cs" />
+    <Compile Include="Services\TransactionCodes\ITransactionCodeService.cs" />
+    <Compile Include="Services\TransactionCodes\TransactionCodeService.cs" />
+    <Compile Include="Services\Items\IItemService.cs" />
+    <Compile Include="Services\Items\ItemService.cs" />
+    <Compile Include="Services\VendorPayments\IVendorPaymentService.cs" />
+    <Compile Include="Services\VendorPayments\VendorPaymentService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Sap\Sap.csproj">
+      <Project>{02aa86ea-1f77-4eaf-8482-cb69a3181fca}</Project>
+      <Name>Sap</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.5.1\build\EntityFramework.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.5.1\build\EntityFramework.props'))" />
+    <Error Condition="!Exists('..\..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\EntityFramework.6.5.1\build\EntityFramework.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\EntityFramework.6.5.1\build\EntityFramework.targets" Condition="Exists('..\..\packages\EntityFramework.6.5.1\build\EntityFramework.targets')" />
+</Project>

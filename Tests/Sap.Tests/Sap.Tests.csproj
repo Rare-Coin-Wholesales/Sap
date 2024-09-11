@@ -29,10 +29,12 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabrcMapper\Sap.ApiToScarAabrcMapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj" />
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarRcwMapper\Sap.ApiToScarRcwMapper.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj" />
     <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchRareCoins\ScarletWitch.Sap_ArrowAndBranchRareCoins.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj" />
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_RareCoinWholesalers\ScarletWitch.Sap_RareCoinWholesalers.csproj" />
   </ItemGroup>
 
 </Project>

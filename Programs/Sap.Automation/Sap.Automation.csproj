@@ -131,6 +131,32 @@
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Rcw\AccountCategories\AccountCategoryUtil.cs" />
+    <Compile Include="Rcw\AccountSegmentationCategories\AccountSegmentationCategoryUtil.cs" />
+    <Compile Include="Rcw\AccountSegmentations\AccountSegmentationUtil.cs" />
+    <Compile Include="Rcw\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
+    <Compile Include="Rcw\BusinessPartners\BusinessPartnerUtil.cs" />
+    <Compile Include="Rcw\ChartOfAccounts\ChartOfAccountUtil.cs" />
+    <Compile Include="Rcw\ChecksforPayments\ChecksforPaymentUtil.cs" />
+    <Compile Include="Rcw\CreditNotes\CreditNoteUtil.cs" />
+    <Compile Include="Rcw\Deposits\DepositUtil.cs" />
+    <Compile Include="Rcw\FAAccountDeterminations\FAAccountDeterminationUtil.cs" />
+    <Compile Include="Rcw\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
+    <Compile Include="Rcw\HouseBankAccounts\HouseBankAccountUtil.cs" />
+    <Compile Include="Rcw\IncomingPayments\IncomingPaymentUtil.cs" />
+    <Compile Include="Rcw\Invoices\InvoiceUtil.cs" />
+    <Compile Include="Rcw\Items\ItemUtil.cs" />
+    <Compile Include="Rcw\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
+    <Compile Include="Rcw\JournalEntrys\JournalEntryUtil.cs" />
+    <Compile Include="Rcw\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
+    <Compile Include="Rcw\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
+    <Compile Include="Rcw\PurchaseOrders\PurchaseOrderUtil.cs" />
+    <Compile Include="Rcw\PurchaseQuotations\PurchaseQuotationUtil.cs" />
+    <Compile Include="Rcw\PurchaseTaxInvoices\PurchaseTaxInvoiceUtil.cs" />
+    <Compile Include="Rcw\Quotations\QuotationUtil.cs" />
+    <Compile Include="Rcw\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
+    <Compile Include="Rcw\TransactionCodes\TransactionCodeUtil.cs" />
+    <Compile Include="Rcw\VendorPayments\VendorPaymentUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -151,6 +177,10 @@
       <Project>{7ac6d830-6b51-47f1-820d-2bdd4ae5038b}</Project>
       <Name>Sap.ApiToScarAabwMapper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarRcwMapper\Sap.ApiToScarRcwMapper.csproj">
+      <Project>{0e222421-4885-4939-84df-d92b0c977a6c}</Project>
+      <Name>Sap.ApiToScarRcwMapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj">
       <Project>{D3505318-2863-4148-9911-FB3D6B522B41}</Project>
       <Name>Sap.Api</Name>
@@ -166,6 +196,10 @@
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj">
       <Project>{DA21EFD0-18E5-4126-BF63-F03420ABB994}</Project>
       <Name>ScarletWitch.Sap_ArrowAndBranchWinery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_RareCoinWholesalers\ScarletWitch.Sap_RareCoinWholesalers.csproj">
+      <Project>{1140c7a5-3dff-44c1-891a-0c706201fa52}</Project>
+      <Name>ScarletWitch.Sap_RareCoinWholesalers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
