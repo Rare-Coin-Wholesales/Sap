@@ -7,7 +7,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountCategories;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentationCategories;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.BillOfExchangeTransactions;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChartOfAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChecksforPayments;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.CreditNotes;
@@ -36,8 +35,8 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly Mapper _mapper = new();
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-		private static readonly string Test_CompanyDb = "A21384_ABW_T02";
+		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
+		private static readonly string Test_CompanyDb = "A21384_RCW_T01";
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 
 		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Rcw_CompanyDb, Username, Password);
@@ -147,80 +146,6 @@ namespace Sap.Rcw.IntegrationTests
 					try {
 						_billOfExchangeTransactionService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region BusinessPartner
-		private readonly BusinessPartnerService _businessPartnerService = new();
-
-		[Fact]
-		public void Test_BusinessPartner_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListBusinessPartners();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_businessPartnerService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_businessPartnerService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						#region Insert BPAddress
-						foreach (var line in v.BPAddresses) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
-
-						#region Insert BPIntrastatExtension
-						//_businessPartnerService.Insert(_mapper.ToSql(v.BPIntrastatExtension));
-						#endregion
-
-						#region Insert BPPaymentMethod
-						foreach (var line in v.BPPaymentMethods) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
-
-						#region Insert ContactEmployee
-						foreach (var line in v.ContactEmployees) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
 					}
 
 					catch {

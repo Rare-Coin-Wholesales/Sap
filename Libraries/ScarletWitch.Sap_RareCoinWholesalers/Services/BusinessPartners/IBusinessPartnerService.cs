@@ -1,4 +1,5 @@
-﻿using ScarletWitch.Sap_RareCoinWholesalers.Domain;
+﻿using System.Collections.Generic;
+using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 
 namespace ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners
 {
@@ -7,6 +8,10 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners
 	/// </summary>
 	public interface IBusinessPartnerService
 	{
+		/// <summary>
+		/// Gets all <see cref="BusinessPartner"/>s.
+		/// </summary>
+		IList<BusinessPartner> GetAll();
 		/// <summary>
 		/// Inserts a <see cref="BPAddress"/>.
 		/// </summary>

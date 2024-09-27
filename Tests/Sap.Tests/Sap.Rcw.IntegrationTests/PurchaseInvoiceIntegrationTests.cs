@@ -11,8 +11,8 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly Mapper _mapper = new();
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-		private static readonly string Test_CompanyDb = "A21384_ABW_T02";
+		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
+		private static readonly string Test_CompanyDb = "A21384_RCW_T01";
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 
 		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Rcw_CompanyDb, Username, Password);

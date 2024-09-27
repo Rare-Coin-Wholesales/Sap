@@ -127,6 +127,9 @@
     <Compile Include="Aabw\TransactionCodes\TransactionCodeUtil.cs" />
     <Compile Include="Aabw\VendorPayments\VendorPaymentUtil.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="InsightToSap\PurchaseInvoice.cs" />
+    <Compile Include="InsightToSap\BusinessPartner.cs" />
+    <Compile Include="InsightToSap\InsightToSap.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Program.cs" />
@@ -201,7 +204,12 @@
       <Project>{1140c7a5-3dff-44c1-891a-0c706201fa52}</Project>
       <Name>ScarletWitch.Sap_RareCoinWholesalers</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sql2023.Intranet\Sql2023.Intranet.csproj">
+      <Project>{b219338f-6e3d-4ced-87ce-21ed027f3fa0}</Project>
+      <Name>Sql2023.Intranet</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

@@ -1,136 +1,101 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using B1SLayer;
 using Sap.Api.Domain.BusinessPartners;
-using Sap.Core.Http;
 
-namespace Sap.Api.Http
+namespace Sap.Api.Services
 {
-	public partial class SapClient : BaseClient
+	public partial class BusinessPartnerService : BaseService
 	{
+		public const string ACTION = "BusinessPartners";
+
+		public BusinessPartnerService(SLConnection ServiceLayer) : base(ServiceLayer) { }
+
 		/// <summary>
-		/// Gets an instance of <see cref="BusinessPartner"/> with the given Code.
+		/// Creates a <see cref="BusinessPartner"/>.
 		/// </summary>
-		/// <param name="cardCode">The Code.</param>
-		public async Task<string> GetBusinessPartnerById(string cardCode)
+		/// <param name="x">The <see cref="BusinessPartner"/> to create.</param>
+		/// <returns>The created <see cref="BusinessPartner"/>.</returns>
+		public async Task<BusinessPartner> CreateAsync(BusinessPartner x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{BusinessPartnerRequest.ACTION}({cardCode})");
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetBusinessPartnerById(string cardCode='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, cardCode);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			var created = await ServiceLayer.Request(ACTION).PostAsync<BusinessPartner>(x);
+			return created;
 		}
 
-		/// <summary>
-		/// Friendly version of ListBusinessPartners() that will loop through all pages and return a list of objects instead of a <see cref="Task"/>.
-		/// </summary>
-		/// <returns>A list of <see cref="BusinessPartner"/>.</returns>
-		public IList<BusinessPartner> ListBusinessPartners()
+		public async Task<IList<BusinessPartner>> GetAll()
 		{
-			var list = new List<BusinessPartner>();
-			var response = ListBusinessPartners(null);
-			var businessPartnerResponse = JsonConvert.DeserializeObject<BusinessPartnerResponse>(response.Result);
-
-			if (businessPartnerResponse == null)
+			try {
+				var list = await ServiceLayer.Request(ACTION).GetAllAsync<BusinessPartner>();
 				return list;
-
-			list.AddRange(businessPartnerResponse.BusinessPartners);
-
-			while (!String.IsNullOrWhiteSpace(businessPartnerResponse?.OdataNextLink)) {
-				response = ListBusinessPartners(businessPartnerResponse.OdataNextLink);
-				businessPartnerResponse = JsonConvert.DeserializeObject<BusinessPartnerResponse>(response.Result);
-
-				if (businessPartnerResponse == null)
-					return list;
-
-				list.AddRange(businessPartnerResponse.BusinessPartners);
-			}
-
-			return list;
-		}
-
-		/// <summary>
-		/// Gets a list of <see cref="BusinessPartner"/>s.
-		/// </summary>
-		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListBusinessPartners(string nextLink)
-		{
-			string endpoint;
-
-			if (String.IsNullOrWhiteSpace(nextLink))
-				endpoint = Path.Combine(BaseUrl, BusinessPartnerRequest.ACTION);
-			else
-				endpoint = Path.Combine(BaseUrl, nextLink);
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.ListBusinessPartners(string nextLink='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, nextLink);
-					throw new Exception(log);
-				}
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "BusinessPartnerService.GetAll()");
 
-				else throw;
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
+				#endregion
+			}
+		}
+
+		public async Task<BusinessPartner> GetByCardCode(string cardCode)
+		{
+			try {
+				var x = await ServiceLayer.Request(ACTION, cardCode).GetAsync<BusinessPartner>();
+				return x;
+			}
+
+			catch (Exception ex) {
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "BusinessPartnerService.GetByCardCode(string cardCode)");
+
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}
 
 		/// <summary>
-		/// Creates an instance of <see cref="BusinessPartner"/> with the given payload of type <see cref="BusinessPartner"/> in JSON format.
+		/// Tries to create a <see cref="BusinessPartner"/>. On error, any messages will be held in errorMsg.
 		/// </summary>
-		/// <param name="x">The <see cref="BusinessPartner"/>.</param>
-		public async Task<string> PostBusinessPartner(BusinessPartner x)
+		/// <param name="x"></param>
+		/// <returns></returns>
+		public async Task<(BusinessPartner, string errorMsg)> TryCreate(BusinessPartner x)
 		{
+			var errorMsg = string.Empty;
+
 			try {
-				var endpoint = Path.Combine(BaseUrl, BusinessPartnerRequest.ACTION);
-				var businessPartnerRequest = new BusinessPartnerRequest(x);
-				var json = businessPartnerRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PostAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var businessPartnerResponse = JsonConvert.DeserializeObject<BusinessPartnerResponse>(responseData);
-
-						return responseData;
-					}
-				}
+				return (await CreateAsync(x), errorMsg);
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PostBusinessPartner(BusinessPartner x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
+				errorMsg = $"{errorMsg}{ex.Message}{Environment.NewLine}";
+				errorMsg = $"{errorMsg}Exception thrown in BusinessPartnerService.TryCreate(BusinessPartner x).{Environment.NewLine}";
+				errorMsg = $"{errorMsg}{ex}{Environment.NewLine}";
+				return (null, errorMsg);
+			}
+		}
 
-				else throw;
+		public async void UpdateAsync(BusinessPartner x)
+		{
+			try {
+				await ServiceLayer.Request(ACTION, x.CardCode).PatchAsync(x);
+			}
+
+			catch (Exception ex) {
+				#region Handle exception
+				var msg = GetFullErrorText(ex, "BusinessPartnerService.UpdateAsync(BusinessPartner x)");
+
+				if (String.IsNullOrWhiteSpace(msg))
+					throw;
+				else
+					throw new Exception(msg);
 				#endregion
 			}
 		}

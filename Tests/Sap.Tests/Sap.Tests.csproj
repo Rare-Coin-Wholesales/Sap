@@ -35,6 +35,7 @@
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchRareCoins\ScarletWitch.Sap_ArrowAndBranchRareCoins.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj" />
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_RareCoinWholesalers\ScarletWitch.Sap_RareCoinWholesalers.csproj" />
+    <ProjectReference Include="..\..\Libraries\Sql2023.Intranet\Sql2023.Intranet.csproj" />
   </ItemGroup>
 
 </Project>
