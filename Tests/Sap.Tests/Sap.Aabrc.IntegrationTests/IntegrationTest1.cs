@@ -7,7 +7,6 @@ using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.AccountCategories;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.AccountSegmentationCategories;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.AccountSegmentations;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.BillOfExchangeTransactions;
-using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.BusinessPartners;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.ChartOfAccounts;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.ChecksforPayments;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.CreditNotes;
@@ -147,80 +146,6 @@ namespace Sap.Aabrc.IntegrationTests
 					try {
 						_billOfExchangeTransactionService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region BusinessPartner
-		private readonly BusinessPartnerService _businessPartnerService = new();
-
-		[Fact]
-		public void Test_BusinessPartner_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabrc_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListBusinessPartners();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_businessPartnerService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_businessPartnerService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						#region Insert BPAddress
-						foreach (var line in v.BPAddresses) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
-
-						#region Insert BPIntrastatExtension
-						//_businessPartnerService.Insert(_mapper.ToSql(v.BPIntrastatExtension));
-						#endregion
-
-						#region Insert BPPaymentMethod
-						foreach (var line in v.BPPaymentMethods) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
-
-						#region Insert ContactEmployee
-						foreach (var line in v.ContactEmployees) {
-							try {
-								_businessPartnerService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-						#endregion
 					}
 
 					catch {

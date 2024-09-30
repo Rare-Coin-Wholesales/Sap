@@ -25,6 +25,7 @@ namespace Sap.Automation
 		public static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
 		public static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
 		public static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
+		public static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		public static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		public static SapClient client;
 		public static Task<string> response;
@@ -156,7 +157,7 @@ namespace Sap.Automation
 			nLog.Trace("Begin method ProcessRcwAsync().");
 
 			try {
-				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Rcw_CompanyDb, Common.Username, Common.Password);
+				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Rcw_CompanyDb, Common.Username, Common.Rcw_Password);
 				defaultLogger.AddTraceAndErrorLogs(serviceLayer);
 
 				await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);

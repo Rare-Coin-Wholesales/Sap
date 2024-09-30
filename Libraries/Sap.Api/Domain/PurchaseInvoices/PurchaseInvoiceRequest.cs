@@ -7,6 +7,7 @@ namespace Sap.Api.Domain.PurchaseInvoices
 {
 	public partial class PurchaseInvoiceRequest : BaseRequest
 	{
+		public const string ACTION = "PurchaseInvoices";
 		#region Fields
 		[JsonProperty("odata.etag")]
 		public string OdataEtag;
