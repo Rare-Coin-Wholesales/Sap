@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sap.Core;
 using Sap.Services.Security;
@@ -11,7 +12,7 @@ namespace Sql2023.Intranet.Services.Invoices
 	/// </summary>
 	public partial class InvoiceService : IInvoiceService
 	{
-		private readonly EncryptionUtil _encryptionUtil;
+		private readonly IEncryptionUtil _encryptionUtil;
 		private readonly IntranetDb _dbContext;
 		private readonly string _connectionString;
 
@@ -26,17 +27,23 @@ namespace Sql2023.Intranet.Services.Invoices
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<Invoice> GetAll()
+		public virtual IList<InvoiceLineItem> GetLineItemsByInvoiceId(int id)
 		{
-			return (from x in _dbContext.Invoices
+			return (from x in _dbContext.InvoiceLineItems
+					where x.InvoiceID == id
 					select x).ToList();
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<InvoiceLineItem> GetAllLineItems()
+		public virtual IList<Invoice> GetRecentInvoices()
 		{
-			return (from x in _dbContext.InvoiceLineItems
-					select x).ToList();
+			var minDate = DateTime.Today.AddDays(-92); // 3 months ago
+			var query =  (from line in _dbContext.InvoiceLineItems
+						  join ent in _dbContext.Invoices on line.InvoiceID equals ent.InvoiceID
+						  where ent.DateEntered > minDate
+						  select ent).GroupBy(x => x.InvoiceID).Select(grp => grp.First());
+
+			return query.ToList();
 		}
 	}
 }

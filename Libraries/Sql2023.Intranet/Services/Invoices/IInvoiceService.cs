@@ -9,14 +9,15 @@ namespace Sql2023.Intranet.Services.Invoices
 	public partial interface IInvoiceService
 	{
 		/// <summary>
-		/// Gets all <see cref="Invoice"/>s.
+		/// Gets all recent <see cref="Invoice"/>s that actually have <see cref="InvoiceLineItem"/>s.
 		/// </summary>
-		/// <returns>An <see cref="IList{T}"/> of <see cref="Invoice"/>s.</returns>
-		IList<Invoice> GetAll();
+		/// <returns>An <see cref="IList{T}"/> of <see cref="Invoice"/>s that actually have <see cref="InvoiceLineItem"/>s.</returns>
+		IList<Invoice> GetRecentInvoices();
 		/// <summary>
-		/// Gets all <see cref="InvoiceLineItem"/>s.
+		/// Gets all <see cref="InvoiceLineItem"/>s by <see cref="Invoice"/> ID.
 		/// </summary>
+		/// <param name="id">The <see cref="Invoice"/> ID.</param>
 		/// <returns>An <see cref="IList{T}"/> of <see cref="InvoiceLineItem"/>s.</returns>
-		IList<InvoiceLineItem> GetAllLineItems();
+		IList<InvoiceLineItem> GetLineItemsByInvoiceId(int id);
 	}
 }

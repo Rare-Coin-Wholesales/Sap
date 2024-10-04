@@ -18,34 +18,12 @@ namespace Sap.Automation
 		private static readonly IUnixCustomerService _unixCustomerService = new UnixCustomerService();
 
 		#region Utilities
-		/// <summary>
-		/// Builds Notes based on CustTerms, CustTaxCode, and CustContact.
-		/// </summary>
-		/// <param name="customer">The <see cref="UnixCustomer"/> to build notes from.</param>
-		/// <returns>The notes.</returns>
-		private static string BuildNotes(UnixCustomer customer)
-		{
-			if (customer == null || String.IsNullOrWhiteSpace(customer.CustID))
-				return string.Empty;
-
-			var temp = "";
-
-			if (!String.IsNullOrWhiteSpace(customer.CustTerms))
-				temp = $"{temp}Terms: {customer.CustTerms}. ";
-			if (!String.IsNullOrWhiteSpace(customer.CustTaxCode))
-				temp = $"{temp}TaxCode: {customer.CustTaxCode}. ";
-			if (!String.IsNullOrWhiteSpace(customer.CustContact) && !CommonUtil.IsValidEmail(customer.CustContact))
-				temp = $"{temp}Contact: {CommonUtil.ToTitleCase(customer.CustContact)}";
-
-			return temp.Trim();
-		}
-
 		private static BusinessPartner ToBusinessPartner(UnixCustomer customer)
 		{
 			return new BusinessPartner {
 				CardCode = customer.CustID,
 				CardName = CommonUtil.ToTitleCase(customer.CustName),
-				CardType = CommonUtil.DetermineBpType(customer.CustID),
+				CardType = _unixCustomerService.DetermineBpType(customer.CustID, customer.CustName),
 				FederalTaxID = customer.CustReseller ?? "",
 				Phone1 = customer.CustPhone1 ?? "",
 				Phone2 = customer.CustPhone2 ?? "",
@@ -58,7 +36,7 @@ namespace Sap.Automation
 				MailCity = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
 				BillToState = customer.CustState ?? "",
 				ShipToState = customer.CustState ?? "",
-				Notes = BuildNotes(customer),
+				Notes = customer.BuildNotes(),
 			};
 		}
 		#endregion
@@ -76,7 +54,7 @@ namespace Sap.Automation
 			var log = "CustID,CustName,CardName,CardType,CustReseller,FederalTaxID,CustPhone1,Phone1,CustPhone2,Phone2,CustContact,EmailAddress,CustAddress1,CustAddress2,Address,CustZip,ZipCode,CustCity,City,CustState,BillToState,CustTerms,CustTaxCode,Notes\r\n";
 			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
 
-			foreach (var v in createList.Take(10)) {
+			foreach (var v in createList) {
 				bp = ToBusinessPartner(v);
 				log = $"{log}\"{v.CustID}\",\"{v.CustName}\",\"{bp.CardName}\",\"{bp.CardType}\",\"{v.CustReseller}\",\"{bp.FederalTaxID}\",\"{v.CustPhone1}\",\"{bp.Phone1}\",\"{v.CustPhone2}\",\"{bp.Phone2}\",\"{v.CustContact}\",\"{bp.EmailAddress}\",\"{v.CustAddress1}\",\"{v.CustAddress2}\",\"{bp.Address}\",\"{v.CustZip}\",\"{bp.ZipCode}\",\"{v.CustCity}\",\"{bp.City}\",\"{v.CustState}\",\"{bp.BillToState}\",\"{v.CustTerms}\",\"{v.CustTaxCode}\",\"{bp.Notes}\"\r\n";
 

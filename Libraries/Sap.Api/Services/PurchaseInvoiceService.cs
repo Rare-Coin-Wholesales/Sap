@@ -36,21 +36,8 @@ namespace Sap.Api.Services
 
 		public async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
 		{
-			try {
-				var created = await ServiceLayer.Request(ACTION).PostAsync<PurchaseInvoice>(x);
-				return created;
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.CreateAsync(PurchaseInvoice x)");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			var created = await ServiceLayer.Request(ACTION).PostAsync<PurchaseInvoice>(x);
+			return created;
 		}
 
 		public async Task<IList<PurchaseInvoice>> GetAll()

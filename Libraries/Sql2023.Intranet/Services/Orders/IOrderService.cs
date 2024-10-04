@@ -9,14 +9,15 @@ namespace Sql2023.Intranet.Services.Orders
 	public partial interface IOrderService
 	{
 		/// <summary>
-		/// Gets all <see cref="Order"/>s.
+		/// Gets all distinct <see cref="Order"/>s that actually have <see cref="OrderLineItem"/>s.
 		/// </summary>
-		/// <returns>An <see cref="IList{T}"/> of <see cref="Order"/>s.</returns>
-		IList<Order> GetAll();
+		/// <returns>An <see cref="IList{T}"/> of <see cref="Order"/>s that actually have <see cref="OrderLineItem"/>s.</returns>
+		IList<Order> GetDistinctOrders();
 		/// <summary>
-		/// Gets all <see cref="OrderLineItem"/>s.
+		/// Gets all <see cref="OrderLineItem"/>s by <see cref="Order"/> ID.
 		/// </summary>
+		/// <param name="id">The <see cref="Order"/> ID.</param>
 		/// <returns>An <see cref="IList{T}"/> of <see cref="OrderLineItem"/>s.</returns>
-		IList<OrderLineItem> GetAllLineItems();
+		IList<OrderLineItem> GetLineItemsByOrderId(int id);
 	}
 }

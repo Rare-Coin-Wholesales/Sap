@@ -1,4 +1,5 @@
 ﻿using B1SLayer;
+using NLog;
 
 namespace Sap.Automation.Logging
 {
@@ -10,8 +11,9 @@ namespace Sap.Automation.Logging
 				Common.nLog.Error($"Request: {call.HttpRequestMessage.Method} {call.HttpRequestMessage.RequestUri}");
 				Common.nLog.Error($"Body sent: {call.RequestBody}");
 				Common.nLog.Error($"Response: {call.HttpResponseMessage?.StatusCode}");
-				Common.nLog.Error(await call.HttpResponseMessage?.Content?.ReadAsStringAsync());
 				Common.nLog.Error($"Call duration: {call.Duration.Value.TotalSeconds} seconds");
+				Common.nLog.Error(await call.HttpResponseMessage?.Content?.ReadAsStringAsync());
+				LogManager.Flush();
 			});
 		}
 
