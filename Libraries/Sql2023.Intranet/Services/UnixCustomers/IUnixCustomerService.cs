@@ -9,6 +9,13 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 	public partial interface IUnixCustomerService
 	{
 		/// <summary>
+		/// Determines the SAP CardType based on Insight's CustID or SAP's CardCode.
+		/// </summary>
+		/// <param name="id">The CustID or CardCode.</param>
+		/// <param name="name">The name.</param>
+		/// <returns>"C" if the CustID is numeric. "S" otherwise.</returns>
+		string DetermineBpType(string id, string name);
+		/// <summary>
 		/// Gets all <see cref="UnixCustomer"/>s.
 		/// </summary>
 		/// <returns>An <see cref="IList{T}"/> of <see cref="UnixCustomer"/>s.</returns>

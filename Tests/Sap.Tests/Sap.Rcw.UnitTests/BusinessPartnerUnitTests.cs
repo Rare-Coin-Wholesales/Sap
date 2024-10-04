@@ -21,7 +21,7 @@ namespace Sap.Rcw.UnitTests
 		{
 			var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
-			var path = String.Format("{0}{1:dd HH mmss} Test_CreateBusinessPartnersAsync.json", folder, DateTime.Now);
+			var path = String.Format("{0}{1:dd HHmm ss} Test_CreateBusinessPartnersAsync.json", folder, DateTime.Now);
 
 			ServiceLayer.AfterCall(async call => {
 				File.AppendAllText(path, $"Request: {call.HttpRequestMessage.Method} {call.HttpRequestMessage.RequestUri}{Environment.NewLine}");
@@ -32,10 +32,22 @@ namespace Sap.Rcw.UnitTests
 			});
 
 			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
+			var now = DateTime.Now;
 			var test = new BusinessPartner {
-				CardCode = "001",
-				CardName = "CERTIFIED COIN CONSULTANTS",
+				CardCode = $"TEST{now:ffff}",
+				CardName = $"TEST {now:MMM d, yyyy HH:mm:ss}",
 				CardType = "C",
+				FederalTaxID = "TEST FederalTaxID",
+				Phone1 = $"{now:yyyy-MMdd-HH}",
+				Phone2 = $"{now:HHmm-ss-ffff}",
+				EmailAddress = "test@email.com",
+				Address = $"{now:ffff} Test St.",
+				MailAddress = $"{now:ffff} Test St.",
+				ZipCode = $"{now:fffff}",
+				MailZipCode = $"{now:fffff}",
+				City = "Test City",
+				MailCity = "Test City",
+				Notes = $"TEST {now:MMM d, yyyy HH:mm:ss.fff}",
 			};
 
 			var x = await _businessPartnerService.CreateAsync(test);
@@ -47,19 +59,36 @@ namespace Sap.Rcw.UnitTests
 		}
 
 		[Fact]
+		public void Test_GetBusinessPartnerById()
+		{
+			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
+			Task<BusinessPartner> x;
+			x = _businessPartnerService.GetByCardCode("001");
+			Assert.NotNull(x);
+		}
+
+		[Fact]
 		public async Task Test_ListBusinessPartnersAsync()
 		{
 			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
 			var list = await _businessPartnerService.GetAll();
+			Assert.True(list.Any());
 
 			var log = "CardCode,CardName,CardType,Notes\r\n";
 
 			foreach (var v in list)
-				log = String.Format($"{log}{v.CardCode},{v.CardName},{v.CardType}{v.Notes}{Environment.NewLine}");
+				log = String.Format($"{log}\"{v.CardCode}\",\"{v.CardName}\",\"{v.CardType}\",\"{v.Notes}\"{Environment.NewLine}");
 
 			var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_ListBusinessPartnersAsync.csv", folder, DateTime.Now), log);
+			File.WriteAllText(String.Format("{0}{1:dd HHmm ss} Test_ListBusinessPartnersAsync.csv", folder, DateTime.Now), log);
+			Assert.True(true);
+		}
+
+		[Fact]
+		public async void Test_Logout()
+		{
+			await ServiceLayer.LogoutAsync();
 			Assert.True(true);
 		}
 
@@ -69,7 +98,7 @@ namespace Sap.Rcw.UnitTests
 			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
 			var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
-			var path = String.Format("{0}{1:dd HH mmss} Test_UpdateBusinessPartnersAsync.json", folder, DateTime.Now);
+			var path = String.Format("{0}{1:dd HHmm ss} Test_UpdateBusinessPartnersAsync.json", folder, DateTime.Now);
 
 			ServiceLayer.AfterCall(async call => {
 				File.AppendAllText(path, $"Request: {call.HttpRequestMessage.Method} {call.HttpRequestMessage.RequestUri}{Environment.NewLine}");
@@ -90,15 +119,6 @@ namespace Sap.Rcw.UnitTests
 			log = String.Format($"{log}{test.CardCode},{test.CardName},{test.CardType}{test.Notes}{Environment.NewLine}");
 
 			File.AppendAllText(path.Replace(".json", ".csv"), log);
-		}
-
-		[Fact]
-		public void Test_GetBusinessPartnerById()
-		{
-			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
-			Task<BusinessPartner> x;
-			x = _businessPartnerService.GetByCardCode("001");
-			Assert.NotNull(x);
 		}
 	}
 }

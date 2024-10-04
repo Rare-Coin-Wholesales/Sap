@@ -13,21 +13,6 @@ namespace Sap.Core
 		private static readonly TextInfo EN_US = new CultureInfo("en-US", false).TextInfo;
 
 		/// <summary>
-		/// Determines the SAP CardType based on Insight's CustID or SAP's CardCode.
-		/// </summary>
-		/// <param name="custId">The CustID or CardCode.</param>
-		/// <returns>"C" if the CustID is numeric. "S" otherwise.</returns>
-		public static string DetermineBpType(string custId)
-		{
-			if (String.IsNullOrWhiteSpace(custId))
-				return "C";
-			if (long.TryParse(custId, out _))
-				return "C";
-
-			return "S";
-		}
-
-		/// <summary>
 		/// Gets the value of an environment variable from the Windows operating system registry key for the local machine.
 		/// </summary>
 		/// <param name="name">The name of an environment variable.</param>
@@ -43,12 +28,12 @@ namespace Sap.Core
 			}
 
 			catch (Exception ex) {
-				throw new Exception($"Couldn't get Environment Variable '{name}'. {ex.Message}");
+				throw new Exception($"Couldn't get Environment Variable '{name}'.{Environment.NewLine}{ex.Message}");
 			}
 
 			if (value == null)
 				throw new Exception($"Environment Variable '{name}' doesn't exist on this computer.");
-			else if (String.IsNullOrWhiteSpace(value))
+			if (String.IsNullOrWhiteSpace(value))
 				throw new Exception($"Environment Variable '{name}' is empty.");
 
 			return value.Trim();

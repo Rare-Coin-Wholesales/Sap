@@ -8,6 +8,7 @@ namespace Sql2023.Intranet.Domain
 
 	public partial class IntranetDb : DbContext
 	{
+		public virtual DbSet<CompanyNamePartial> CompanyNamePartials { get; set; }
 		public virtual DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
 		public virtual DbSet<Invoice> Invoices { get; set; }
 		public virtual DbSet<Log> Logs { get; set; }
@@ -18,6 +19,10 @@ namespace Sql2023.Intranet.Domain
 
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
+			modelBuilder.Entity<CompanyNamePartial>()
+				.Property(e => e.Name)
+				.IsUnicode(false);
+
 			modelBuilder.Entity<Invoice>()
 				.Property(e => e.Cust_)
 				.IsUnicode(false);
