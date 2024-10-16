@@ -15,6 +15,7 @@ namespace Sql2023.Intranet.Services.Invoices
 		private readonly IEncryptionUtil _encryptionUtil;
 		private readonly IntranetDb _dbContext;
 		private readonly string _connectionString;
+		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
 		/// <summary>
 		/// Ctor
@@ -37,11 +38,10 @@ namespace Sql2023.Intranet.Services.Invoices
 		/// <inheritdoc/>
 		public virtual IList<Invoice> GetRecentInvoices()
 		{
-			var minDate = DateTime.Today.AddDays(-92); // 3 months ago
 			var query =  (from line in _dbContext.InvoiceLineItems
 						  join ent in _dbContext.Invoices on line.InvoiceID equals ent.InvoiceID
-						  where ent.DateEntered > minDate
-						  select ent).GroupBy(x => x.InvoiceID).Select(grp => grp.First());
+						  where ent.DateEntered > MinDate
+						  select ent).GroupBy(x => x.InvoiceID).Select(grp => grp.FirstOrDefault());
 
 			return query.ToList();
 		}

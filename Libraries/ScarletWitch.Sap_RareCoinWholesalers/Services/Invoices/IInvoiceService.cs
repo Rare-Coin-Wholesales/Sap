@@ -16,7 +16,7 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 		/// Inserts a <see cref="Invoice_DocumentLine"/>.
 		/// </summary>
 		/// <param name="x">The <see cref="Invoice_DocumentLine"/>.</param>
-		void InsertDocumentLine(Invoice_DocumentLine x);
+		void Insert(Invoice_DocumentLine x);
 		/// <summary>
 		/// Truncates the <see cref="Invoice"/> table.
 		/// </summary>

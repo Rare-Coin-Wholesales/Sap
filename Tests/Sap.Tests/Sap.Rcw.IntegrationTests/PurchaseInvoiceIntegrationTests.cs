@@ -1,25 +1,36 @@
 using B1SLayer;
-using Sap.Api.Domain.Common;
 using Sap.Api.Domain.PurchaseInvoices;
 using Sap.Api.Services;
 using Sap.ApiToScarRcwMapper;
 using Sap.Core;
 using Sap.Services.Security;
 using Sap.Tests;
+using Sql2023.Intranet.Domain;
+using Sql2023.Intranet.Services.Export;
+using Sql2023.Intranet.Services.Logging;
+using Sql2023.Intranet.Services.Orders;
 
 namespace Sap.Rcw.IntegrationTests
 {
 	public partial class PurchaseInvoiceIntegrationTests
 	{
+		private const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000046";
+		private const string DOCUMENT_SERVICE = "dDocument_Service";
+		private const string INVENTORY_COIN = "_SYS00000000022";
 		private const string RESOURCE = "PurchaseInvoices";
+		private const string TAX_EXEMPT = "EX";
+		private const string TEST_COMPANY_DB = "A21384_RCW_T01";
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
+		private static readonly IExportManager _exportManager = new ExportManager();
+		private static readonly ILogger _logger = new DefaultLogger();
+		private static readonly IOrderService _orderService = new OrderService();
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
-		private static readonly string Test_CompanyDb = "A21384_RCW_T01";
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-		private static readonly SLConnection ServiceLayer = new SLConnection(BaseUrl, Test_CompanyDb, Username, Password);
+		private static readonly SLConnection ServiceLayer = new SLConnection(BaseUrl, TEST_COMPANY_DB, Username, Password);
 
+		#region Utilities
 		private void AddErrorLogs()
 		{
 			ServiceLayer.OnError(async call => {
@@ -32,11 +43,67 @@ namespace Sap.Rcw.IntegrationTests
 				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n4} seconds{Environment.NewLine}";
 				log = $"{log}{Environment.NewLine}";
 
-				var folder = $"C:/Logs/Sap.Tests/{DateTime.Now:yyyy MM}/";
-				Directory.CreateDirectory(folder);
-				File.WriteAllText($"{folder}Error {DateTime.Now:dd HHmm ssff}.log", log);
+				_exportManager.WriteToFile(log, "Error");
 			});
 		}
+
+		private static IList<PurchaseInvoice_DocumentLine> GetDocumentLines(Order x)
+		{
+			decimal lineTotal;
+			var list = new List<PurchaseInvoice_DocumentLine>();
+			var lineItems = _orderService.GetLineItemsByOrderId(x.OrderID);
+
+			if (lineItems == null || lineItems.Count == 0)
+				return list;
+
+			foreach (var item in lineItems) {
+				lineTotal = (item.Price ?? 0) * (item.QtyOrdered ?? 1);
+				list.Add(new PurchaseInvoice_DocumentLine {
+					ItemDescription = item.CoinID.ToString(),
+					Quantity = item.QtyOrdered,
+					Price = item.Price,
+					PriceAfterVAT = item.Price,
+					Address = x.ShipToAddress1,
+					LineTotal = lineTotal,
+					TaxTotal = 0,
+					TaxCode = TAX_EXEMPT,
+					RowTotalSC = lineTotal,
+					UnitPrice = item.Price,
+					OpenAmount = item.Price,
+					OpenAmountSC = item.Price,
+					DocEntry = x.OrderID,
+					GrossPrice = lineTotal,
+					GrossTotal = lineTotal,
+					GrossTotalSC = lineTotal,
+					AccountCode = INVENTORY_COIN,
+				});
+			}
+
+			return list;
+		}
+
+		private static PurchaseInvoice ToPurchaseInvoice(Order x)
+		{
+			return new PurchaseInvoice {
+				DocEntry = x.OrderID,
+				DocNum = x.OrderID,
+				DocType = DOCUMENT_SERVICE,
+				CreationDate = x.DateEntered,
+				DocDate = x.DateEntered,
+				DocDueDate = x.DateEntered,
+				TaxDate = x.DateEntered,
+				UpdateDate = x.DateRevised,
+				DocTotal = x.TotalSales,
+				DocTotalSys = x.TotalSales,
+				Address = x.ShipToAddress1,
+				Address2 = x.ShipToAddress2,
+				CardCode = $"V{x.Cust_}",
+				JournalMemo = $"A/P Invoices - V{x.Cust_}",
+				ControlAccount = ACCOUNTS_PAYABLE_TRADE,
+				DocumentLines = GetDocumentLines(x),
+			};
+		}
+		#endregion
 
 		[Fact]
 		public async Task Test_CreateAsync()
@@ -55,9 +122,9 @@ namespace Sap.Rcw.IntegrationTests
 			};
 
 			data.DocumentLines.Add(new PurchaseInvoice_DocumentLine {
-				LineNum = 1,
-				VisualOrder = 1,
-				ItemCode = "143932",
+				LineNum = 0,
+				ItemCode = "136377",
+				ItemDescription = "136377",
 				Quantity = 1,
 				UnitPrice = 25500.00m,
 				LineTotal = 25500.00m,
@@ -68,11 +135,38 @@ namespace Sap.Rcw.IntegrationTests
 			created.ShouldNotBeNull();
 		}
 
+		/// <summary>
+		/// Order => PurchaseInvoice (A/P).
+		/// </summary>
 		[Fact]
 		public async Task Test_CreatePurchaseInvoicesAsync()
 		{
-			var all = await ServiceLayer.Request(RESOURCE).GetAllAsync<PurchaseInvoice>();
-			all.ShouldNotBeNull();
+			AddErrorLogs();
+			var orders = _orderService.GetDistinctOrders();
+
+			if (orders == null || orders.Count == 0)
+				return;
+
+			orders = orders.OrderBy(x => x.OrderID).Take(1).ToList();
+			_exportManager.ExportToCsv(orders);
+			PurchaseInvoice pi;
+			var _purchaseInvoiceService = new PurchaseInvoiceService(ServiceLayer);
+
+			foreach (var order in orders) {
+				try {
+					pi = ToPurchaseInvoice(order);
+					var x = await _purchaseInvoiceService.CreateAsync(pi);
+				}
+
+				#region catch (Exception ex)
+				catch (Exception ex) {
+					if (ex.InnerException == null)
+						_logger.InsertWarning(ex);
+					else
+						throw;
+				}
+				#endregion
+			}
 		}
 
 		[Fact]

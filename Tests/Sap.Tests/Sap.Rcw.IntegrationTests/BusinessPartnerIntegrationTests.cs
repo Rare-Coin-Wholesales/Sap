@@ -4,24 +4,28 @@ using Sap.ApiToScarRcwMapper;
 using Sap.Core;
 using Sap.Services.Security;
 using Sql2023.Intranet.Domain;
+using Sql2023.Intranet.Services.Export;
+using Sql2023.Intranet.Services.Logging;
 using Sql2023.Intranet.Services.UnixCustomers;
 
 namespace Sap.Rcw.IntegrationTests
 {
 	public partial class BusinessPartnerIntegrationTests
 	{
+		private const string TEST_COMPANY_DB = "A21384_RCW_T01";
 		private static IList<BusinessPartner> BusinessPartners;
 		private static IList<UnixCustomer> UnixCustomers;
+		private static readonly IExportManager _exportManager = new ExportManager();
 		private static readonly IUnixCustomerService _unixCustomerService = new UnixCustomerService();
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
+		private static readonly ILogger _logger = new DefaultLogger();
 		private static readonly Mapper _mapper = new();
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
-		private static readonly string Test_CompanyDb = "A21384_RCW_T01";
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 
-		private static readonly SLConnection ServiceLayer = new SLConnection(BaseUrl, Test_CompanyDb, Username, Password);
+		private static readonly SLConnection ServiceLayer = new SLConnection(BaseUrl, TEST_COMPANY_DB, Username, Password);
 		private readonly ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners.BusinessPartnerService _businessPartnerService = new();
 
 		#region Utilities
@@ -31,6 +35,50 @@ namespace Sap.Rcw.IntegrationTests
 				CardCode = customer.CustID,
 				CardName = CommonUtil.ToTitleCase(customer.CustName),
 				CardType = _unixCustomerService.DetermineBpType(customer.CustID, customer.CustName),
+				FederalTaxID = customer.CustReseller ?? "",
+				Phone1 = customer.CustPhone1 ?? "",
+				Phone2 = customer.CustPhone2 ?? "",
+				EmailAddress = CommonUtil.IsValidEmail(customer.CustContact) ? CommonUtil.FormatEmail(customer.CustContact) : "",
+				Address = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
+				MailAddress = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
+				ZipCode = customer.CustZip ?? "",
+				MailZipCode = customer.CustZip ?? "",
+				City = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
+				MailCity = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
+				BillToState = customer.CustState ?? "",
+				ShipToState = customer.CustState ?? "",
+				Notes = customer.BuildNotes(),
+			};
+		}
+
+		private static BusinessPartner ToCustomer(UnixCustomer customer)
+		{
+			return new BusinessPartner {
+				CardCode = $"{customer.CustID}",
+				CardName = CommonUtil.ToTitleCase(customer.CustName),
+				CardType = "C",
+				FederalTaxID = customer.CustReseller ?? "",
+				Phone1 = customer.CustPhone1 ?? "",
+				Phone2 = customer.CustPhone2 ?? "",
+				EmailAddress = CommonUtil.IsValidEmail(customer.CustContact) ? CommonUtil.FormatEmail(customer.CustContact) : "",
+				Address = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
+				MailAddress = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
+				ZipCode = customer.CustZip ?? "",
+				MailZipCode = customer.CustZip ?? "",
+				City = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
+				MailCity = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
+				BillToState = customer.CustState ?? "",
+				ShipToState = customer.CustState ?? "",
+				Notes = customer.BuildNotes(),
+			};
+		}
+
+		private static BusinessPartner ToSupplier(UnixCustomer customer)
+		{
+			return new BusinessPartner {
+				CardCode = $"V{customer.CustID}",
+				CardName = CommonUtil.ToTitleCase(customer.CustName),
+				CardType = "S",
 				FederalTaxID = customer.CustReseller ?? "",
 				Phone1 = customer.CustPhone1 ?? "",
 				Phone2 = customer.CustPhone2 ?? "",
@@ -75,8 +123,74 @@ namespace Sap.Rcw.IntegrationTests
 				//var x = await _businessPartnerService.TryCreate(bp);
 			}
 
-			File.WriteAllText($"{folder}Test_CreateBusinessPartnersAsync {DateTime.Now:dd HHmm ssff}.csv", log);
+			_exportManager.WriteToCsvFile(log, "Test_CreateBusinessPartnersAsync");
 			Assert.True(true);
+		}
+
+		/// <summary>
+		/// Invoice => [Sales] Invoice (A/R).
+		/// </summary>
+		[Fact]
+		public async void Test_CreateMissingInvoiceUnixCustomers()
+		{
+			var invoiceUnixCustomers = _unixCustomerService.GetInvoiceUnixCustomers();
+
+			if (invoiceUnixCustomers == null || invoiceUnixCustomers.Count == 0)
+				return;
+
+			invoiceUnixCustomers = invoiceUnixCustomers.OrderBy(x => x.CustID).ToList();
+			_exportManager.ExportToCsv(invoiceUnixCustomers);
+			BusinessPartner bp;
+			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
+
+			foreach (var cust in invoiceUnixCustomers) {
+				try {
+					bp = ToCustomer(cust);
+					var x = await _businessPartnerService.TryCreate(bp);
+				}
+
+				#region catch (Exception ex)
+				catch (Exception ex) {
+					if (ex.InnerException == null)
+						_logger.InsertWarning(ex);
+					else
+						throw;
+				}
+				#endregion
+			}
+		}
+
+		/// <summary>
+		/// Order => PurchaseInvoice (A/P).
+		/// </summary>
+		[Fact]
+		public async void Test_CreateMissingOrderUnixCustomers()
+		{
+			var orderUnixCustomers = _unixCustomerService.GetOrderUnixCustomers();
+
+			if (orderUnixCustomers == null || orderUnixCustomers.Count == 0)
+				return;
+
+			orderUnixCustomers = orderUnixCustomers.OrderBy(x => x.CustID).ToList();
+			_exportManager.ExportToCsv(orderUnixCustomers);
+			BusinessPartner bp;
+			var _businessPartnerService = new Api.Services.BusinessPartnerService(ServiceLayer);
+
+			foreach (var cust in orderUnixCustomers) {
+				try {
+					bp = ToSupplier(cust);
+					var x = await _businessPartnerService.TryCreate(bp);
+				}
+
+				#region catch (Exception ex)
+				catch (Exception ex) {
+					if (ex.InnerException == null)
+						_logger.InsertWarning(ex);
+					else
+						throw;
+				}
+				#endregion
+			}
 		}
 
 		[Fact]

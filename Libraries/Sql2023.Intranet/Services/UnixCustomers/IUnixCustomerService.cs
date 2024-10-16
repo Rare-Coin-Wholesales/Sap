@@ -20,5 +20,16 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 		/// </summary>
 		/// <returns>An <see cref="IList{T}"/> of <see cref="UnixCustomer"/>s.</returns>
 		IList<UnixCustomer> GetAll();
+		/// <summary>
+		/// Gets all <see cref="UnixCustomer"/>s from recent <see cref="Invoice"/>s.
+		/// </summary>
+		/// <returns>A list of <see cref="UnixCustomer"/>.</returns>
+		IList<UnixCustomer> GetInvoiceUnixCustomers();
+
+		/// <summary>
+		/// Gets all <see cref="UnixCustomer"/>s from recent <see cref="Order"/>s.
+		/// </summary>
+		/// <returns>A list of <see cref="UnixCustomer"/>.</returns>
+		IList<UnixCustomer> GetOrderUnixCustomers();
 	}
 }

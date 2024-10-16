@@ -256,40 +256,6 @@ namespace Sap.Aabw.UnitTests
 		}
 		#endregion
 
-		#region Items
-		[Fact]
-		public void Test_ListItems()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListItems();
-			Assert.True(list.Any());
-
-			var log = "ItemCode,ItemName,ForeignName\r\n";
-
-			foreach (var v in list)
-				log = String.Format($"{log}\"{v.ItemCode}\",\"{v.ItemName}\",\"{v.ForeignName}\"{Environment.NewLine}");
-
-			var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}Test_ListItems {1:dd HHmm ss}.csv", folder, DateTime.Now), log);
-		}
-
-		//[Fact]
-		//public void Test_GetItemById()
-		//{
-		//	var client = new SapClient(BaseUrl);
-		//	var response = client.Login(Test_CompanyDb, Username, Password);
-		//	Console.WriteLine($"Result: {response.Result}");
-
-		//	var list = client.GetItemById("Custom Crush");
-		//	Assert.NotNull(list);
-		//	Assert.NotEmpty(list.Result);
-		//}
-		#endregion
-
 		#region JournalEntries
 		[Fact]
 		public void Test_ListJournalEntries()

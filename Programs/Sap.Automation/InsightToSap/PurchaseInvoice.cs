@@ -51,7 +51,7 @@ namespace Sap.Automation
 			var folder = $"C:/Logs/Sap.Tests/{DateTime.Now:yyyy MM}/";
 			Directory.CreateDirectory(folder);
 			var log = "CustID,CustName,CardName,CardType,CustReseller,FederalTaxID,CustPhone1,Phone1,CustPhone2,Phone2,CustContact,EmailAddress,CustAddress1,CustAddress2,Address,CustZip,ZipCode,CustCity,City,CustState,BillToState,CustTerms,CustTaxCode,Notes\r\n";
-			var _purchaseInvoiceService = new Api.Services.PurchaseInvoiceService(ServiceLayer);
+			var _purchaseInvoiceService = new Api.Services.PurchaseInvoiceService(_rcwServiceLayer);
 
 			//foreach (var v in createList) {
 			//	bp = ToPurchaseInvoice(v);

@@ -208,6 +208,7 @@
     <Compile Include="Domain\VendorPayments\VendorPaymentResponse.cs" />
     <Compile Include="Http\SapClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ServiceLayer.cs" />
     <Compile Include="Services\AccountCategoryService.cs" />
     <Compile Include="Services\AccountSegmentationCategoryService.cs" />
     <Compile Include="Services\AccountSegmentationService.cs" />
