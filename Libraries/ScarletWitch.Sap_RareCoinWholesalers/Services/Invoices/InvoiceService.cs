@@ -36,7 +36,7 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 		}
 
 		/// <inheritdoc/>
-		public virtual void InsertDocumentLine(Invoice_DocumentLine x)
+		public virtual void Insert(Invoice_DocumentLine x)
 		{
 			#region Input check
 			if (x == null)

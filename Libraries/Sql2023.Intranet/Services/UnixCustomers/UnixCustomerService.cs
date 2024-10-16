@@ -17,6 +17,7 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 		private readonly IEncryptionUtil _encryptionUtil;
 		private readonly IntranetDb _dbContext;
 		private readonly string _connectionString;
+		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
 		/// <summary>
 		/// Ctor
@@ -47,6 +48,24 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 		{
 			return (from x in _dbContext.UnixCustomers
 					select x).ToList();
+		}
+
+		/// <inheritdoc/>
+		public virtual IList<UnixCustomer> GetInvoiceUnixCustomers()
+		{
+			return (from uc in _dbContext.UnixCustomers
+					join ent in _dbContext.Invoices on uc.CustID equals ent.Cust_
+					where ent.DateEntered > MinDate
+					select uc).ToList();
+		}
+
+		/// <inheritdoc/>
+		public virtual IList<UnixCustomer> GetOrderUnixCustomers()
+		{
+			return (from uc in _dbContext.UnixCustomers
+					join ent in _dbContext.Orders on uc.CustID equals ent.Cust_
+					where ent.DateEntered > MinDate
+					select uc).ToList();
 		}
 	}
 }

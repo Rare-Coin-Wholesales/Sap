@@ -21,10 +21,11 @@ namespace Sap.Automation
 		public static readonly ApiToScarRcwMapper.Mapper _rcwMapper = new ApiToScarRcwMapper.Mapper();
 		public static readonly EncryptionUtil _encryptionUtil = new EncryptionUtil();
 		public static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
+		public static readonly string Aabrc_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Password"));
 		public static readonly string Aabw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabw_CompanyDb");
+		public static readonly string Aabw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabw_Password"));
 		public static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		public static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
-		public static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
+		public static readonly string Rcw_CompanyDb = "A21384_RCW_T01"; // CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		public static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		public static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		public static SapClient client;
@@ -59,7 +60,7 @@ namespace Sap.Automation
 			nLog.Trace("Begin method ProcessAabrcAsync().");
 
 			try {
-				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Aabrc_CompanyDb, Common.Username, Common.Password);
+				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Aabrc_CompanyDb, Common.Username, Common.Aabrc_Password);
 				defaultLogger.AddTraceAndErrorLogs(serviceLayer);
 
 				await new Aabrc.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
@@ -108,7 +109,7 @@ namespace Sap.Automation
 			nLog.Trace("Begin method ProcessAabwAsync().");
 
 			try {
-				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Aabw_CompanyDb, Common.Username, Common.Password);
+				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Aabw_CompanyDb, Common.Username, Common.Aabw_Password);
 				defaultLogger.AddTraceAndErrorLogs(serviceLayer);
 
 				await new Aabw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
@@ -160,33 +161,33 @@ namespace Sap.Automation
 				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Rcw_CompanyDb, Common.Username, Common.Rcw_Password);
 				defaultLogger.AddTraceAndErrorLogs(serviceLayer);
 
-				await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
-				await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
-				await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
-				await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+				//await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
+				//await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
+				//await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
+				//await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
+				//await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
-				await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
-				await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
-				await new Rcw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
-				await new Rcw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
-				await new Rcw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
-				await new Rcw.Automation.HouseBankAccountUtil().GetAllHouseBankAccounts(serviceLayer);
-				await new Rcw.Automation.IncomingPaymentUtil().GetAllIncomingPayments(serviceLayer);
+				//await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
+				//await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
+				//await new Rcw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
+				//await new Rcw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
+				//await new Rcw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
+				//await new Rcw.Automation.HouseBankAccountUtil().GetAllHouseBankAccounts(serviceLayer);
+				//await new Rcw.Automation.IncomingPaymentUtil().GetAllIncomingPayments(serviceLayer);
 				await new Rcw.Automation.InvoiceUtil().GetAllInvoices(serviceLayer);
 				await new Rcw.Automation.ItemUtil().GetAllItems(serviceLayer);
-				await new Rcw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
-				await new Rcw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
-				await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
+				//await new Rcw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
+				//await new Rcw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
+				//await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
 				await new Rcw.Automation.PurchaseInvoiceUtil().GetAllPurchaseInvoices(serviceLayer);
-				await new Rcw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
-				await new Rcw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
-				await new Rcw.Automation.PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices(serviceLayer);
-				await new Rcw.Automation.QuotationUtil().GetAllQuotations(serviceLayer);
-				await new Rcw.Automation.SalesTaxInvoiceUtil().GetAllSalesTaxInvoices(serviceLayer);
-				await new Rcw.Automation.TransactionCodeUtil().GetAllTransactionCodes(serviceLayer);
-				await new Rcw.Automation.VendorPaymentUtil().GetAllVendorPayments(serviceLayer);
-				new ScarletWitch.Sap_RareCoinWholesalers.Services.BaseService().StartJob_Sap_RareCoinWholesalers_Triggered();
+				//await new Rcw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
+				//await new Rcw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
+				//await new Rcw.Automation.PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices(serviceLayer);
+				//await new Rcw.Automation.QuotationUtil().GetAllQuotations(serviceLayer);
+				//await new Rcw.Automation.SalesTaxInvoiceUtil().GetAllSalesTaxInvoices(serviceLayer);
+				//await new Rcw.Automation.TransactionCodeUtil().GetAllTransactionCodes(serviceLayer);
+				//await new Rcw.Automation.VendorPaymentUtil().GetAllVendorPayments(serviceLayer);
+				//new ScarletWitch.Sap_RareCoinWholesalers.Services.BaseService().StartJob_Sap_RareCoinWholesalers_Triggered();
 			}
 
 			catch (Exception ex) {

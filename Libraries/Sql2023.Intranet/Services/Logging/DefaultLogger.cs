@@ -93,6 +93,26 @@ namespace Sql2023.Intranet.Services.Logging
 		}
 
 		/// <inheritdoc/>
+		public virtual Log InsertError(Exception ex)
+		{
+			return Insert(new Log {
+				LogLevelId = (int) LogLevel.Error,
+				ShortMessage = ex.Message,
+				FullMessage = ex.ToString(),
+			});
+		}
+
+		/// <inheritdoc/>
+		public virtual Log InsertWarning(Exception ex)
+		{
+			return Insert(new Log {
+				LogLevelId = (int) LogLevel.Warning,
+				ShortMessage = ex.Message,
+				FullMessage = ex.ToString(),
+			});
+		}
+
+		/// <inheritdoc/>
 		public virtual bool TryValidate(Log log, out string errorMsg)
 		{
 			errorMsg = string.Empty;

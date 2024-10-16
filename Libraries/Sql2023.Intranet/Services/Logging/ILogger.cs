@@ -1,4 +1,5 @@
-﻿using Sql2023.Intranet.Domain.Logging;
+﻿using System;
+using Sql2023.Intranet.Domain.Logging;
 
 namespace Sql2023.Intranet.Services.Logging
 {
@@ -22,10 +23,7 @@ namespace Sql2023.Intranet.Services.Logging
 		/// <summary>
 		/// Inserts a log item
 		/// </summary>
-		/// <param name="logLevel">Log level</param>
-		/// <param name="shortMessage">The short message</param>
-		/// <param name="fullMessage">The full message</param>
-		/// <param name="customer">The customer to associate log record with</param>
+		/// <param name="log">The <see cref="Log"/></param>
 		/// <returns>A log item</returns>
 		Log Insert(Log log);
 
@@ -38,6 +36,20 @@ namespace Sql2023.Intranet.Services.Logging
 		/// <param name="customer">The customer to associate log record with</param>
 		/// <returns>A log item</returns>
 		Log Insert(LogLevel logLevel, string shortMessage, string fullMessage = "", int? customerId = null);
+
+		/// <summary>
+		/// Inserts an <see cref="Exception"/> with LogLevel.Error.
+		/// </summary>
+		/// <param name="ex">The <see cref="Exception"/></param>
+		/// <returns>A log item</returns>
+		Log InsertError(Exception ex);
+
+		/// <summary>
+		/// Inserts an <see cref="Exception"/> with LogLevel.Warning.
+		/// </summary>
+		/// <param name="ex">The <see cref="Exception"/></param>
+		/// <returns>A log item</returns>
+		Log InsertWarning(Exception ex);
 
 		/// <summary>
 		/// Tries to validate a <see cref="Log"/>. If valid, returns true. Else return false with all error messages contained in 'errorMsg'.

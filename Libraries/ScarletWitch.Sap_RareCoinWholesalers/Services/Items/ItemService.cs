@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 
 namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Items
@@ -8,6 +10,13 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Items
 	/// </summary>
 	public partial class ItemService : BaseService, IItemService
 	{
+		/// <inheritdoc/>
+		public virtual IList<Item> GetAll()
+		{
+			return (from x in _dbContext.Items
+					select x).ToList();
+		}
+
 		/// <inheritdoc/>
 		public virtual void Insert(Item x)
 		{

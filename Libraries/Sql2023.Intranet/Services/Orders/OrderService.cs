@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sap.Core;
 using Sap.Services.Security;
@@ -14,6 +15,7 @@ namespace Sql2023.Intranet.Services.Orders
 		private readonly IEncryptionUtil _encryptionUtil;
 		private readonly IntranetDb _dbContext;
 		private readonly string _connectionString;
+		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
 		/// <summary>
 		/// Ctor
@@ -30,7 +32,8 @@ namespace Sql2023.Intranet.Services.Orders
 		{
 			var query =  (from line in _dbContext.OrderLineItems
 						  join ent in _dbContext.Orders on line.OrderID equals ent.OrderID
-						  select ent).GroupBy(x => x.OrderID).Select(grp => grp.First());
+						  where ent.DateEntered > MinDate
+						  select ent).GroupBy(x => x.OrderID).Select(grp => grp.FirstOrDefault());
 
 			return query.ToList();
 		}

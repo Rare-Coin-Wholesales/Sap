@@ -15,7 +15,6 @@ using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.HouseBankAccounts;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.IncomingPayments;
-using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.Items;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.JournalEntries;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.PurchaseCreditNotes;
@@ -405,37 +404,6 @@ namespace Sap.Aabrc.IntegrationTests
 				foreach (var v in list) {
 					try {
 						_incomingPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region Item
-		private readonly ItemService _itemService = new();
-
-		[Fact]
-		public void Test_Item_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabrc_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListItems();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_itemService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_itemService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
 					}
 

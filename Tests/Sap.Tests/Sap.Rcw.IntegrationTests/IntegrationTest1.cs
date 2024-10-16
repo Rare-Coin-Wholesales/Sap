@@ -15,7 +15,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.IncomingPayments;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.Items;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntries;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseCreditNotes;
@@ -405,37 +404,6 @@ namespace Sap.Rcw.IntegrationTests
 				foreach (var v in list) {
 					try {
 						_incomingPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region Item
-		private readonly ItemService _itemService = new();
-
-		[Fact]
-		public void Test_Item_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListItems();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_itemService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_itemService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
 					}
 

@@ -9,6 +9,7 @@ namespace Sql2023.Intranet.Domain
 	public partial class IntranetDb : DbContext
 	{
 		public virtual DbSet<CompanyNamePartial> CompanyNamePartials { get; set; }
+		public virtual DbSet<Inventory> Inventories { get; set; }
 		public virtual DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
 		public virtual DbSet<Invoice> Invoices { get; set; }
 		public virtual DbSet<Log> Logs { get; set; }
@@ -21,6 +22,146 @@ namespace Sql2023.Intranet.Domain
 		{
 			modelBuilder.Entity<CompanyNamePartial>()
 				.Property(e => e.Name)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOwner)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryStatus)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOnWeb)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryNotes)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryDescription1)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryDescription2)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryWebDescription)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryWebDescriptionNew)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryClass)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryRawClass)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryGrade)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryService)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryCertNumber)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryGradingBarcode)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOrigClass)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOrigGrade)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOrigGradingService)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryGradingService)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryGradingType)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryGradingOrder)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryOrderNumber)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryARTerms)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryCustNumber)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryInvoice)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryPurchaseOrderNumber)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryPurchaseOrderVendor)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryMarketValueSource)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.InventoryConsignmentVendor)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.WebsiteOldPrice)
+				.HasPrecision(18, 4);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.CAC)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.Composition)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.Year)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.KeyProductFeatures1)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.SearchTerms1)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<Inventory>()
+				.Property(e => e.CacComputed)
 				.IsUnicode(false);
 
 			modelBuilder.Entity<Invoice>()

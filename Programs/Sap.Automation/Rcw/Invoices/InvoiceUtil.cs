@@ -28,7 +28,7 @@ namespace Sap.Rcw.Automation
 
 						foreach (var line in v.DocumentLines) {
 							try {
-								_invoiceService.InsertDocumentLine(Common._rcwMapper.ToSql(line));
+								_invoiceService.Insert(Common._rcwMapper.ToSql(line));
 							}
 
 							catch (Exception ex) {

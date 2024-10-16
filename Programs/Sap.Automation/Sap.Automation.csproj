@@ -127,6 +127,7 @@
     <Compile Include="Aabw\TransactionCodes\TransactionCodeUtil.cs" />
     <Compile Include="Aabw\VendorPayments\VendorPaymentUtil.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="InsightToSap\Item.cs" />
     <Compile Include="InsightToSap\PurchaseInvoice.cs" />
     <Compile Include="InsightToSap\BusinessPartner.cs" />
     <Compile Include="InsightToSap\InsightToSap.cs" />

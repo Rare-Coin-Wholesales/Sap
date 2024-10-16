@@ -56,6 +56,7 @@
     <Compile Include="Custom\UnixCustomer.cs" />
     <Compile Include="Domain\CompanyNamePartial.cs" />
     <Compile Include="Domain\IntranetDb.cs" />
+    <Compile Include="Domain\Inventory.cs" />
     <Compile Include="Domain\Invoice.cs" />
     <Compile Include="Domain\InvoiceLineItem.cs" />
     <Compile Include="Domain\Logging\Log.cs" />
@@ -68,6 +69,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CompanyNamePartials\CompanyNamePartialService.cs" />
     <Compile Include="Services\CompanyNamePartials\ICompanyNamePartialService.cs" />
+    <Compile Include="Services\Export\ExportManager.cs" />
+    <Compile Include="Services\Export\IExportManager.cs" />
+    <Compile Include="Services\Inventories\IInventoryService.cs" />
+    <Compile Include="Services\Inventories\InventoryService.cs" />
     <Compile Include="Services\Invoices\IInvoiceService.cs" />
     <Compile Include="Services\Invoices\InvoiceService.cs" />
     <Compile Include="Services\Logging\DefaultLogger.cs" />
