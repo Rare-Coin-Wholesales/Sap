@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using B1SLayer;
-using Sap.Api.Domain.Items;
 using Sap.Automation;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Items;
 
@@ -14,7 +13,7 @@ namespace Sap.Aabw.Automation
 		public async Task GetAllItems(SLConnection serviceLayer)
 		{
 			Common.nLog.Trace("Begin method GetAllItems(SLConnection serviceLayer).");
-			var list = await serviceLayer.Request("Items").GetAllAsync<Item>();
+			var list = await Common.AabwServiceLayer.GetAllItemsAsync();
 
 			if (list == null || list.Count == 0) {
 				Common.nLog.Warn("List is empty.");

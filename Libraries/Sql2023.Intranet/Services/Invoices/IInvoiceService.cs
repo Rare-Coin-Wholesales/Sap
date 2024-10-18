@@ -18,6 +18,11 @@ namespace Sql2023.Intranet.Services.Invoices
 		/// Gets all recent <see cref="Invoice"/>s that actually have <see cref="InvoiceLineItem"/>s.
 		/// </summary>
 		/// <returns>An <see cref="IList{T}"/> of <see cref="Invoice"/>s that actually have <see cref="InvoiceLineItem"/>s.</returns>
-		IList<Invoice> GetRecentInvoices();
+		IList<Invoice> GetRecent();
+		/// <summary>
+		/// Gets recent customer IDs.
+		/// </summary>
+		/// <returns>A list of customer IDs.</returns>
+		IList<string> GetRecentCustomerIds();
 	}
 }

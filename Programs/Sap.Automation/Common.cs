@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using B1SLayer;
 using NLog;
+using Sap.Api;
 using Sap.Api.Http;
 using Sap.Automation.Logging;
 using Sap.Core;
@@ -30,6 +31,10 @@ namespace Sap.Automation
 		public static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		public static SapClient client;
 		public static Task<string> response;
+		// Keep these after the Env Variables
+		public static readonly ServiceLayer AabrcServiceLayer = new ServiceLayer(BaseUrl, Aabrc_CompanyDb, Username, Aabrc_Password);
+		public static readonly ServiceLayer AabwServiceLayer = new ServiceLayer(BaseUrl, Aabw_CompanyDb, Username, Aabw_Password);
+		public static readonly ServiceLayer RcwServiceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Username, Rcw_Password);
 		#endregion
 
 		public static void HandleArgs(string[] args)
@@ -158,14 +163,14 @@ namespace Sap.Automation
 			nLog.Trace("Begin method ProcessRcwAsync().");
 
 			try {
-				var serviceLayer = new SLConnection(Common.BaseUrl, Common.Rcw_CompanyDb, Common.Username, Common.Rcw_Password);
-				defaultLogger.AddTraceAndErrorLogs(serviceLayer);
+				var serviceLayer = RcwServiceLayer;
+				serviceLayer.AddErrorLogs();
 
 				//await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
 				//await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
 				//await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
 				//await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				//await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+				await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				//await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
 				//await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);

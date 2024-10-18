@@ -1,34 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sap.Core;
-using Sap.Services.Security;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.CompanyNamePartials;
+using Sql2023.Intranet.Services.Invoices;
+using Sql2023.Intranet.Services.Orders;
 
 namespace Sql2023.Intranet.Services.UnixCustomers
 {
 	/// <summary>
 	/// UnixCustomer service
 	/// </summary>
-	public partial class UnixCustomerService : IUnixCustomerService
+	public partial class UnixCustomerService : BaseService, IUnixCustomerService
 	{
-		private readonly ICompanyNamePartialService _companyNamePartialService;
-		private readonly IEncryptionUtil _encryptionUtil;
-		private readonly IntranetDb _dbContext;
-		private readonly string _connectionString;
+		private readonly ICompanyNamePartialService _companyNamePartialService = new CompanyNamePartialService();
+		private readonly IInvoiceService _invoiceService = new InvoiceService();
+		private readonly IOrderService _orderService = new OrderService();
 		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
-
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		public UnixCustomerService()
-		{
-			_encryptionUtil = new EncryptionUtil();
-			_connectionString = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("Sql2023.Intranet"));
-			_companyNamePartialService = new CompanyNamePartialService();
-			_dbContext = new IntranetDb(_connectionString);
-		}
 
 		/// <inheritdoc/>
 		public virtual string DetermineBpType(string id, string name)
@@ -50,6 +38,7 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 					select x).ToList();
 		}
 
+		[Obsolete("Phase out and use GetRecent() instead.", false)]
 		/// <inheritdoc/>
 		public virtual IList<UnixCustomer> GetInvoiceUnixCustomers()
 		{
@@ -59,6 +48,7 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 					select uc).ToList();
 		}
 
+		[Obsolete("Phase out and use GetRecent() instead.", false)]
 		/// <inheritdoc/>
 		public virtual IList<UnixCustomer> GetOrderUnixCustomers()
 		{
@@ -66,6 +56,18 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 					join ent in _dbContext.Orders on uc.CustID equals ent.Cust_
 					where ent.DateEntered > MinDate
 					select uc).ToList();
+		}
+
+		/// <inheritdoc/>
+		public virtual IList<UnixCustomer> GetRecent()
+		{
+			var invoiceCustomers = _invoiceService.GetRecentCustomerIds();
+			var orderCustomers = _orderService.GetRecentCustomerIds();
+			var union = orderCustomers.Union(invoiceCustomers);
+
+			return (from x in _dbContext.UnixCustomers
+					join y in union on x.CustID equals y
+					select x).ToList();
 		}
 	}
 }

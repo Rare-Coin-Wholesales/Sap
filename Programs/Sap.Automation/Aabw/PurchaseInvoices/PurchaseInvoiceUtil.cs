@@ -13,7 +13,7 @@ namespace Sap.Aabw.Automation
 		public async Task GetAllPurchaseInvoices(SLConnection serviceLayer)
 		{
 			Common.nLog.Trace("Begin method GetAllPurchaseInvoices().");
-			var list = await new Api.Services.PurchaseInvoiceService(serviceLayer).GetAll();
+			var list = await Common.AabwServiceLayer.GetAllPurchaseInvoicesAsync();
 
 			if (list == null || list.Count == 0) {
 				Common.nLog.Warn("List is empty.");

@@ -1,4 +1,5 @@
-﻿using ScarletWitch.Sap_RareCoinWholesalers.Domain;
+﻿using System.Collections.Generic;
+using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 
 namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 {
@@ -7,6 +8,10 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 	/// </summary>
 	public interface IInvoiceService
 	{
+		/// <summary>
+		/// Gets all <see cref="Invoice"/>s.
+		/// </summary>
+		IList<Invoice> GetAll();
 		/// <summary>
 		/// Inserts a <see cref="Invoice"/>.
 		/// </summary>

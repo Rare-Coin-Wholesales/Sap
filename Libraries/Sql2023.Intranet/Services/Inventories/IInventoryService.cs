@@ -9,6 +9,11 @@ namespace Sql2023.Intranet.Services.Inventories
 	public partial interface IInventoryService
 	{
 		/// <summary>
+		/// Gets consigned <see cref="Inventory"/>.
+		/// </summary>
+		/// <returns>A list of consigned <see cref="Inventory"/>.</returns>
+		IList<Inventory> GetConsigned();
+		/// <summary>
 		/// Gets the Description of a coin.
 		/// </summary>
 		/// <param name="id">The Inventory ID.</param>

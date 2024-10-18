@@ -13,7 +13,7 @@ namespace Sap.Rcw.Automation
 		public async Task GetAllInvoices(SLConnection serviceLayer)
 		{
 			Common.nLog.Trace("Begin method GetAllInvoices().");
-			var list = await new Api.Services.InvoiceService(serviceLayer).GetAll();
+			var list = await Common.RcwServiceLayer.GetAllInvoicesAsync();
 
 			if (list == null || list.Count == 0) {
 				Common.nLog.Warn("List is empty.");

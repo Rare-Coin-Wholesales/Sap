@@ -8,14 +8,14 @@ namespace Sap.Automation
 		{
 			Common.StartProgram(args);
 
-			//await InsightToSap.ProcessAsync();
-
 			if (Common.doAabrc)
 				await Common.ProcessAabrcAsync();
 			if (Common.doAabw)
 				await Common.ProcessAabwAsync();
-			if (Common.doRcw)
+			if (Common.doRcw) {
 				await Common.ProcessRcwAsync();
+				await InsightToSap.ProcessAsync();
+			}
 
 			Common.EndProgram(0);
 		}
