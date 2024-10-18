@@ -10,21 +10,19 @@ namespace Sql2023.Intranet.Services.Inventories
 	/// <summary>
 	/// Inventory service
 	/// </summary>
-	public partial class InventoryService : IInventoryService
+	public partial class InventoryService : BaseService, IInventoryService
 	{
-		private readonly IEncryptionUtil _encryptionUtil;
-		private readonly IntranetDb _dbContext;
-		private readonly string _connectionString;
 		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		public InventoryService()
+		/// <inheritdoc/>
+		public virtual IList<Inventory> GetConsigned()
 		{
-			_encryptionUtil = new EncryptionUtil();
-			_connectionString = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("Sql2023.Intranet"));
-			_dbContext = new IntranetDb(_connectionString);
+			return (from x in _dbContext.Inventories
+					where !x.InventoryConsignmentReturned &&
+						  (x.InventoryConsignmentNumber != null && x.InventoryConsignmentNumber.Value > 0) &&
+						  (x.InventoryConsignmentDate != null) &&
+						  (x.InventoryConsignmentVendor != null && x.InventoryConsignmentVendor.Trim() != string.Empty)
+					select x).ToList();
 		}
 
 		/// <inheritdoc/>

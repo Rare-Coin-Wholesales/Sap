@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sap.Core;
-using Sap.Services.Security;
 using Sql2023.Intranet.Domain;
 
 namespace Sql2023.Intranet.Services.Invoices
@@ -10,22 +8,9 @@ namespace Sql2023.Intranet.Services.Invoices
 	/// <summary>
 	/// Invoice service
 	/// </summary>
-	public partial class InvoiceService : IInvoiceService
+	public partial class InvoiceService : BaseService, IInvoiceService
 	{
-		private readonly IEncryptionUtil _encryptionUtil;
-		private readonly IntranetDb _dbContext;
-		private readonly string _connectionString;
 		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
-
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		public InvoiceService()
-		{
-			_encryptionUtil = new EncryptionUtil();
-			_connectionString = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("Sql2023.Intranet"));
-			_dbContext = new IntranetDb(_connectionString);
-		}
 
 		/// <inheritdoc/>
 		public virtual IList<InvoiceLineItem> GetLineItemsByInvoiceId(int id)
@@ -36,12 +21,22 @@ namespace Sql2023.Intranet.Services.Invoices
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<Invoice> GetRecentInvoices()
+		public virtual IList<Invoice> GetRecent()
 		{
 			var query =  (from line in _dbContext.InvoiceLineItems
 						  join ent in _dbContext.Invoices on line.InvoiceID equals ent.InvoiceID
 						  where ent.DateEntered > MinDate
 						  select ent).GroupBy(x => x.InvoiceID).Select(grp => grp.FirstOrDefault());
+
+			return query.ToList();
+		}
+
+		/// <inheritdoc/>
+		public virtual IList<string> GetRecentCustomerIds()
+		{
+			var query =  (from x in _dbContext.Invoices
+						  where x.DateEntered > MinDate
+						  select x.Cust_).GroupBy(x => x).Select(grp => grp.FirstOrDefault());
 
 			return query.ToList();
 		}

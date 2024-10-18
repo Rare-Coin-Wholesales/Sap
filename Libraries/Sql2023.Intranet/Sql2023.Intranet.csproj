@@ -67,6 +67,7 @@
     <Compile Include="Domain\UnixCustomer.cs" />
     <Compile Include="IntranetDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\CompanyNamePartials\CompanyNamePartialService.cs" />
     <Compile Include="Services\CompanyNamePartials\ICompanyNamePartialService.cs" />
     <Compile Include="Services\Export\ExportManager.cs" />

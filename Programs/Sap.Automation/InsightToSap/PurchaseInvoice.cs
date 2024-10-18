@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using B1SLayer;
 using Sap.Api.Domain.PurchaseInvoices;
+using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.Orders;
 
@@ -12,58 +11,115 @@ namespace Sap.Automation
 {
 	public static partial class InsightToSap
 	{
-		private static IList<PurchaseInvoice> PurchaseInvoices;
-		private static readonly IList<Order> Orders = _orderService.GetDistinctOrders();
-		private static readonly IOrderService _orderService = new OrderService();
+		private const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000046";
+		private const string AMEX_72006 = "_SYS00000000047";
+		private const string INVENTORY_COIN = "_SYS00000000022";
+		private static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
+		private static readonly IOrderService _intranetOrderService = new OrderService();
 
 		#region Utilities
-		private static PurchaseInvoice ToPurchaseInvoice(Order ent)
+		private static void AddErrorLogs()
+		{
+			Common.RcwServiceLayer.OnError(async call => {
+				var log = string.Empty;
+				log = $"{log}Request: {call.HttpRequestMessage.Method}  {call.HttpRequestMessage.RequestUri}{Environment.NewLine}";
+				log = $"{log}Body sent: {call.RequestBody}{Environment.NewLine}";
+				log = $"{log}{Environment.NewLine}";
+				log = $"{log}Response: {call.HttpResponseMessage?.StatusCode}{Environment.NewLine}";
+				log = $"{log}{await call.HttpResponseMessage?.Content?.ReadAsStringAsync()}";
+				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n4} seconds{Environment.NewLine}";
+				log = $"{log}{Environment.NewLine}";
+
+				_exportManager.WriteToFile(log, "Error");
+			});
+		}
+
+		private static IList<PurchaseInvoice_DocumentLine> GetDocumentLines(Order x)
+		{
+			decimal lineTotal;
+			var list = new List<PurchaseInvoice_DocumentLine>();
+			var lineItems = _intranetOrderService.GetLineItemsByOrderId(x.OrderID);
+
+			if (lineItems == null || lineItems.Count == 0)
+				return list;
+
+			foreach (var item in lineItems.OrderBy(y => y.OrderLine).ToList()) {
+				lineTotal = (item.Price ?? 0) * (item.QtyOrdered ?? 1);
+				list.Add(new PurchaseInvoice_DocumentLine {
+					ItemDescription = $"Coin {item.CoinID}",
+					Quantity = item.QtyOrdered,
+					Price = item.Price,
+					PriceAfterVAT = item.Price,
+					Address = x.ShipToAddress1,
+					LineTotal = lineTotal,
+					TaxTotal = 0,
+					TaxCode = TAX_EXEMPT,
+					RowTotalSC = lineTotal,
+					UnitPrice = item.Price,
+					OpenAmount = item.Price,
+					OpenAmountSC = item.Price,
+					GrossPrice = lineTotal,
+					GrossTotal = lineTotal,
+					GrossTotalSC = lineTotal,
+					AccountCode = INVENTORY_COIN,
+				});
+			}
+
+			return list;
+		}
+
+		private static PurchaseInvoice ToPurchaseInvoice(Order x)
 		{
 			return new PurchaseInvoice {
-				//CardCode = customer.CustID,
-				//CardName = CommonUtil.ToTitleCase(customer.CustName),
-				//CardType = _orderService.DetermineBpType(customer.CustID, customer.CustName),
-				//FederalTaxID = customer.CustReseller ?? "",
-				//Phone1 = customer.CustPhone1 ?? "",
-				//Phone2 = customer.CustPhone2 ?? "",
-				//EmailAddress = CommonUtil.IsValidEmail(customer.CustContact) ? CommonUtil.FormatEmail(customer.CustContact) : "",
-				//Address = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
-				//MailAddress = CommonUtil.ToTitleCase($"{customer.CustAddress1 ?? ""} {customer.CustAddress2 ?? ""}".Trim()),
-				//ZipCode = customer.CustZip ?? "",
-				//MailZipCode = customer.CustZip ?? "",
-				//City = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
-				//MailCity = CommonUtil.ToTitleCase(customer.CustCity ?? ""),
-				//BillToState = customer.CustState ?? "",
-				//ShipToState = customer.CustState ?? "",
-				//Notes = customer.BuildNotes(),
+				NumAtCard = x.OrderID.ToString(),
+				DocType = DOCUMENT_SERVICE,
+				CreationDate = x.DateEntered,
+				DocDate = x.DateEntered,
+				DocDueDate = x.DateEntered,
+				TaxDate = x.DateEntered,
+				UpdateDate = x.DateRevised,
+				DocTotal = x.TotalSales / 10000, // Insight adds 4 extra zeros
+				DocTotalSys = x.TotalSales / 10000,
+				Address = x.ShipToAddress1,
+				Address2 = x.ShipToAddress2,
+				CardCode = $"V{x.Cust_}",
+				JournalMemo = $"A/P Invoices - V{x.Cust_}",
+				ControlAccount = AMEX_72006,
+				DocumentLines = GetDocumentLines(x),
 			};
 		}
 		#endregion
 
-		public static async Task CreatePurchaseInvoicesAsync()
+		public static async Task CreateMissingPurchaseInvoices()
 		{
-			var createList = (from ent in Orders // left join
-							  from b in PurchaseInvoices.Where(x => x.DocEntry == ent.OrderID).DefaultIfEmpty()
-							  where b == null || b.DocEntry == null
-							  select ent).ToList();
+			AddErrorLogs();
+			var purchaseInvoices = _intranetOrderService.GetRecent();
 
-			PurchaseInvoice bp;
-			var folder = $"C:/Logs/Sap.Tests/{DateTime.Now:yyyy MM}/";
-			Directory.CreateDirectory(folder);
-			var log = "CustID,CustName,CardName,CardType,CustReseller,FederalTaxID,CustPhone1,Phone1,CustPhone2,Phone2,CustContact,EmailAddress,CustAddress1,CustAddress2,Address,CustZip,ZipCode,CustCity,City,CustState,BillToState,CustTerms,CustTaxCode,Notes\r\n";
-			var _purchaseInvoiceService = new Api.Services.PurchaseInvoiceService(_rcwServiceLayer);
+			if (purchaseInvoices == null || purchaseInvoices.Count == 0)
+				return;
 
-			//foreach (var v in createList) {
-			//	bp = ToPurchaseInvoice(v);
-			//	log = $"{log}\"{v.CustID}\",\"{v.CustName}\",\"{bp.CardName}\",\"{bp.CardType}\",\"{v.CustReseller}\",\"{bp.FederalTaxID}\",\"{v.CustPhone1}\",\"{bp.Phone1}\",\"{v.CustPhone2}\",\"{bp.Phone2}\",\"{v.CustContact}\",\"{bp.EmailAddress}\",\"{v.CustAddress1}\",\"{v.CustAddress2}\",\"{bp.Address}\",\"{v.CustZip}\",\"{bp.ZipCode}\",\"{v.CustCity}\",\"{bp.City}\",\"{v.CustState}\",\"{bp.BillToState}\",\"{v.CustTerms}\",\"{v.CustTaxCode}\",\"{bp.Notes}\"\r\n";
+			_exportManager.ExportToCsv(purchaseInvoices);
+			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAll();
+			var missingPurchaseInvoices = (from x in purchaseInvoices // left join
+										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard.StartsWith(x.OrderID.ToString()) ||
+																	   y.NumAtCard.EndsWith(x.OrderID.ToString())).DefaultIfEmpty()
+										   where y == null || y.NumAtCard == null
+										   select x).Take(10).ToList();
 
-			//	var x = await _purchaseInvoiceService.TryCreate(bp);
+			foreach (var purchaseInvoice in missingPurchaseInvoices) {
+				try {
+					await Common.RcwServiceLayer.CreateAsync(ToPurchaseInvoice(purchaseInvoice));
+				}
 
-			//	if (x.Item1 == null)
-			//		Common.nLog.Error(x.errorMsg);
-			//}
-
-			File.WriteAllText($"{folder}CreatePurchaseInvoicesAsync {DateTime.Now:dd HHmm ssff}.csv", log);
+				#region catch (Exception ex)
+				catch (Exception ex) {
+					if (ex.InnerException == null)
+						_logger.InsertWarning(ex);
+					else
+						throw;
+				}
+				#endregion
+			}
 		}
 	}
 }

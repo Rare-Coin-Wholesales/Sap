@@ -127,10 +127,12 @@
     <Compile Include="Aabw\TransactionCodes\TransactionCodeUtil.cs" />
     <Compile Include="Aabw\VendorPayments\VendorPaymentUtil.cs" />
     <Compile Include="Common.cs" />
-    <Compile Include="InsightToSap\Item.cs" />
-    <Compile Include="InsightToSap\PurchaseInvoice.cs" />
     <Compile Include="InsightToSap\BusinessPartner.cs" />
     <Compile Include="InsightToSap\InsightToSap.cs" />
+    <Compile Include="InsightToSap\Invoice.cs" />
+    <Compile Include="InsightToSap\Item.cs" />
+    <Compile Include="InsightToSap\PurchaseInvoice.cs" />
+    <Compile Include="InsightToSap\TradingAccountTransaction.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Program.cs" />
@@ -208,6 +210,10 @@
     <ProjectReference Include="..\..\Libraries\Sql2023.Intranet\Sql2023.Intranet.csproj">
       <Project>{b219338f-6e3d-4ced-87ce-21ed027f3fa0}</Project>
       <Name>Sql2023.Intranet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sql2023.WwwSPs\Sql2023.WwwSPs.csproj">
+      <Project>{ff69b15b-9240-4d3d-86c4-f0f0b97fb4ab}</Project>
+      <Name>Sql2023.WwwSPs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -1,103 +1,61 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using B1SLayer;
 using Sap.Api.Domain.BusinessPartners;
 
-namespace Sap.Api.Services
+namespace Sap.Api
 {
-	public partial class BusinessPartnerService : BaseService
+	public partial class ServiceLayer : SLConnection
 	{
-		public const string ACTION = "BusinessPartners";
-
-		public BusinessPartnerService(SLConnection ServiceLayer) : base(ServiceLayer) { }
-
-		/// <summary>
-		/// Creates a <see cref="BusinessPartner"/>.
-		/// </summary>
-		/// <param name="x">The <see cref="BusinessPartner"/> to create.</param>
-		/// <returns>The created <see cref="BusinessPartner"/>.</returns>
 		public async Task<BusinessPartner> CreateAsync(BusinessPartner x)
 		{
-			var created = await ServiceLayer.Request(ACTION).PostAsync<BusinessPartner>(x);
+			var created = await Request("BusinessPartners").PostAsync<BusinessPartner>(x);
 			return created;
 		}
 
-		public async Task<IList<BusinessPartner>> GetAll()
+		public async Task DeleteAsync(BusinessPartner x)
 		{
-			try {
-				var list = await ServiceLayer.Request(ACTION).GetAllAsync<BusinessPartner>();
-				return list;
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "BusinessPartnerService.GetAll()");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			await Request("BusinessPartners", x.CardCode).DeleteAsync();
 		}
 
-		public async Task<BusinessPartner> GetByCardCode(string cardCode)
+		public async Task DeleteBusinessPartnerByIdAsync(object id)
 		{
-			try {
-				var x = await ServiceLayer.Request(ACTION, cardCode).GetAsync<BusinessPartner>();
-				return x;
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "BusinessPartnerService.GetByCardCode(string cardCode)");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			await Request("BusinessPartners", id).DeleteAsync();
 		}
 
-		/// <summary>
-		/// Tries to create a <see cref="BusinessPartner"/>. On error, any messages will be held in errorMsg.
-		/// </summary>
-		/// <param name="x"></param>
-		/// <returns></returns>
-		public async Task<(BusinessPartner, string errorMsg)> TryCreate(BusinessPartner x)
+		public async Task<IList<BusinessPartner>> GetAllBusinessPartnersAsync()
 		{
-			var errorMsg = string.Empty;
-
-			try {
-				return (await CreateAsync(x), errorMsg);
-			}
-
-			catch (Exception ex) {
-				errorMsg = $"{errorMsg}{ex.Message}{Environment.NewLine}";
-				errorMsg = $"{errorMsg}Exception thrown in BusinessPartnerService.TryCreate(BusinessPartner x).{Environment.NewLine}";
-				errorMsg = $"{errorMsg}{ex}{Environment.NewLine}";
-				return (null, errorMsg);
-			}
+			var all = await Request("BusinessPartners").GetAllAsync<BusinessPartner>();
+			return all;
 		}
 
-		public async void UpdateAsync(BusinessPartner x)
+		public async Task<BusinessPartner> GetBusinessPartnerAsync(object id)
 		{
-			try {
-				await ServiceLayer.Request(ACTION, x.CardCode).PatchAsync(x);
-			}
+			var entity = await Request("BusinessPartners", id).GetAsync<BusinessPartner>();
+			return entity;
+		}
 
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "BusinessPartnerService.UpdateAsync(BusinessPartner x)");
+		public void LogToCsv(IList<BusinessPartner> list)
+		{
+			var log = "CardCode,CardType,CardName\r\n";
 
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			foreach (var v in list)
+				log = String.Format($"{log}\"{v.CardCode}\",\"{v.CardType}\",\"{v.CardName}\"{Environment.NewLine}");
+
+			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
+			Directory.CreateDirectory(folder);
+			File.WriteAllText(String.Format("{0}BusinessPartners {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+		}
+
+		public async Task PatchAsync(BusinessPartner x)
+		{
+			x.CreateDate = null;
+			x.CreateTime = null;
+			x.UpdateDate = null;
+			x.UpdateTime = null;
+			await Request("BusinessPartners", x.CardCode).PatchAsync(x);
 		}
 	}
 }

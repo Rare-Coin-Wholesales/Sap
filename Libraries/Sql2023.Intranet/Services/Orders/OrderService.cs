@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sap.Core;
-using Sap.Services.Security;
 using Sql2023.Intranet.Domain;
 
 namespace Sql2023.Intranet.Services.Orders
@@ -10,25 +8,20 @@ namespace Sql2023.Intranet.Services.Orders
 	/// <summary>
 	/// Order service
 	/// </summary>
-	public partial class OrderService : IOrderService
+	public partial class OrderService : BaseService, IOrderService
 	{
-		private readonly IEncryptionUtil _encryptionUtil;
-		private readonly IntranetDb _dbContext;
-		private readonly string _connectionString;
 		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
-		/// <summary>
-		/// Ctor
-		/// </summary>
-		public OrderService()
+		/// <inheritdoc/>
+		public virtual IList<OrderLineItem> GetLineItemsByOrderId(int id)
 		{
-			_encryptionUtil = new EncryptionUtil();
-			_connectionString = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("Sql2023.Intranet"));
-			_dbContext = new IntranetDb(_connectionString);
+			return (from x in _dbContext.OrderLineItems
+					where x.OrderID == id
+					select x).ToList();
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<Order> GetDistinctOrders()
+		public virtual IList<Order> GetRecent()
 		{
 			var query =  (from line in _dbContext.OrderLineItems
 						  join ent in _dbContext.Orders on line.OrderID equals ent.OrderID
@@ -39,11 +32,13 @@ namespace Sql2023.Intranet.Services.Orders
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<OrderLineItem> GetLineItemsByOrderId(int id)
+		public virtual IList<string> GetRecentCustomerIds()
 		{
-			return (from x in _dbContext.OrderLineItems
-					where x.OrderID == id
-					select x).ToList();
+			var query =  (from x in _dbContext.Orders
+						  where x.DateEntered > MinDate
+						  select x.Cust_).GroupBy(x => x).Select(grp => grp.FirstOrDefault());
+
+			return query.ToList();
 		}
 	}
 }

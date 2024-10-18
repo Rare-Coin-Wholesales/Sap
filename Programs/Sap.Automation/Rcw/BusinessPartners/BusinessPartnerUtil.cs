@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using B1SLayer;
-using Sap.Api.Domain.BusinessPartners;
 using Sap.Automation;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners;
 
@@ -14,7 +13,7 @@ namespace Sap.Rcw.Automation
 		public async Task GetAllBusinessPartners(SLConnection serviceLayer)
 		{
 			Common.nLog.Trace("Begin method GetAllBusinessPartners().");
-			var list = await serviceLayer.Request(BusinessPartnerRequest.ACTION).GetAllAsync<BusinessPartner>();
+			var list = await Common.RcwServiceLayer.GetAllBusinessPartnersAsync();
 
 			if (list == null || list.Count == 0)
 				return;

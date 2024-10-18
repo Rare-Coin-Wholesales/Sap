@@ -1,99 +1,58 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using B1SLayer;
 using Sap.Api.Domain.PurchaseInvoices;
 
-namespace Sap.Api.Services
+namespace Sap.Api
 {
-	public partial class PurchaseInvoiceService : BaseService
+	public partial class ServiceLayer : SLConnection
 	{
-		public const string ACTION = "PurchaseInvoices";
-
-		public PurchaseInvoiceService(SLConnection ServiceLayer) : base(ServiceLayer) { }
-
-		public async void CancelAsync(PurchaseInvoice x)
+		public async Task CancelAsync(PurchaseInvoice x)
 		{
 			x.CancelDate = DateTime.UtcNow;
 			x.Cancelled = CANCELLED_YES;
 			x.CancelStatus = CANCEL_STATUS_YES;
-
-			try {
-				await ServiceLayer.Request(ACTION, x.DocEntry).PatchAsync(x);
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.CancelAsync(PurchaseInvoice x)");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			await PatchAsync(x);
 		}
 
 		public async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
 		{
-			var created = await ServiceLayer.Request(ACTION).PostAsync<PurchaseInvoice>(x);
+			var created = await Request("PurchaseInvoices").PostAsync<PurchaseInvoice>(x);
 			return created;
 		}
 
-		public async Task<IList<PurchaseInvoice>> GetAll()
+		public async Task<IList<PurchaseInvoice>> GetAllPurchaseInvoicesAsync()
 		{
-			try {
-				var list = await ServiceLayer.Request(ACTION).GetAllAsync<PurchaseInvoice>();
-				return list;
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.GetAll()");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			var all = await Request("PurchaseInvoices").GetAllAsync<PurchaseInvoice>();
+			return all;
 		}
 
-		public async Task<PurchaseInvoice> GetByDocEntry(int docEntry)
+		public async Task<PurchaseInvoice> GetPurchaseInvoiceAsync(object id)
 		{
-			try {
-				var x = await ServiceLayer.Request(ACTION, docEntry).GetAsync<PurchaseInvoice>();
-				return x;
-			}
-
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.GetByDocEntry(int docEntry)");
-
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			var entity = await Request("PurchaseInvoices", id).GetAsync<PurchaseInvoice>();
+			return entity;
 		}
 
-		public async void UpdateAsync(PurchaseInvoice x)
+		public void LogToCsv(IList<PurchaseInvoice> list)
 		{
-			try {
-				await ServiceLayer.Request(ACTION, x.DocEntry).PatchAsync(x);
-			}
+			var log = "DocEntry,DocNum,DocType,CardCode,Comments\r\n";
 
-			catch (Exception ex) {
-				#region Handle exception
-				var msg = GetFullErrorText(ex, "PurchaseInvoiceService.UpdateAsync(PurchaseInvoice x)");
+			foreach (var v in list)
+				log = String.Format($"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.DocType}\",\"{v.CardCode}\",\"{v.Comments}\"{Environment.NewLine}");
 
-				if (String.IsNullOrWhiteSpace(msg))
-					throw;
-				else
-					throw new Exception(msg);
-				#endregion
-			}
+			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
+			Directory.CreateDirectory(folder);
+			File.WriteAllText(String.Format("{0}PurchaseInvoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+		}
+
+		public async Task PatchAsync(PurchaseInvoice x)
+		{
+			x.CreationDate = null;
+			x.UpdateDate = null;
+			x.UpdateTime = null;
+			await Request("PurchaseInvoices", x.DocEntry).PatchAsync(x);
 		}
 	}
 }

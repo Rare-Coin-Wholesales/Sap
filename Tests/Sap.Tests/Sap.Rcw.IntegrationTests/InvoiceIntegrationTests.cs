@@ -1,13 +1,12 @@
-using B1SLayer;
+using Sap.Api;
 using Sap.Api.Domain.Invoices;
-using Sap.ApiToScarRcwMapper;
 using Sap.Core;
 using Sap.Services.Security;
-using Sap.Tests;
 using Sql2023.Intranet.Services.Export;
-using Sql2023.Intranet.Services.Invoices;
 using Sql2023.Intranet.Services.Logging;
-using Invoice = Sap.Api.Domain.Invoices.Invoice;
+using ApiInvoice = Sap.Api.Domain.Invoices.Invoice;
+using IntraInvoices = Sql2023.Intranet.Services.Invoices;
+using ScarInvoices = ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
 
 namespace Sap.Rcw.IntegrationTests
 {
@@ -24,17 +23,18 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly IExportManager _exportManager = new ExportManager();
 		private static readonly ILogger _logger = new DefaultLogger();
-		private static readonly IInvoiceService _intranetInvoiceService = new Sql2023.Intranet.Services.Invoices.InvoiceService();
+		private static readonly IntraInvoices.IInvoiceService _intranetInvoiceService = new IntraInvoices.InvoiceService();
+		private static readonly ScarInvoices.IInvoiceService _scarWitchInvoiceService = new ScarInvoices.InvoiceService();
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-		private static readonly SLConnection ServiceLayer = new SLConnection(BaseUrl, TEST_COMPANY_DB, Username, Password);
+		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, TEST_COMPANY_DB, Username, Password);
 
 		#region Utilities
 		private void AddErrorLogs()
 		{
-			ServiceLayer.OnError(async call => {
+			_serviceLayer.OnError(async call => {
 				var log = string.Empty;
 				log = $"{log}Request: {call.HttpRequestMessage.Method}  {call.HttpRequestMessage.RequestUri}{Environment.NewLine}";
 				log = $"{log}Body sent: {call.RequestBody}{Environment.NewLine}";
@@ -73,10 +73,10 @@ namespace Sap.Rcw.IntegrationTests
 			if (lineItems == null || lineItems.Count == 0)
 				return list;
 
-			foreach (var item in lineItems) {
+			foreach (var item in lineItems.OrderBy(x => x.InvoiceLine).ToList()) {
 				lineTotal = (item.Price ?? 0) * (item.QtyOrdered ?? 1);
 				list.Add(new Invoice_DocumentLine {
-					ItemDescription = item.CoinID.ToString(),
+					ItemDescription = $"Coin {item.CoinID}",
 					Quantity = item.QtyOrdered,
 					Price = item.Price,
 					PriceAfterVAT = item.Price,
@@ -88,7 +88,6 @@ namespace Sap.Rcw.IntegrationTests
 					UnitPrice = item.Price,
 					OpenAmount = item.Price,
 					OpenAmountSC = item.Price,
-					DocEntry = x.InvoiceID,
 					GrossPrice = lineTotal,
 					GrossTotal = lineTotal,
 					GrossTotalSC = lineTotal,
@@ -99,11 +98,10 @@ namespace Sap.Rcw.IntegrationTests
 			return list;
 		}
 
-		private static Invoice ToInvoice(Sql2023.Intranet.Domain.Invoice x)
+		private static ApiInvoice ToInvoice(Sql2023.Intranet.Domain.Invoice x)
 		{
-			return new Invoice {
-				DocEntry = x.InvoiceID,
-				DocNum = x.InvoiceID,
+			return new ApiInvoice {
+				NumAtCard = x.InvoiceID.ToString(),
 				DocType = DOCUMENT_SERVICE,
 				CreationDate = x.DateEntered,
 				DocDate = x.DateEntered,
@@ -122,58 +120,29 @@ namespace Sap.Rcw.IntegrationTests
 		}
 		#endregion
 
-		[Fact]
-		public async Task Test_CreateAsync()
-		{
-			AddErrorLogs();
-			var now = DateTime.Now;
-			var data = new Api.Domain.Invoices.Invoice
-            {
-				DocEntry = 51957,
-				DocNum = 51957,
-				CardCode = "17810",
-				ShipState = "MA",
-				CreationDate = DateTime.Parse("2024-07-09 00:00:00.000"),
-				DocDate = DateTime.Parse("2024-07-09 00:00:00.000"),
-				UpdateDate = DateTime.Parse("2024-09-09 00:00:00.000"),
-				DocumentLines = new List<Invoice_DocumentLine>(),
-			};
-
-			data.DocumentLines.Add(new Invoice_DocumentLine {
-				LineNum = 0,
-				ItemCode = "136377",
-				ItemDescription = "136377",
-				Quantity = 1,
-				UnitPrice = 25500.00m,
-				LineTotal = 25500.00m,
-			});
-
-			var _invoiceService = new Api.Services.InvoiceService(ServiceLayer);
-			var created = await _invoiceService.CreateAsync(data);
-			created.ShouldNotBeNull();
-		}
-
 		/// <summary>
 		/// Invoice => Invoice (A/R).
 		/// </summary>
 		[Fact]
-		public async Task Test_CreateInvoicesAsync()
+		public async void Test_CreateMissingInvoices()
 		{
 			AddErrorLogs();
-			var invoices = _intranetInvoiceService.GetRecentInvoices();
+			var invoices = _intranetInvoiceService.GetRecent();
 
 			if (invoices == null || invoices.Count == 0)
 				return;
 
-			invoices = invoices.OrderBy(x => x.InvoiceID).Take(1).ToList();
 			_exportManager.ExportToCsv(invoices);
-            Api.Domain.Invoices.Invoice pi;
-			var _apiInvoiceService = new Api.Services.InvoiceService(ServiceLayer);
+			var sapRcwInvoices = _scarWitchInvoiceService.GetAll();
+			var missingInvoices = (from x in invoices // left join
+								   from y in sapRcwInvoices.Where(y => y.NumAtCard.StartsWith(x.InvoiceID.ToString()) ||
+																	   y.NumAtCard.EndsWith(x.InvoiceID.ToString())).DefaultIfEmpty()
+								   where y == null || y.NumAtCard == null
+								   select x).ToList();
 
-			foreach (var invoice in invoices) {
+			foreach (var invoice in missingInvoices) {
 				try {
-					pi = ToInvoice(invoice);
-					var x = await _apiInvoiceService.CreateAsync(pi);
+					await _serviceLayer.CreateAsync(ToInvoice(invoice));
 				}
 
 				#region catch (Exception ex)
@@ -186,116 +155,5 @@ namespace Sap.Rcw.IntegrationTests
 				#endregion
 			}
 		}
-
-		[Fact]
-		public async Task Test_GetAllAsync()
-		{
-			var _invoiceService = new Api.Services.InvoiceService(ServiceLayer);
-			var all = await _invoiceService.GetAll();
-			all.ShouldNotBeNull();
-		}
-
-		[Fact]
-		public async Task Test_GetAllInvoicesAsync()
-		{
-			var _mapper = new Mapper();
-			var _invoiceService = new ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices.InvoiceService();
-			var _invoiceServiceNew = new Api.Services.InvoiceService(ServiceLayer);
-			var list = await _invoiceServiceNew.GetAll();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_invoiceService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_invoiceService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.DocumentLines) {
-							try {
-								_invoiceService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-
-			//var log = "DocEntry,DocNum,DocType,CardCode,Comments\r\n";
-
-			//foreach (var v in list)
-			//	log = String.Format($"{log}{v.DocEntry},{v.DocNum},{v.DocType},{v.CardCode},{v.Comments}{Environment.NewLine}");
-
-			//var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
-			//Directory.CreateDirectory(folder);
-			//File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_GetAllInvoicesAsync.csv", folder, DateTime.Now), log);
-		}
-
-		#region Prev
-		//private static readonly EncryptionUtil _encryptionUtil = new();
-		//private static readonly Mapper _mapper = new();
-		//private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
-		//private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		//private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
-		//private static readonly string Test_CompanyDb = "A21384_RCW_T01";
-		//private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-
-		//private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Rcw_CompanyDb, Username, Password);
-		//private readonly ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices.InvoiceService _invoiceService = new();
-
-		//[Fact]
-		//public async Task Test_GetAllInvoicesAsync()
-		//{
-		//	var _invoiceServiceNew = new Api.Services.InvoiceService(ServiceLayer);
-		//	var list = await _invoiceServiceNew.GetAll();
-
-		//	if (list == null || list.Count == 0)
-		//		Assert.False(false);
-		//	else {
-		//		_invoiceService.TruncateTable();
-
-		//		foreach (var v in list) {
-		//			try {
-		//				_invoiceService.Insert(_mapper.ToSql(v));
-		//				Assert.True(true);
-
-		//				foreach (var line in v.DocumentLines) {
-		//					try {
-		//						_invoiceService.InsertDocumentLine(_mapper.ToSql(line));
-		//						Assert.True(true);
-		//					}
-
-		//					catch {
-		//						Assert.True(false);
-		//					}
-		//				}
-		//			}
-
-		//			catch {
-		//				Assert.True(false);
-		//			}
-		//		}
-		//	}
-
-		//	//var log = "DocEntry,DocNum,DocType,CardCode,Comments\r\n";
-
-		//	//foreach (var v in list)
-		//	//	log = String.Format($"{log}{v.DocEntry},{v.DocNum},{v.DocType},{v.CardCode},{v.Comments}{Environment.NewLine}");
-
-		//	//var folder = String.Format("C:/Logs/Sap.Tests/{0:yyyy MM}/", DateTime.Now);
-		//	//Directory.CreateDirectory(folder);
-		//	//File.WriteAllText(String.Format("{0}{1:dd HH mmss} Test_GetAllInvoicesAsync.csv", folder, DateTime.Now), log);
-		//}
-		#endregion
 	}
 }

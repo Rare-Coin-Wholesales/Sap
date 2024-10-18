@@ -31,7 +31,7 @@ namespace Sap.Automation
 
 			foreach (var coin in missingCoins) {
 				try {
-					await _testServiceLayer.CreateAsync(new Item {
+					await Common.RcwServiceLayer.CreateAsync(new Item {
 						ItemCode = coin.InventoryID.ToString(),
 						ItemName = coin.InventoryDescription1.Trim(),
 					});
@@ -64,7 +64,7 @@ namespace Sap.Automation
 
 			foreach (var coin in missingCoins) {
 				try {
-					await _testServiceLayer.CreateAsync(new Item {
+					await Common.RcwServiceLayer.CreateAsync(new Item {
 						ItemCode = coin.InventoryID.ToString(),
 						ItemName = coin.InventoryDescription1.Trim(),
 					});

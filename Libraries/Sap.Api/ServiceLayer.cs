@@ -6,6 +6,11 @@ namespace Sap.Api
 {
 	public partial class ServiceLayer : SLConnection
 	{
+		public const string CANCEL_STATUS_NO = "csNo";
+		public const string CANCEL_STATUS_YES = "csYes";
+		public const string CANCELLED_NO = "tNO";
+		public const string CANCELLED_YES = "tYES";
+
 		public ServiceLayer(string serviceLayerRoot, string companyDb, string username, string password)
 			: base(serviceLayerRoot, companyDb, username, password) { }
 
