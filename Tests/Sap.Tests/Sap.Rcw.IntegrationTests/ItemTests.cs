@@ -55,22 +55,14 @@ namespace Sap.Tests.Sap.Rcw.IntegrationTests
 								select x).ToList();
 
 			foreach (var coin in missingCoins) {
-				try {
-					await _testServiceLayer.CreateAsync(new Item {
-						ItemCode = coin.InventoryID.ToString(),
-						ItemName = coin.InventoryDescription1.Trim(),
-						QuantityOnStock = "1",
-					});
-				}
+				var created = await _testServiceLayer.TryCreateAsync(new Item {
+					ItemCode = coin.InventoryID.ToString(),
+					ItemName = coin.InventoryDescription1.Trim(),
+					QuantityOnStock = "1",
+				});
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					throw new Exception(created.Item2);
 			}
 		}
 
@@ -85,9 +77,12 @@ namespace Sap.Tests.Sap.Rcw.IntegrationTests
 				ItemName = $"TEST {now:M/d/yyyy HH:mm:ss.ffff}",
 			};
 
-			var created = await _testServiceLayer.CreateAsync(test);
-			created.ShouldNotBeNull();
-			return created;
+			var created = await _testServiceLayer.TryCreateAsync(test);
+
+			if (created.Item1 == null)
+				throw new Exception(created.Item2);
+
+			return created.Item1;
 		}
 
 		[Fact]

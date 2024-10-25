@@ -6,6 +6,7 @@ using Sap.Core;
 using Sap.Services.Security;
 using Sap.Tests;
 using Sql2023.Intranet.Domain;
+using Sql2023.Intranet.Domain.Logging;
 using Sql2023.Intranet.Services.Export;
 using Sql2023.Intranet.Services.Logging;
 using Sql2023.Intranet.Services.UnixCustomers;
@@ -79,7 +80,7 @@ namespace Sap.Rcw.IntegrationTests
 		public async void Test_CreateMissingInvoiceUnixCustomers()
 		{
 			_testServiceLayer.AddErrorLogs();
-			var invoiceUnixCustomers = _unixCustomerService.GetInvoiceUnixCustomers();
+			var invoiceUnixCustomers = _unixCustomerService.GetRecent();
 
 			if (invoiceUnixCustomers == null || invoiceUnixCustomers.Count == 0)
 				return;
@@ -89,19 +90,11 @@ namespace Sap.Rcw.IntegrationTests
 			BusinessPartner bp;
 
 			foreach (var cust in invoiceUnixCustomers) {
-				try {
-					bp = ToCustomer(cust);
-					await _testServiceLayer.CreateAsync(bp);
-				}
+				bp = ToCustomer(cust);
+				var created = await _testServiceLayer.TryCreateAsync(bp);
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					_logger.Insert(LogLevel.Warning, created.Item2);
 			}
 		}
 
@@ -112,7 +105,7 @@ namespace Sap.Rcw.IntegrationTests
 		public async void Test_CreateMissingOrderUnixCustomers()
 		{
 			_testServiceLayer.AddErrorLogs();
-			var orderUnixCustomers = _unixCustomerService.GetOrderUnixCustomers();
+			var orderUnixCustomers = _unixCustomerService.GetRecent();
 
 			if (orderUnixCustomers == null || orderUnixCustomers.Count == 0)
 				return;
@@ -122,19 +115,11 @@ namespace Sap.Rcw.IntegrationTests
 			BusinessPartner bp;
 
 			foreach (var cust in orderUnixCustomers) {
-				try {
-					bp = ToSupplier(cust);
-					await _testServiceLayer.CreateAsync(bp);
-				}
+				bp = ToCustomer(cust);
+				var created = await _testServiceLayer.TryCreateAsync(bp);
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					_logger.Insert(LogLevel.Warning, created.Item2);
 			}
 		}
 

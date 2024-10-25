@@ -9,10 +9,13 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 	public partial interface ITradingAccountTransactionService
 	{
 		/// <summary>
-		/// Gets all TA Document IDs.
+		/// Gets all AP <see cref="TradingAccountTransaction"/>s.
 		/// </summary>
-		/// <returns>A list of TA Document IDs.</returns>
-		IList<string> GetAllTaDocumentIds();
+		IList<TradingAccountTransaction> GetAPs();
+		/// <summary>
+		/// Gets all AR <see cref="TradingAccountTransaction"/>s.
+		/// </summary>
+		IList<TradingAccountTransaction> GetARs();
 		/// <summary>
 		/// Inserts a <see cref="TradingAccountTransaction"/>.
 		/// </summary>

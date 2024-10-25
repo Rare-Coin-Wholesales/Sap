@@ -17,7 +17,7 @@ namespace Sap.Api
 			await PatchAsync(x);
 		}
 
-		public async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
+		protected async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
 		{
 			var created = await Request("PurchaseInvoices").PostAsync<PurchaseInvoice>(x);
 			return created;
@@ -53,6 +53,17 @@ namespace Sap.Api
 			x.UpdateDate = null;
 			x.UpdateTime = null;
 			await Request("PurchaseInvoices", x.DocEntry).PatchAsync(x);
+		}
+
+		public async Task<(PurchaseInvoice, string)> TryCreateAsync(PurchaseInvoice x)
+		{
+			try {
+				return (await CreateAsync(x), null);
+			}
+
+			catch (Exception ex) {
+				return (null, GetErrorMessage(ex));
+			}
 		}
 	}
 }

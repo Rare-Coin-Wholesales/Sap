@@ -52,12 +52,35 @@ namespace Sql2023.Intranet.Services.Export
 			if (list == null)
 				throw new ArgumentNullException("list", "List is required.");
 
-			var sb = new StringBuilder($"InvoiceID,Cust#,ShipToName1{Environment.NewLine}");
+			var sb = new StringBuilder($"InvoiceID,Cust#,ShipToName1,ShipToName2,ShipToAddress1,ShipToAddress2,ShipToCity,ShipToState,ShipToZip,Territory,SalesRep,Terms,OrderNumber,TaxCode,DateEntered,DateInvoiced,DateShipped,CustomerPO,ShipVia,ShipTracking,ShipDateActual,TotalSales,TotalSalesTaxable,TotalCost,TotalRock,TaxAmount{Environment.NewLine}");
 
 			foreach (var item in list) {
 				sb.Append($"\"{item.InvoiceID}\"{COMMA}");
 				sb.Append($"\"{item.Cust_}\"{COMMA}");
-				sb.Append($"\"{item.ShipToName1}\"{Environment.NewLine}"); //new line
+				sb.Append($"\"{item.ShipToName1}\"{COMMA}");
+				sb.Append($"\"{item.ShipToName2}\"{COMMA}");
+				sb.Append($"\"{item.ShipToAddress1}\"{COMMA}");
+				sb.Append($"\"{item.ShipToAddress2}\"{COMMA}");
+				sb.Append($"\"{item.ShipToCity}\"{COMMA}");
+				sb.Append($"\"{item.ShipToState}\"{COMMA}");
+				sb.Append($"\"{item.ShipToZip}\"{COMMA}");
+				sb.Append($"\"{item.Territory}\"{COMMA}");
+				sb.Append($"\"{item.SalesRep}\"{COMMA}");
+				sb.Append($"\"{item.Terms}\"{COMMA}");
+				sb.Append($"\"{item.OrderNumber}\"{COMMA}");
+				sb.Append($"\"{item.TaxCode}\"{COMMA}");
+				sb.Append($"\"{item.DateEntered}\"{COMMA}");
+				sb.Append($"\"{item.DateInvoiced}\"{COMMA}");
+				sb.Append($"\"{item.DateShipped}\"{COMMA}");
+				sb.Append($"\"{item.CustomerPO}\"{COMMA}");
+				sb.Append($"\"{item.ShipVia}\"{COMMA}");
+				sb.Append($"\"{item.ShipTracking}\"{COMMA}");
+				sb.Append($"\"{item.ShipDateActual}\"{COMMA}");
+				sb.Append($"\"{item.TotalSales}\"{COMMA}");
+				sb.Append($"\"{item.TotalSalesTaxable}\"{COMMA}");
+				sb.Append($"\"{item.TotalCost}\"{COMMA}");
+				sb.Append($"\"{item.TotalRock}\"{COMMA}");
+				sb.Append($"\"{item.TaxAmount}\"{Environment.NewLine}"); //new line
 			}
 
 			WriteToCsvFile(sb.ToString(), "Invoices");

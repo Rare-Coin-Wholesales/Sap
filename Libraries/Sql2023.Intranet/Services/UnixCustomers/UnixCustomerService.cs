@@ -16,7 +16,6 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 		private readonly ICompanyNamePartialService _companyNamePartialService = new CompanyNamePartialService();
 		private readonly IInvoiceService _invoiceService = new InvoiceService();
 		private readonly IOrderService _orderService = new OrderService();
-		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
 		/// <inheritdoc/>
 		public virtual string DetermineBpType(string id, string name)
@@ -36,26 +35,6 @@ namespace Sql2023.Intranet.Services.UnixCustomers
 		{
 			return (from x in _dbContext.UnixCustomers
 					select x).ToList();
-		}
-
-		[Obsolete("Phase out and use GetRecent() instead.", false)]
-		/// <inheritdoc/>
-		public virtual IList<UnixCustomer> GetInvoiceUnixCustomers()
-		{
-			return (from uc in _dbContext.UnixCustomers
-					join ent in _dbContext.Invoices on uc.CustID equals ent.Cust_
-					where ent.DateEntered > MinDate
-					select uc).ToList();
-		}
-
-		[Obsolete("Phase out and use GetRecent() instead.", false)]
-		/// <inheritdoc/>
-		public virtual IList<UnixCustomer> GetOrderUnixCustomers()
-		{
-			return (from uc in _dbContext.UnixCustomers
-					join ent in _dbContext.Orders on uc.CustID equals ent.Cust_
-					where ent.DateEntered > MinDate
-					select uc).ToList();
 		}
 
 		/// <inheritdoc/>

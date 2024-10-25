@@ -9,7 +9,7 @@ namespace Sap.Api
 {
 	public partial class ServiceLayer : SLConnection
 	{
-		public async Task<Item> CreateAsync(Item x)
+		protected async Task<Item> CreateAsync(Item x)
 		{
 			var created = await Request("Items").PostAsync<Item>(x);
 			return created;
@@ -56,6 +56,17 @@ namespace Sap.Api
 			x.UpdateDate = null;
 			x.UpdateTime = null;
 			await Request("Items", x.ItemCode).PatchAsync(x);
+		}
+
+		public async Task<(Item, string)> TryCreateAsync(Item x)
+		{
+			try {
+				return (await CreateAsync(x), null);
+			}
+
+			catch (Exception ex) {
+				return (null, GetErrorMessage(ex));
+			}
 		}
 	}
 }

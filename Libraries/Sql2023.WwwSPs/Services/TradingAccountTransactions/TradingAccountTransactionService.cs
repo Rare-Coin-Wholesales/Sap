@@ -10,14 +10,23 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 	/// </summary>
 	public partial class TradingAccountTransactionService : BaseService, ITradingAccountTransactionService
 	{
-		public const string TA = "TA";
+		public const string AP = "AP";
+		public const string AR = "AR";
 
 		/// <inheritdoc/>
-		public virtual IList<string> GetAllTaDocumentIds()
+		public virtual IList<TradingAccountTransaction> GetAPs()
 		{
 			return (from x in _dbContext.TradingAccountTransactions
-					where x.TransactionType == TA
-					select x.DocumentId).ToList();
+					where x.TransactionType == AP
+					select x).ToList();
+		}
+
+		/// <inheritdoc/>
+		public virtual IList<TradingAccountTransaction> GetARs()
+		{
+			return (from x in _dbContext.TradingAccountTransactions
+					where x.TransactionType == AR
+					select x).ToList();
 		}
 
 		/// <inheritdoc/>

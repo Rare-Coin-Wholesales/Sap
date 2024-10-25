@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.Invoices;
-using Intranet = Sql2023.Intranet.Services.Invoices;
-using ScarWitch = ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
+using Sql2023.Intranet.Services.Invoices;
 
 namespace Sap.Automation
 {
@@ -14,8 +13,7 @@ namespace Sap.Automation
 		private const string INCOME_SALES_RETAIL_CA = "_SYS00000000079";
 		private const string INCOME_SALES_RETAIL_OUT_OF_STATE = "_SYS00000000080";
 		private const string INCOME_SALES_WHOLESALE_CA = "_SYS00000000078";
-		private static readonly Intranet.IInvoiceService _intranetInvoiceService = new Intranet.InvoiceService();
-		private static readonly ScarWitch.IInvoiceService _scarWitchInvoiceService = new ScarWitch.InvoiceService();
+		private static readonly IInvoiceService _intranetInvoiceService = new InvoiceService();
 
 		/// <summary>
 		/// Determines the Income Sales Account based on the State.
@@ -100,26 +98,19 @@ namespace Sap.Automation
 				return;
 
 			_exportManager.ExportToCsv(invoices);
-			var sapRcwInvoices = _scarWitchInvoiceService.GetAll();
+			var sapRcwInvoices = _scarInvoiceService.GetAll();
 			var missingInvoices = (from x in invoices // left join
-								   from y in sapRcwInvoices.Where(y => y.NumAtCard.StartsWith(x.InvoiceID.ToString()) ||
-																	   y.NumAtCard.EndsWith(x.InvoiceID.ToString())).DefaultIfEmpty()
+								   from y in sapRcwInvoices.Where(y => y.NumAtCard != null && (
+										y.NumAtCard.StartsWith(x.InvoiceID.ToString()) || y.NumAtCard.EndsWith(x.InvoiceID.ToString())))
+								   .DefaultIfEmpty()
 								   where y == null || y.NumAtCard == null
-								   select x).Take(10).ToList();
+								   select x).ToList();
 
 			foreach (var invoice in missingInvoices) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(ToInvoice(invoice));
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToInvoice(invoice));
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 	}

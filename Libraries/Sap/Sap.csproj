@@ -44,10 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Http\BaseClient.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\BaseEntity.cs" />
     <Compile Include="Core\CommonUtil.cs" />
+    <Compile Include="Core\Extensions.cs" />
+    <Compile Include="Core\Http\BaseClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Security\EncryptionUtil.cs" />
     <Compile Include="Services\Security\IEncryptionUtil.cs" />
   </ItemGroup>

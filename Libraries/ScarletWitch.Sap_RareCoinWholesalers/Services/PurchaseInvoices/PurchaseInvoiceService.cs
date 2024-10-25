@@ -18,6 +18,14 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices
 		}
 
 		/// <inheritdoc/>
+		public virtual IList<PurchaseInvoice> GetAllWithNumAtCard()
+		{
+			return (from x in _dbContext.PurchaseInvoices
+					where x.NumAtCard != null && x.NumAtCard.Trim() != string.Empty
+					select x).ToList();
+		}
+
+		/// <inheritdoc/>
 		public virtual void Insert(PurchaseInvoice x)
 		{
 			#region Input check
