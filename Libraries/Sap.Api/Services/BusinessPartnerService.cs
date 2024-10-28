@@ -9,7 +9,7 @@ namespace Sap.Api
 {
 	public partial class ServiceLayer : SLConnection
 	{
-		public async Task<BusinessPartner> CreateAsync(BusinessPartner x)
+		protected async Task<BusinessPartner> CreateAsync(BusinessPartner x)
 		{
 			var created = await Request("BusinessPartners").PostAsync<BusinessPartner>(x);
 			return created;
@@ -56,6 +56,17 @@ namespace Sap.Api
 			x.UpdateDate = null;
 			x.UpdateTime = null;
 			await Request("BusinessPartners", x.CardCode).PatchAsync(x);
+		}
+
+		public async Task<(BusinessPartner, string)> TryCreateAsync(BusinessPartner x)
+		{
+			try {
+				return (await CreateAsync(x), null);
+			}
+
+			catch (Exception ex) {
+				return (null, GetErrorMessage(ex));
+			}
 		}
 	}
 }

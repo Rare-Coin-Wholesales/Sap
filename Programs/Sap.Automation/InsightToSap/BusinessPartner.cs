@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.BusinessPartners;
 using Sap.Core;
@@ -39,7 +38,7 @@ namespace Sap.Automation
 		private static BusinessPartner ToSupplier(UnixCustomer customer)
 		{
 			return new BusinessPartner {
-				CardCode = $"V{customer.CustID}",
+				CardCode = $"{customer.VendorId}",
 				CardName = CommonUtil.ToTitleCase(customer.CustName),
 				CardType = "S",
 				FederalTaxID = customer.CustReseller ?? "",
@@ -74,18 +73,10 @@ namespace Sap.Automation
 						   select x).ToList();
 
 			foreach (var bp in missing) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(ToCustomer(bp));
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToCustomer(bp));
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 
@@ -105,78 +96,10 @@ namespace Sap.Automation
 						   select x).ToList();
 
 			foreach (var bp in missing) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(ToSupplier(bp));
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToSupplier(bp));
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
-			}
-		}
-
-		/// <summary>
-		/// Invoice => [Sales] Invoice (A/R).
-		/// </summary>
-		public static async Task CreateMissingInvoiceBusinessPartners()
-		{
-			var invoiceUnixCustomers = _unixCustomerService.GetInvoiceUnixCustomers();
-
-			if (invoiceUnixCustomers == null || invoiceUnixCustomers.Count == 0)
-				return;
-
-			invoiceUnixCustomers = invoiceUnixCustomers.OrderBy(x => x.CustID).ToList();
-			_exportManager.ExportToCsv(invoiceUnixCustomers);
-
-			foreach (var cust in invoiceUnixCustomers) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(ToCustomer(cust));
-				}
-
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
-			}
-		}
-
-		/// <summary>
-		/// Order => PurchaseInvoice (A/P).
-		/// </summary>
-		public static async Task CreateMissingOrderBusinessPartners()
-		{
-			var orderUnixCustomers = _unixCustomerService.GetOrderUnixCustomers();
-
-			if (orderUnixCustomers == null || orderUnixCustomers.Count == 0)
-				return;
-
-			orderUnixCustomers = orderUnixCustomers.OrderBy(x => x.CustID).ToList();
-			_exportManager.ExportToCsv(orderUnixCustomers);
-			BusinessPartner bp;
-
-			foreach (var cust in orderUnixCustomers) {
-				try {
-					bp = ToSupplier(cust);
-					await Common.RcwServiceLayer.CreateAsync(bp);
-				}
-
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 	}

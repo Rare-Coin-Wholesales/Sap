@@ -170,7 +170,7 @@ namespace Sap.Automation
 				//await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
 				//await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
 				//await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+				//await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				//await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
 				//await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.PurchaseInvoices;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.Orders;
 
@@ -14,7 +13,6 @@ namespace Sap.Automation
 		private const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000046";
 		private const string AMEX_72006 = "_SYS00000000047";
 		private const string INVENTORY_COIN = "_SYS00000000022";
-		private static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
 		private static readonly IOrderService _intranetOrderService = new OrderService();
 
 		#region Utilities
@@ -101,24 +99,17 @@ namespace Sap.Automation
 			_exportManager.ExportToCsv(purchaseInvoices);
 			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAll();
 			var missingPurchaseInvoices = (from x in purchaseInvoices // left join
-										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard.StartsWith(x.OrderID.ToString()) ||
-																	   y.NumAtCard.EndsWith(x.OrderID.ToString())).DefaultIfEmpty()
+										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard != null && (
+												y.NumAtCard.StartsWith(x.OrderID.ToString()) || y.NumAtCard.EndsWith(x.OrderID.ToString())))
+										   .DefaultIfEmpty()
 										   where y == null || y.NumAtCard == null
-										   select x).Take(10).ToList();
+										   select x).ToList();
 
 			foreach (var purchaseInvoice in missingPurchaseInvoices) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(ToPurchaseInvoice(purchaseInvoice));
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToPurchaseInvoice(purchaseInvoice));
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 	}

@@ -141,18 +141,10 @@ namespace Sap.Rcw.IntegrationTests
 								   select x).ToList();
 
 			foreach (var invoice in missingInvoices) {
-				try {
-					await _serviceLayer.CreateAsync(ToInvoice(invoice));
-				}
+				var created = await _serviceLayer.TryCreateAsync(ToInvoice(invoice));
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					throw new Exception(created.Item2);
 			}
 		}
 	}

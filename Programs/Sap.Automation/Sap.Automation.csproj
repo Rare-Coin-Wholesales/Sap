@@ -127,12 +127,13 @@
     <Compile Include="Aabw\TransactionCodes\TransactionCodeUtil.cs" />
     <Compile Include="Aabw\VendorPayments\VendorPaymentUtil.cs" />
     <Compile Include="Common.cs" />
+    <Compile Include="InsightToSap\APTransaction.cs" />
+    <Compile Include="InsightToSap\ARTransaction.cs" />
     <Compile Include="InsightToSap\BusinessPartner.cs" />
     <Compile Include="InsightToSap\InsightToSap.cs" />
     <Compile Include="InsightToSap\Invoice.cs" />
     <Compile Include="InsightToSap\Item.cs" />
     <Compile Include="InsightToSap\PurchaseInvoice.cs" />
-    <Compile Include="InsightToSap\TradingAccountTransaction.cs" />
     <Compile Include="Logging\DefaultLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Program.cs" />

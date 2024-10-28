@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using B1SLayer;
+using Sap.Core;
 
 namespace Sap.Api
 {
@@ -30,6 +31,16 @@ namespace Sap.Api
 				Directory.CreateDirectory(folder);
 				File.WriteAllText($"{folder}Error {DateTime.Now:dd HHmm ssff}.log", log);
 			});
+		}
+
+		public string GetErrorMessage(Exception ex)
+		{
+			if (ex is SLException)
+				return ex.Message;
+			else if (ex.InnerException == null)
+				return ex.CustomMessage();
+
+			return ex.InnerException.CustomMessage();
 		}
 	}
 }

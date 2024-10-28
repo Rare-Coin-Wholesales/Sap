@@ -30,21 +30,13 @@ namespace Sap.Automation
 								select x).ToList();
 
 			foreach (var coin in missingCoins) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(new Item {
-						ItemCode = coin.InventoryID.ToString(),
-						ItemName = coin.InventoryDescription1.Trim(),
-					});
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(new Item {
+					ItemCode = coin.InventoryID.ToString(),
+					ItemName = coin.InventoryDescription1.Trim(),
+				});
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 
@@ -63,21 +55,13 @@ namespace Sap.Automation
 								select x).ToList();
 
 			foreach (var coin in missingCoins) {
-				try {
-					await Common.RcwServiceLayer.CreateAsync(new Item {
-						ItemCode = coin.InventoryID.ToString(),
-						ItemName = coin.InventoryDescription1.Trim(),
-					});
-				}
+				var created = await Common.RcwServiceLayer.TryCreateAsync(new Item {
+					ItemCode = coin.InventoryID.ToString(),
+					ItemName = coin.InventoryDescription1.Trim(),
+				});
 
-				#region catch (Exception ex)
-				catch (Exception ex) {
-					if (ex.InnerException == null)
-						_logger.InsertWarning(ex);
-					else
-						throw;
-				}
-				#endregion
+				if (created.Item1 == null)
+					Common.nLog.Warn(created.Item2);
 			}
 		}
 	}

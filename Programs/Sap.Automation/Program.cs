@@ -14,7 +14,7 @@ namespace Sap.Automation
 				await Common.ProcessAabwAsync();
 			if (Common.doRcw) {
 				await Common.ProcessRcwAsync();
-				await InsightToSap.ProcessAsync();
+				//await InsightToSap.ProcessAsync();
 			}
 
 			Common.EndProgram(0);
