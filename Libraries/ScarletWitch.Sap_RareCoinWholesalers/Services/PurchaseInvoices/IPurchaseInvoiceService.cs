@@ -17,6 +17,10 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices
 		/// </summary>
 		IList<PurchaseInvoice> GetAllWithNumAtCard();
 		/// <summary>
+		/// Gets non-cancelled <see cref="PurchaseInvoice"/>s.
+		/// </summary>
+		IList<PurchaseInvoice> GetNonCancelled();
+		/// <summary>
 		/// Inserts a <see cref="PurchaseInvoice"/>.
 		/// </summary>
 		/// <param name="x">The <see cref="PurchaseInvoice"/>.</param>

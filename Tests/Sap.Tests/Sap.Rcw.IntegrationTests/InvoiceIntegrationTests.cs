@@ -2,6 +2,7 @@ using Sap.Api;
 using Sap.Api.Domain.Invoices;
 using Sap.Core;
 using Sap.Services.Security;
+using Sap.Tests;
 using Sql2023.Intranet.Services.Export;
 using Sql2023.Intranet.Services.Logging;
 using ApiInvoice = Sap.Api.Domain.Invoices.Invoice;
@@ -12,6 +13,7 @@ namespace Sap.Rcw.IntegrationTests
 {
 	public partial class InvoiceIntegrationTests
 	{
+		#region Fields
 		private const string ACCOUNTS_RECEIVABLE = "_SYS00000000010";
 		private const string DOCUMENT_SERVICE = "dDocument_Service";
 		private const string INCOME_SALES_RETAIL_CA = "_SYS00000000079";
@@ -30,6 +32,7 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, TEST_COMPANY_DB, Username, Password);
+		#endregion
 
 		#region Utilities
 		private void AddErrorLogs()
@@ -119,6 +122,32 @@ namespace Sap.Rcw.IntegrationTests
 			};
 		}
 		#endregion
+
+		[Fact]
+		public async void Test_CancelInvoice()
+		{
+			AddErrorLogs();
+			var invoice = await _serviceLayer.GetInvoiceAsync(23);
+			invoice.ShouldNotBeNull();
+			_serviceLayer.LogToCsv(new List<ApiInvoice> { invoice });
+
+			await _serviceLayer.CancelAsync(invoice);
+		}
+
+		[Fact]
+		public async void Test_CancelMultipleInvoices()
+		{
+			AddErrorLogs();
+			ApiInvoice invoice;
+			int[] tests = { 195, 196, 197, 198, 199, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 227, 228, 229, 233 };
+
+			foreach (var test in tests) {
+				invoice = await _serviceLayer.GetInvoiceAsync(test);
+				invoice.ShouldNotBeNull();
+
+				await _serviceLayer.CancelAsync(invoice);
+			}
+		}
 
 		/// <summary>
 		/// Invoice => Invoice (A/R).

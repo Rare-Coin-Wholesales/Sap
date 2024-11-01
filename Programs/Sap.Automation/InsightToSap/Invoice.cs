@@ -4,36 +4,105 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.Invoices;
 using Sql2023.Intranet.Services.Invoices;
+using Sql2023.Intranet.Services.Terms;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
-		private const string ACCOUNTS_RECEIVABLE = "_SYS00000000010";
-		private const string INCOME_SALES_RETAIL_CA = "_SYS00000000079";
-		private const string INCOME_SALES_RETAIL_OUT_OF_STATE = "_SYS00000000080";
-		private const string INCOME_SALES_WHOLESALE_CA = "_SYS00000000078";
 		private static readonly IInvoiceService _intranetInvoiceService = new InvoiceService();
 
+		#region Utilities
 		/// <summary>
-		/// Determines the Income Sales Account based on the State.
+		/// Determines if the State is California or not.
 		/// </summary>
-		/// <param name="x">The <see cref="Invoice"/>.</param>
-		/// <returns>The AccountCode as a string.</returns>
-		private static string DetermineAccount(Sql2023.Intranet.Domain.Invoice x)
+		/// <param name="state">The State.</param>
+		/// <returns>True if California. False otherwise.</returns>
+		private static bool IsCalifornia(string state)
 		{
-			if (x == null || String.IsNullOrWhiteSpace(x.ShipToState))
-				return INCOME_SALES_RETAIL_OUT_OF_STATE;
-			if (x.ShipToState.Equals("CA", StringComparison.OrdinalIgnoreCase) ||
-				x.ShipToState.Equals("California", StringComparison.OrdinalIgnoreCase))
-				return INCOME_SALES_RETAIL_CA;
+			if (String.IsNullOrWhiteSpace(state))
+				return false;
+			if (state.Equals("CA", StringComparison.OrdinalIgnoreCase) || state.Equals("California", StringComparison.OrdinalIgnoreCase))
+				return true;
 
-			return INCOME_SALES_RETAIL_OUT_OF_STATE;
+			return false;
 		}
 
-		private static IList<Invoice_DocumentLine> GetDocumentLines(Sql2023.Intranet.Domain.Invoice x)
+		#region Itemized
+		private static Invoice_DocumentLine GetCogsSalesLineItemized(Sql2023.Intranet.Domain.InvoiceLineItem item, string state)
 		{
-			decimal lineTotal;
+			var total = (item.Cost ?? 0) * -(item.QtyOrdered ?? 1);
+
+			return new Invoice_DocumentLine {
+				ItemDescription = $"Coin {item.CoinID}",
+				Quantity = item.QtyOrdered,
+				Price = total,
+				PriceAfterVAT = total,
+				LineTotal = total,
+				TaxTotal = 0,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = total,
+				UnitPrice = -item.Cost,
+				OpenAmount = total,
+				OpenAmountSC = total,
+				GrossPrice = total,
+				GrossTotal = total,
+				GrossTotalSC = total,
+				DiscountPercent = 0,
+				AccountCode = IsCalifornia(state) ? COGS_SALES_RETAIL_CA : COGS_SALES_RETAIL_OUT_OF_STATE,
+			};
+		}
+
+		private static Invoice_DocumentLine GetIncomeSalesLineItemized(Sql2023.Intranet.Domain.InvoiceLineItem item, string state)
+		{
+			var total = (item.Price ?? 0) * (item.QtyOrdered ?? 1);
+
+			return new Invoice_DocumentLine {
+				ItemDescription = $"Coin {item.CoinID}",
+				Quantity = item.QtyOrdered,
+				Price = total,
+				PriceAfterVAT = total,
+				LineTotal = total,
+				TaxTotal = 0,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = total,
+				UnitPrice = item.Price,
+				OpenAmount = total,
+				OpenAmountSC = total,
+				GrossPrice = total,
+				GrossTotal = total,
+				GrossTotalSC = total,
+				DiscountPercent = 0,
+				AccountCode = IsCalifornia(state) ? INCOME_SALES_RETAIL_CA : INCOME_SALES_RETAIL_OUT_OF_STATE,
+			};
+		}
+
+		private static Invoice_DocumentLine GetInventoryLineItemized(Sql2023.Intranet.Domain.InvoiceLineItem item)
+		{
+			var total = (item.Cost ?? 0) * (item.QtyOrdered ?? 1);
+
+			return new Invoice_DocumentLine {
+				ItemDescription = $"Coin {item.CoinID}",
+				Quantity = item.QtyOrdered,
+				Price = total,
+				PriceAfterVAT = total,
+				LineTotal = total,
+				TaxTotal = 0,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = total,
+				UnitPrice = item.Cost,
+				OpenAmount = total,
+				OpenAmountSC = total,
+				GrossPrice = total,
+				GrossTotal = total,
+				GrossTotalSC = total,
+				DiscountPercent = 0,
+				AccountCode = INVENTORY_COIN,
+			};
+		}
+
+		private static IList<Invoice_DocumentLine> GetDocumentLinesItemized(Sql2023.Intranet.Domain.Invoice x)
+		{
 			var list = new List<Invoice_DocumentLine>();
 			var lineItems = _intranetInvoiceService.GetLineItemsByInvoiceId(x.InvoiceID);
 
@@ -41,40 +110,111 @@ namespace Sap.Automation
 				return list;
 
 			foreach (var item in lineItems.OrderBy(y => y.InvoiceLine).ToList()) {
-				lineTotal = (item.Price ?? 0) * (item.QtyOrdered ?? 1);
-				list.Add(new Invoice_DocumentLine {
-					ItemDescription = $"Coin {item.CoinID}",
-					Quantity = item.QtyOrdered,
-					Price = item.Price,
-					PriceAfterVAT = item.Price,
-					Address = x.ShipToAddress1,
-					LineTotal = lineTotal,
-					TaxTotal = 0,
-					TaxCode = TAX_EXEMPT,
-					RowTotalSC = lineTotal,
-					UnitPrice = item.Price,
-					OpenAmount = item.Price,
-					OpenAmountSC = item.Price,
-					GrossPrice = lineTotal,
-					GrossTotal = lineTotal,
-					GrossTotalSC = lineTotal,
-					AccountCode = DetermineAccount(x),
-				});
+				list.Add(GetIncomeSalesLineItemized(item, x.ShipToState));
+				list.Add(GetInventoryLineItemized(item));
+				list.Add(GetCogsSalesLineItemized(item, x.ShipToState));
 			}
 
 			return list;
 		}
+		#endregion
+
+		#region Rolled-Up
+		private static Invoice_DocumentLine GetCogsSalesLineRolledUp(Sql2023.Intranet.Domain.Invoice x, string description)
+		{
+			return new Invoice_DocumentLine {
+				ItemDescription = description,
+				Quantity = 1,
+				Price = -x.TotalCost,
+				PriceAfterVAT = -x.TotalCost,
+				LineTotal = -x.TotalCost,
+				TaxTotal = 0,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = -x.TotalCost,
+				UnitPrice = -x.TotalCost,
+				OpenAmount = -x.TotalCost,
+				OpenAmountSC = -x.TotalCost,
+				GrossPrice = -x.TotalCost,
+				GrossTotal = -x.TotalCost,
+				GrossTotalSC = -x.TotalCost,
+				DiscountPercent = 0,
+				AccountCode = IsCalifornia(x.ShipToState) ? COGS_SALES_RETAIL_CA : COGS_SALES_RETAIL_OUT_OF_STATE,
+			};
+		}
+
+		private static Invoice_DocumentLine GetIncomeSalesLineRolledUp(Sql2023.Intranet.Domain.Invoice x, string description)
+		{
+			return new Invoice_DocumentLine {
+				ItemDescription = description,
+				Quantity = 1,
+				Price = x.TotalSales,
+				PriceAfterVAT = x.TotalSales,
+				LineTotal = x.TotalSales,
+				TaxTotal = x.TaxAmount,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = x.TotalSales,
+				UnitPrice = x.TotalSales,
+				OpenAmount = x.TotalSales,
+				OpenAmountSC = x.TotalSales,
+				GrossPrice = x.TotalSales,
+				GrossTotal = x.TotalSales,
+				GrossTotalSC = x.TotalSales,
+				DiscountPercent = 0,
+				AccountCode = IsCalifornia(x.ShipToState) ? INCOME_SALES_RETAIL_CA : INCOME_SALES_RETAIL_OUT_OF_STATE,
+			};
+		}
+
+		private static Invoice_DocumentLine GetInventoryLineRolledUp(Sql2023.Intranet.Domain.Invoice x, string description)
+		{
+			return new Invoice_DocumentLine {
+				ItemDescription = description,
+				Quantity = 1,
+				Price = x.TotalCost,
+				PriceAfterVAT = x.TotalCost,
+				LineTotal = x.TotalCost,
+				TaxTotal = 0,
+				TaxCode = TAX_EXEMPT,
+				RowTotalSC = x.TotalCost,
+				UnitPrice = x.TotalCost,
+				OpenAmount = x.TotalCost,
+				OpenAmountSC = x.TotalCost,
+				GrossPrice = x.TotalCost,
+				GrossTotal = x.TotalCost,
+				GrossTotalSC = x.TotalCost,
+				DiscountPercent = 0,
+				AccountCode = INVENTORY_COIN,
+			};
+		}
+
+		private static IList<Invoice_DocumentLine> GetDocumentLinesRolledUp(Sql2023.Intranet.Domain.Invoice x)
+		{
+			var list = new List<Invoice_DocumentLine>();
+			var lineItems = _intranetInvoiceService.GetLineItemsByInvoiceId(x.InvoiceID);
+
+			if (lineItems == null || lineItems.Count == 0)
+				return list;
+
+			var description = "Coin(s) ";
+
+			foreach (var item in lineItems.OrderBy(y => y.CoinID).ToList())
+				description += $"{item.CoinID}, ";
+			
+			description = description.Substring(0, description.Length - 2);
+			list.Add(GetIncomeSalesLineRolledUp(x, description));
+			list.Add(GetInventoryLineRolledUp(x, description));
+			list.Add(GetCogsSalesLineRolledUp(x, description));
+			return list;
+		}
+		#endregion
 
 		private static Invoice ToInvoice(Sql2023.Intranet.Domain.Invoice x)
 		{
 			return new Invoice {
 				NumAtCard = x.InvoiceID.ToString(),
 				DocType = DOCUMENT_SERVICE,
-				CreationDate = x.DateEntered,
-				DocDate = x.DateEntered,
-				DocDueDate = x.DateEntered,
-				TaxDate = x.DateEntered,
-				UpdateDate = x.DateEntered,
+				DocDate = x.DateInvoiced ?? x.DateEntered,
+				DocDueDate = (x.DateInvoiced ?? x.DateEntered).Value.AddDays(TermsUtil.GetAddDays(x.Terms)),
+				TaxDate = x.DateInvoiced ?? x.DateEntered,
 				DocTotal = x.TotalSales,
 				DocTotalSys = x.TotalSales,
 				Address = x.ShipToAddress1,
@@ -82,23 +222,26 @@ namespace Sap.Automation
 				CardCode = $"{x.Cust_}",
 				JournalMemo = $"A/R Invoices - {x.Cust_}",
 				ControlAccount = ACCOUNTS_RECEIVABLE,
-				DocumentLines = GetDocumentLines(x),
+				DiscountPercent = 0,
+				Comments = x.OrderNumber ?? "",
+				//DocumentLines = GetDocumentLinesItemized(x), // itemized
+				DocumentLines = GetDocumentLinesRolledUp(x), // rolled-up
 			};
 		}
+		#endregion
 
 		/// <summary>
 		/// Invoice => Invoice (A/R).
 		/// </summary>
 		public static async Task CreateMissingInvoices()
 		{
-			AddErrorLogs();
-			var invoices = _intranetInvoiceService.GetRecent();
+			var invoices = _intranetInvoiceService.GetRecent()
+					.Where(x => x.DateEntered >= SapStartDate && x.DateInvoiced >= SapStartDate).ToList();
 
 			if (invoices == null || invoices.Count == 0)
 				return;
 
-			_exportManager.ExportToCsv(invoices);
-			var sapRcwInvoices = _scarInvoiceService.GetAll();
+			var sapRcwInvoices = _scarInvoiceService.GetNonCancelled();
 			var missingInvoices = (from x in invoices // left join
 								   from y in sapRcwInvoices.Where(y => y.NumAtCard != null && (
 										y.NumAtCard.StartsWith(x.InvoiceID.ToString()) || y.NumAtCard.EndsWith(x.InvoiceID.ToString())))
@@ -106,11 +249,12 @@ namespace Sap.Automation
 								   where y == null || y.NumAtCard == null
 								   select x).ToList();
 
+			_exportManager.ExportToCsv(missingInvoices);
 			foreach (var invoice in missingInvoices) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToInvoice(invoice));
 
 				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+					Common.nLog.Error(created.ErrorMsg);
 			}
 		}
 	}

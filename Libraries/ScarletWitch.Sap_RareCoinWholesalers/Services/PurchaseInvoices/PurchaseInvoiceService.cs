@@ -26,6 +26,14 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices
 		}
 
 		/// <inheritdoc/>
+		public virtual IList<PurchaseInvoice> GetNonCancelled()
+		{
+			return (from x in _dbContext.PurchaseInvoices
+					where x.CancelStatus == CANCEL_STATUS_NO
+					select x).ToList();
+		}
+
+		/// <inheritdoc/>
 		public virtual void Insert(PurchaseInvoice x)
 		{
 			#region Input check

@@ -1,37 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.PurchaseInvoices;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.Orders;
+using Sql2023.Intranet.Services.Terms;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
-		private const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000046";
-		private const string AMEX_72006 = "_SYS00000000047";
-		private const string INVENTORY_COIN = "_SYS00000000022";
 		private static readonly IOrderService _intranetOrderService = new OrderService();
 
 		#region Utilities
-		private static void AddErrorLogs()
-		{
-			Common.RcwServiceLayer.OnError(async call => {
-				var log = string.Empty;
-				log = $"{log}Request: {call.HttpRequestMessage.Method}  {call.HttpRequestMessage.RequestUri}{Environment.NewLine}";
-				log = $"{log}Body sent: {call.RequestBody}{Environment.NewLine}";
-				log = $"{log}{Environment.NewLine}";
-				log = $"{log}Response: {call.HttpResponseMessage?.StatusCode}{Environment.NewLine}";
-				log = $"{log}{await call.HttpResponseMessage?.Content?.ReadAsStringAsync()}";
-				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n4} seconds{Environment.NewLine}";
-				log = $"{log}{Environment.NewLine}";
-
-				_exportManager.WriteToFile(log, "Error");
-			});
-		}
-
 		private static IList<PurchaseInvoice_DocumentLine> GetDocumentLines(Order x)
 		{
 			decimal lineTotal;
@@ -71,33 +52,32 @@ namespace Sap.Automation
 			return new PurchaseInvoice {
 				NumAtCard = x.OrderID.ToString(),
 				DocType = DOCUMENT_SERVICE,
-				CreationDate = x.DateEntered,
 				DocDate = x.DateEntered,
-				DocDueDate = x.DateEntered,
+				DocDueDate = x.DateEntered.Value.AddDays(TermsUtil.GetAddDays(x.Terms)),
 				TaxDate = x.DateEntered,
-				UpdateDate = x.DateRevised,
 				DocTotal = x.TotalSales / 10000, // Insight adds 4 extra zeros
 				DocTotalSys = x.TotalSales / 10000,
 				Address = x.ShipToAddress1,
 				Address2 = x.ShipToAddress2,
 				CardCode = $"V{x.Cust_}",
 				JournalMemo = $"A/P Invoices - V{x.Cust_}",
-				ControlAccount = AMEX_72006,
+				ControlAccount = PurchaseInvoice_ControlAccount,
 				DocumentLines = GetDocumentLines(x),
 			};
 		}
 		#endregion
 
+		/// <summary>
+		/// Order => PurchaseInvoice (A/P).
+		/// </summary>
 		public static async Task CreateMissingPurchaseInvoices()
 		{
-			AddErrorLogs();
-			var purchaseInvoices = _intranetOrderService.GetRecent();
+			var purchaseInvoices = _intranetOrderService.GetRecent().Where(x => x.DateEntered >= SapStartDate).ToList();
 
 			if (purchaseInvoices == null || purchaseInvoices.Count == 0)
 				return;
 
-			_exportManager.ExportToCsv(purchaseInvoices);
-			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAll();
+			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetNonCancelled();
 			var missingPurchaseInvoices = (from x in purchaseInvoices // left join
 										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard != null && (
 												y.NumAtCard.StartsWith(x.OrderID.ToString()) || y.NumAtCard.EndsWith(x.OrderID.ToString())))
@@ -105,11 +85,13 @@ namespace Sap.Automation
 										   where y == null || y.NumAtCard == null
 										   select x).ToList();
 
+			_exportManager.ExportToCsv(missingPurchaseInvoices);
+
 			foreach (var purchaseInvoice in missingPurchaseInvoices) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToPurchaseInvoice(purchaseInvoice));
 
 				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+					Common.nLog.Error(created.ErrorMsg);
 			}
 		}
 	}

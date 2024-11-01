@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.BusinessPartners;
 using Sap.Core;
@@ -8,7 +10,7 @@ using Sql2023.Intranet.Services.UnixCustomers;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
 		private static readonly IBusinessPartnerService _businessPartnerService = new BusinessPartnerService();
 		private static readonly IUnixCustomerService _unixCustomerService = new UnixCustomerService();
@@ -57,50 +59,51 @@ namespace Sap.Automation
 			};
 		}
 
-		public static async Task CreateMissingCustomers()
+		public static async Task CreateMissingCustomersAndVendors()
 		{
-			AddErrorLogs();
 			var unixCustomers = _unixCustomerService.GetRecent();
 
 			if (unixCustomers == null || unixCustomers.Count == 0)
 				return;
 
-			_exportManager.ExportToCsv(unixCustomers);
 			var businessPartners = _businessPartnerService.GetAll();
-			var missing = (from x in unixCustomers // left join
-						   from y in businessPartners.Where(y => y.CardCode == x.CustID).DefaultIfEmpty()
-						   where y == null || y.CardCode == null
-						   select x).ToList();
+			List<UnixCustomer> missing;
+
+			#region Customers
+			missing = (from x in unixCustomers // left join
+					   from y in businessPartners.Where(y => y.CardCode == x.CustID).DefaultIfEmpty()
+					   where y == null || y.CardCode == null
+					   select x).ToList();
+
+			_exportManager.ExportToCsv(missing);
 
 			foreach (var bp in missing) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToCustomer(bp));
 
-				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+				if (created.Item1 == null) { // "< 0" means string not found since IndexOf returns -1
+					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
+						Common.nLog.Error(created.ErrorMsg);
+				}
 			}
-		}
+			#endregion
 
-		public static async Task CreateMissingVendors()
-		{
-			AddErrorLogs();
-			var unixCustomers = _unixCustomerService.GetRecent();
+			#region Vendors
+			missing = (from x in unixCustomers // left join
+					   from y in businessPartners.Where(y => y.CardCode == x.VendorId).DefaultIfEmpty()
+					   where y == null || y.CardCode == null
+					   select x).ToList();
 
-			if (unixCustomers == null || unixCustomers.Count == 0)
-				return;
-
-			_exportManager.ExportToCsv(unixCustomers);
-			var businessPartners = _businessPartnerService.GetAll();
-			var missing = (from x in unixCustomers // left join
-						   from y in businessPartners.Where(y => y.CardCode == x.VendorId).DefaultIfEmpty()
-						   where y == null || y.CardCode == null
-						   select x).ToList();
+			_exportManager.ExportToCsv(missing);
 
 			foreach (var bp in missing) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToSupplier(bp));
 
-				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+				if (created.Item1 == null) { // "< 0" means string not found since IndexOf returns -1
+					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
+						Common.nLog.Error(created.ErrorMsg);
+				}
 			}
+			#endregion
 		}
 	}
 }

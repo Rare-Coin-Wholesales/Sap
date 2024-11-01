@@ -159,7 +159,7 @@ namespace Sql2023.Intranet.Services.Export
 		public virtual void WriteToCsvFile(string data, string entityName)
 		{
 			var now = DateTime.Now;
-			var folder = $"C:/Logs/Sap.Api/{now:yyyy MM}/";
+			var folder = $"C:/Logs/SAP Automation/{now:yyyy MM}/";
 			Directory.CreateDirectory(folder);
 			File.WriteAllText($"{folder}{entityName} {now:dd HHmm ssff}.csv", data);
 		}
@@ -168,7 +168,7 @@ namespace Sql2023.Intranet.Services.Export
 		public virtual void WriteToFile(string data, string entityName)
 		{
 			var now = DateTime.Now;
-			var folder = $"C:/Logs/Sap.Api/{now:yyyy MM}/";
+			var folder = $"C:/Logs/SAP Automation/{now:yyyy MM}/";
 			Directory.CreateDirectory(folder);
 			File.WriteAllText($"{folder}{entityName} {now:dd HHmm ssff}.log", data);
 		}

@@ -44,7 +44,7 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = String.Format($"{log}\"{v.CardCode}\",\"{v.CardType}\",\"{v.CardName}\"{Environment.NewLine}");
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/SAP Automation/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
 			File.WriteAllText(String.Format("{0}BusinessPartners {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
@@ -58,7 +58,7 @@ namespace Sap.Api
 			await Request("BusinessPartners", x.CardCode).PatchAsync(x);
 		}
 
-		public async Task<(BusinessPartner, string)> TryCreateAsync(BusinessPartner x)
+		public async Task<(BusinessPartner, string ErrorMsg)> TryCreateAsync(BusinessPartner x)
 		{
 			try {
 				return (await CreateAsync(x), null);

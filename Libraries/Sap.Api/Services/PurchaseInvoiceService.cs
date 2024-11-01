@@ -11,10 +11,7 @@ namespace Sap.Api
 	{
 		public async Task CancelAsync(PurchaseInvoice x)
 		{
-			x.CancelDate = DateTime.UtcNow;
-			x.Cancelled = CANCELLED_YES;
-			x.CancelStatus = CANCEL_STATUS_YES;
-			await PatchAsync(x);
+			await Request($"PurchaseInvoice({x.DocEntry})/Cancel").PostAsync();
 		}
 
 		protected async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)
@@ -37,12 +34,12 @@ namespace Sap.Api
 
 		public void LogToCsv(IList<PurchaseInvoice> list)
 		{
-			var log = "DocEntry,DocNum,DocType,CardCode,Comments\r\n";
+			var log = "DocEntry,DocNum,NumAtCard,Cancelled,CancelStatus,CardCode,CancelDate,CardName,Comments\r\n";
 
 			foreach (var v in list)
-				log = String.Format($"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.DocType}\",\"{v.CardCode}\",\"{v.Comments}\"{Environment.NewLine}");
+				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.NumAtCard}\",\"{v.Cancelled}\",\"{v.CancelStatus}\",\"{v.CardCode}\",\"{v.CancelDate}\",\"{v.CardName}\",\"{v.Comments}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/SAP Automation/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
 			File.WriteAllText(String.Format("{0}PurchaseInvoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
@@ -55,7 +52,7 @@ namespace Sap.Api
 			await Request("PurchaseInvoices", x.DocEntry).PatchAsync(x);
 		}
 
-		public async Task<(PurchaseInvoice, string)> TryCreateAsync(PurchaseInvoice x)
+		public async Task<(PurchaseInvoice, string ErrorMsg)> TryCreateAsync(PurchaseInvoice x)
 		{
 			try {
 				return (await CreateAsync(x), null);

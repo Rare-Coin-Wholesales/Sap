@@ -8,7 +8,7 @@ using Sql2023.Intranet.Services.Logging;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
 		private static readonly IExportManager _exportManager = new ExportManager();
 		private static readonly IInventoryService _inventoryService = new InventoryService();
@@ -36,7 +36,7 @@ namespace Sap.Automation
 				});
 
 				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+					Common.nLog.Error(created.ErrorMsg);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace Sap.Automation
 				});
 
 				if (created.Item1 == null)
-					Common.nLog.Warn(created.Item2);
+					Common.nLog.Error(created.ErrorMsg);
 			}
 		}
 	}

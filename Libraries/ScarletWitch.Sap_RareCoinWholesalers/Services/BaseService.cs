@@ -11,6 +11,7 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services
 	/// </summary>
 	public partial class BaseService
 	{
+		public const string CANCEL_STATUS_NO = "csNo";
 		protected EncryptionUtil _encryptionUtil;
 		protected Sap_RareCoinWholesalersDb _dbContext;
 		protected string ConnectionString;

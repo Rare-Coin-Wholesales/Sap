@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sap.Core;
-using Sap.Services.Security;
 using Sql2023.Intranet.Domain;
 
 namespace Sql2023.Intranet.Services.Inventories
@@ -15,25 +13,21 @@ namespace Sql2023.Intranet.Services.Inventories
 		private static readonly DateTime MinDate = DateTime.Today.AddDays(-92); // 3 months ago
 
 		/// <inheritdoc/>
-		public virtual IList<Inventory> GetConsigned()
-		{
-			return (from x in _dbContext.Inventories
-					where !x.InventoryConsignmentReturned &&
-						  (x.InventoryConsignmentNumber != null && x.InventoryConsignmentNumber.Value > 0) &&
-						  (x.InventoryConsignmentDate != null) &&
-						  (x.InventoryConsignmentVendor != null && x.InventoryConsignmentVendor.Trim() != string.Empty)
-					select x).ToList();
-		}
-
-		/// <inheritdoc/>
 		public virtual string GetDescription(int id)
 		{
 			if (id < 1)
 				return string.Empty;
 
-			return (from x in _dbContext.Inventories
-					where x.InventoryID == id
-					select x.InventoryDescription1).FirstOrDefault();
+			var query = (from x in _dbContext.Inventories
+						 where x.InventoryID == id
+						 select x).FirstOrDefault();
+
+			var description = query.InventoryDescription1?.Trim();
+
+			if (!String.IsNullOrWhiteSpace(query.InventoryDescription2))
+				description = $"{description}. {query.InventoryDescription2.Trim()}";
+
+			return description;
 		}
 
 		/// <inheritdoc/>
