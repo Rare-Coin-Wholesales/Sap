@@ -21,5 +21,9 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 		/// </summary>
 		/// <param name="ent">The <see cref="TradingAccountTransaction"/> to insert.</param>
 		void Insert(TradingAccountTransaction ent);
+		/// <summary>
+		/// Automatically updates the [TradingAccountTransaction] table by calling stored procedure [TradingAccountTransactionUpdate].
+		/// </summary>
+		void Update();
 	}
 }

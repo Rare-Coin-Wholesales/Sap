@@ -18,16 +18,21 @@ namespace Sap.Api
 		public void AddErrorLogs()
 		{
 			OnError(async call => {
+				var response = await call.HttpResponseMessage?.Content?.ReadAsStringAsync();
+
+				if (response.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) > -1)
+					return;
+
 				var log = string.Empty;
 				log = $"{log}Request: {call.HttpRequestMessage.Method}  {call.HttpRequestMessage.RequestUri}{Environment.NewLine}";
 				log = $"{log}Body sent: {call.RequestBody}{Environment.NewLine}";
 				log = $"{log}{Environment.NewLine}";
 				log = $"{log}Response: {call.HttpResponseMessage?.StatusCode}{Environment.NewLine}";
-				log = $"{log}{await call.HttpResponseMessage?.Content?.ReadAsStringAsync()}";
+				log = $"{log}{response}";
 				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n4} seconds{Environment.NewLine}";
 				log = $"{log}{Environment.NewLine}";
 
-				var folder = $"C:/Logs/Sap.Api/{DateTime.Now:yyyy MM}/";
+				var folder = $"C:/Logs/SAP Automation/{DateTime.Now:yyyy MM}/";
 				Directory.CreateDirectory(folder);
 				File.WriteAllText($"{folder}Error {DateTime.Now:dd HHmm ssff}.log", log);
 			});

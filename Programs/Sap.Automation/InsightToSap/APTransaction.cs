@@ -2,11 +2,10 @@
 using System.Linq;
 using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 using Sql2023.WwwSPs.Domain;
-using Sql2023.WwwSPs.Services.TradingAccountTransactions;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
 		// Insight Order => SAP PurchaseInvoice (A/P)
 		public const string AP = "AP";
@@ -15,7 +14,7 @@ namespace Sap.Automation
 		private static IList<PurchaseInvoice> GetAPTransactions()
 		{
 			var apTransactions = _tradingAccountTransactionService.GetAPs();
-			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAll();
+			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetNonCancelled();
 
 			return (from i in scarPurchaseInvoices // left join
 					from t in apTransactions.Where(x => x.InsightCustomerId == i.CardCode && x.DocumentId == i.NumAtCard).DefaultIfEmpty()
@@ -33,7 +32,7 @@ namespace Sap.Automation
 				DocumentDate = v.DocDate,
 				PostedDate = v.CreationDate.Value,
 				GeneralLedgerPostedDate = v.CreationDate,
-				PaymentTerms = "Trading Account",
+				PaymentTerms = "",
 				UnappliedFunds = v.DocTotal,
 				AppliedFunds = 0,
 				RMDocumentType = SALE_INVOICE,

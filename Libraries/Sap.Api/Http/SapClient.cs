@@ -67,8 +67,7 @@ namespace Sap.Api.Http
 
 			var now = DateTime.Now;
 			var filename = String.Format("{0}{1}.json", responseName, now.ToString("HHmm ssff"));
-			var folder = String.Format($"C:/Logs/SapClient/{now:yyyy MM}/{now:dd}/");
-			//var folder = Path.Combine("C:/Logs/SapClient/", DateTime.Now.ToString("yyyy MM"));
+			var folder = $"C:/Logs/SAP Automation/{now:yyyy MM}/{now:dd}/";
 			Directory.CreateDirectory(folder);
 
 			var parsedJson = JsonConvert.DeserializeObject(response);

@@ -26,7 +26,8 @@ namespace Sap.Automation
 		public static readonly string Aabw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabw_CompanyDb");
 		public static readonly string Aabw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabw_Password"));
 		public static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		public static readonly string Rcw_CompanyDb = "A21384_RCW_T01"; // CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
+		//public static readonly string Rcw_CompanyDb = "A21384_RCW_T01"; // TEST DB
+		public static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb"); // LIVE DB
 		public static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		public static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		public static SapClient client;
@@ -106,7 +107,7 @@ namespace Sap.Automation
 				#endregion
 			}
 
-			nLog.Trace($"End method ProcessAabrcAsync().{Environment.NewLine}");
+			nLog.Trace("End method ProcessAabrcAsync().", Environment.NewLine);
 		}
 
 		public static async Task ProcessAabwAsync()
@@ -155,7 +156,7 @@ namespace Sap.Automation
 				#endregion
 			}
 
-			nLog.Trace($"End method ProcessAabwAsync().{Environment.NewLine}");
+			nLog.Trace("End method ProcessAabwAsync().", Environment.NewLine);
 		}
 
 		public static async Task ProcessRcwAsync()
@@ -166,33 +167,33 @@ namespace Sap.Automation
 				var serviceLayer = RcwServiceLayer;
 				serviceLayer.AddErrorLogs();
 
-				//await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
-				//await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
-				//await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
-				//await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				//await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+				await new Rcw.Automation.AccountCategoryUtil().GetAllAccountCategorys(serviceLayer);
+				await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
+				await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
+				await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
+				await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
-				//await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
-				//await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
-				//await new Rcw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
-				//await new Rcw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
-				//await new Rcw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
-				//await new Rcw.Automation.HouseBankAccountUtil().GetAllHouseBankAccounts(serviceLayer);
-				//await new Rcw.Automation.IncomingPaymentUtil().GetAllIncomingPayments(serviceLayer);
+				await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
+				await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
+				await new Rcw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
+				await new Rcw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
+				await new Rcw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
+				await new Rcw.Automation.HouseBankAccountUtil().GetAllHouseBankAccounts(serviceLayer);
+				await new Rcw.Automation.IncomingPaymentUtil().GetAllIncomingPayments(serviceLayer);
 				await new Rcw.Automation.InvoiceUtil().GetAllInvoices(serviceLayer);
 				await new Rcw.Automation.ItemUtil().GetAllItems(serviceLayer);
-				//await new Rcw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
-				//await new Rcw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
-				//await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
+				await new Rcw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
+				await new Rcw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
+				await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
 				await new Rcw.Automation.PurchaseInvoiceUtil().GetAllPurchaseInvoices(serviceLayer);
-				//await new Rcw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
-				//await new Rcw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
-				//await new Rcw.Automation.PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices(serviceLayer);
-				//await new Rcw.Automation.QuotationUtil().GetAllQuotations(serviceLayer);
-				//await new Rcw.Automation.SalesTaxInvoiceUtil().GetAllSalesTaxInvoices(serviceLayer);
-				//await new Rcw.Automation.TransactionCodeUtil().GetAllTransactionCodes(serviceLayer);
-				//await new Rcw.Automation.VendorPaymentUtil().GetAllVendorPayments(serviceLayer);
-				//new ScarletWitch.Sap_RareCoinWholesalers.Services.BaseService().StartJob_Sap_RareCoinWholesalers_Triggered();
+				await new Rcw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
+				await new Rcw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
+				await new Rcw.Automation.PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices(serviceLayer);
+				await new Rcw.Automation.QuotationUtil().GetAllQuotations(serviceLayer);
+				await new Rcw.Automation.SalesTaxInvoiceUtil().GetAllSalesTaxInvoices(serviceLayer);
+				await new Rcw.Automation.TransactionCodeUtil().GetAllTransactionCodes(serviceLayer);
+				await new Rcw.Automation.VendorPaymentUtil().GetAllVendorPayments(serviceLayer);
+				new ScarletWitch.Sap_RareCoinWholesalers.Services.BaseService().StartJob_Sap_RareCoinWholesalers_Triggered();
 			}
 
 			catch (Exception ex) {
@@ -204,7 +205,7 @@ namespace Sap.Automation
 				#endregion
 			}
 
-			nLog.Trace($"End method ProcessRcwAsync().{Environment.NewLine}");
+			nLog.Trace("End method ProcessRcwAsync().", Environment.NewLine);
 		}
 
 		#region StartProgram, EndProgram

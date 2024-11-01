@@ -2,11 +2,10 @@
 using System.Linq;
 using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 using Sql2023.WwwSPs.Domain;
-using Sql2023.WwwSPs.Services.TradingAccountTransactions;
 
 namespace Sap.Automation
 {
-	public static partial class InsightToSap
+	internal partial class InsightToSap
 	{
 		// Insight Invoice => SAP Invoice (A/R)
 		public const string AR = "AR";
@@ -15,7 +14,7 @@ namespace Sap.Automation
 		private static IList<Invoice> GetARTransactions()
 		{
 			var arTransactions = _tradingAccountTransactionService.GetARs();
-			var scarInvoices = _scarInvoiceService.GetAll();
+			var scarInvoices = _scarInvoiceService.GetNonCancelled();
 
 			return (from i in scarInvoices // left join
 					from t in arTransactions.Where(x => x.InsightCustomerId == i.CardCode && x.DocumentId == i.NumAtCard).DefaultIfEmpty()

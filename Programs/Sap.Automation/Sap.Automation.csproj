@@ -130,6 +130,7 @@
     <Compile Include="InsightToSap\APTransaction.cs" />
     <Compile Include="InsightToSap\ARTransaction.cs" />
     <Compile Include="InsightToSap\BusinessPartner.cs" />
+    <Compile Include="InsightToSap\ChartOfAccount.cs" />
     <Compile Include="InsightToSap\InsightToSap.cs" />
     <Compile Include="InsightToSap\Invoice.cs" />
     <Compile Include="InsightToSap\Item.cs" />

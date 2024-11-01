@@ -40,19 +40,21 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 				_dbContext.SaveChanges();
 			}
 
-			#region catch (Exception ex)
 			catch (Exception ex) {
-				if (ex.InnerException == null) {
-					var log = string.Empty;
-					log = $"{log}{ex.Message}{Environment.NewLine}{Environment.NewLine}";
-					log = $"{log}Exception thrown in TradingAccountTransactionService.Insert(TradingAccountTransaction ent).{Environment.NewLine}{Environment.NewLine}";
-					log = $"{log}{ex}{Environment.NewLine}{Environment.NewLine}";
-					throw new Exception(log);
-				}
-
-				else throw;
+				throw new Exception(GetFullErrorText(ex, "TradingAccountTransactionService.Update()"));
 			}
-			#endregion
+		}
+
+		/// <inheritdoc/>
+		public virtual void Update()
+		{
+			try {
+				_dbContext.Database.ExecuteSqlCommand("[dbo].[TradingAccountTransactionUpdate]");
+			}
+
+			catch (Exception ex) {
+				throw new Exception(GetFullErrorText(ex, "TradingAccountTransactionService.Update()"));
+			}
 		}
 	}
 }

@@ -80,6 +80,7 @@
     <Compile Include="Services\Logging\ILogger.cs" />
     <Compile Include="Services\Orders\IOrderService.cs" />
     <Compile Include="Services\Orders\OrderService.cs" />
+    <Compile Include="Services\Terms\TermsUtil.cs" />
     <Compile Include="Services\UnixCustomers\IUnixCustomerService.cs" />
     <Compile Include="Services\UnixCustomers\UnixCustomerService.cs" />
   </ItemGroup>
