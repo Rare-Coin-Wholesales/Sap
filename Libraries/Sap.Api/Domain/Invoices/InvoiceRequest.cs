@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-using Sap.Api.Domain.Common;
-using Sap.Api.Domain.PurchaseInvoices;
 
 namespace Sap.Api.Domain.Invoices
 {

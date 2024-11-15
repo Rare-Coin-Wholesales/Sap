@@ -13,13 +13,9 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 		/// </summary>
 		IList<Invoice> GetAll();
 		/// <summary>
-		/// Gets all <see cref="Invoice"/>s with NumAtCard.
+		/// Gets all non-cancelled Invoices with NumAtCards.
 		/// </summary>
-		IList<Invoice> GetAllWithNumAtCard();
-		/// <summary>
-		/// Gets non-cancelled <see cref="Invoice"/>s.
-		/// </summary>
-		IList<Invoice> GetNonCancelled();
+		IList<Invoice> GetAllValid();
 		/// <summary>
 		/// Inserts a <see cref="Invoice"/>.
 		/// </summary>

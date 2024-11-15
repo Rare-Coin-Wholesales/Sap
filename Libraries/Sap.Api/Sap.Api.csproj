@@ -131,9 +131,14 @@
     <Compile Include="Domain\Common\SalesTaxInvoiceLine.cs" />
     <Compile Include="Domain\Common\SalesTaxInvoiceOperationCode.cs" />
     <Compile Include="Domain\Common\TaxExtension.cs" />
+    <Compile Include="Domain\CreditNotes\AddressExtension.cs" />
     <Compile Include="Domain\CreditNotes\CreditNote.cs" />
     <Compile Include="Domain\CreditNotes\CreditNoteRequest.cs" />
     <Compile Include="Domain\CreditNotes\CreditNoteResponse.cs" />
+    <Compile Include="Domain\CreditNotes\DocumentLine.cs" />
+    <Compile Include="Domain\CreditNotes\EWayBillDetails.cs" />
+    <Compile Include="Domain\CreditNotes\LineTaxJurisdiction.cs" />
+    <Compile Include="Domain\CreditNotes\TaxExtension.cs" />
     <Compile Include="Domain\Deposits\Deposit.cs" />
     <Compile Include="Domain\Deposits\DepositRequest.cs" />
     <Compile Include="Domain\Deposits\DepositResponse.cs" />

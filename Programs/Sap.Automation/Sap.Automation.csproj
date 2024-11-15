@@ -165,6 +165,9 @@
     <Compile Include="Rcw\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
     <Compile Include="Rcw\TransactionCodes\TransactionCodeUtil.cs" />
     <Compile Include="Rcw\VendorPayments\VendorPaymentUtil.cs" />
+    <Compile Include="Utils\GetDocumentId.cs" />
+    <Compile Include="Utils\GetDocumentType.cs" />
+    <Compile Include="Utils\GetPaymentTerms.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -15,6 +15,10 @@ namespace Sap.Automation
 		#region Fields
 		public static bool doAabw, doRcw, doAabrc;
 		public static DateTime StartTime;
+		/// <summary>8:30am</summary>
+		public static DateTime LowerBound = DateTime.Today.AddHours(8).AddMinutes(30);
+		/// <summary>5:30pm</summary>
+		public static DateTime UpperBound = DateTime.Today.AddHours(17).AddMinutes(30);
 		public static DefaultLogger defaultLogger = new DefaultLogger();
 		public static Logger nLog = LogManager.GetCurrentClassLogger();
 		public static readonly ApiToScarAabrcMapper.Mapper _aabrcMapper = new ApiToScarAabrcMapper.Mapper();
@@ -73,7 +77,10 @@ namespace Sap.Automation
 				await new Aabrc.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
 				await new Aabrc.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
 				await new Aabrc.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				await new Aabrc.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
+				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound)
+					await new Aabrc.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
 				await new Aabrc.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Aabrc.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
 				await new Aabrc.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
@@ -122,7 +129,10 @@ namespace Sap.Automation
 				await new Aabw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
 				await new Aabw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
 				await new Aabw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				await new Aabw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
+				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound)
+					await new Aabw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
 				await new Aabw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Aabw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
 				await new Aabw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
@@ -171,7 +181,10 @@ namespace Sap.Automation
 				await new Rcw.Automation.AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys(serviceLayer);
 				await new Rcw.Automation.AccountSegmentationUtil().GetAllAccountSegmentations(serviceLayer);
 				await new Rcw.Automation.BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions(serviceLayer);
-				await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
+				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound)
+					await new Rcw.Automation.BusinessPartnerUtil().GetAllBusinessPartners(serviceLayer);
+
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
 				await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
@@ -237,7 +250,7 @@ namespace Sap.Automation
 			else
 				nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
 
-			nLog.Info("{0}{0}========================================", Environment.NewLine);
+			nLog.Info("{0}{0}========================================{0}{0}", Environment.NewLine);
 			LogManager.Flush();
 
 			//Console.WriteLine(". . . Press any key to exit . . .");

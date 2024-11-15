@@ -241,15 +241,15 @@ namespace Sap.Automation
 			if (invoices == null || invoices.Count == 0)
 				return;
 
-			var sapRcwInvoices = _scarInvoiceService.GetNonCancelled();
+			var sapRcwInvoices = _scarInvoiceService.GetAllValid();
 			var missingInvoices = (from x in invoices // left join
-								   from y in sapRcwInvoices.Where(y => y.NumAtCard != null && (
-										y.NumAtCard.StartsWith(x.InvoiceID.ToString()) || y.NumAtCard.EndsWith(x.InvoiceID.ToString())))
-								   .DefaultIfEmpty()
+								   from y in sapRcwInvoices.Where(y => y.NumAtCard == x.InvoiceID.ToString()).DefaultIfEmpty()
 								   where y == null || y.NumAtCard == null
 								   select x).ToList();
 
-			_exportManager.ExportToCsv(missingInvoices);
+			if (missingInvoices != null && missingInvoices.Count > 0)
+				_exportManager.ExportToCsv(missingInvoices);
+
 			foreach (var invoice in missingInvoices) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToInvoice(invoice));
 

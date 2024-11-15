@@ -40,5 +40,16 @@ namespace Sql2023.Intranet.Services.Invoices
 
 			return query.ToList();
 		}
+
+		/// <inheritdoc/>
+		public virtual string GetTerms(int invoiceId)
+		{
+			if (invoiceId < 0)
+				return string.Empty;
+
+			return (from x in _dbContext.Invoices
+					where x.InvoiceID == invoiceId
+					select x.Terms).FirstOrDefault();
+		}
 	}
 }

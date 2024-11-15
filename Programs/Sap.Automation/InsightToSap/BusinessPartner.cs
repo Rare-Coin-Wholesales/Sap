@@ -75,12 +75,13 @@ namespace Sap.Automation
 					   where y == null || y.CardCode == null
 					   select x).ToList();
 
-			_exportManager.ExportToCsv(missing);
+			if (missing != null && missing.Count > 0)
+				_exportManager.ExportToCsv(missing);
 
 			foreach (var bp in missing) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToCustomer(bp));
 
-				if (created.Item1 == null) { // "< 0" means string not found since IndexOf returns -1
+				if (created.Item1 == null) { // IndexOf() returns -1 if the string is not found
 					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
 						Common.nLog.Error(created.ErrorMsg);
 				}
@@ -93,12 +94,13 @@ namespace Sap.Automation
 					   where y == null || y.CardCode == null
 					   select x).ToList();
 
-			_exportManager.ExportToCsv(missing);
+			if (missing != null && missing.Count > 0)
+				_exportManager.ExportToCsv(missing);
 
 			foreach (var bp in missing) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToSupplier(bp));
 
-				if (created.Item1 == null) { // "< 0" means string not found since IndexOf returns -1
+				if (created.Item1 == null) { // IndexOf() returns -1 if the string is not found
 					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
 						Common.nLog.Error(created.ErrorMsg);
 				}

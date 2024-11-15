@@ -77,15 +77,14 @@ namespace Sap.Automation
 			if (purchaseInvoices == null || purchaseInvoices.Count == 0)
 				return;
 
-			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetNonCancelled();
+			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAllValid();
 			var missingPurchaseInvoices = (from x in purchaseInvoices // left join
-										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard != null && (
-												y.NumAtCard.StartsWith(x.OrderID.ToString()) || y.NumAtCard.EndsWith(x.OrderID.ToString())))
-										   .DefaultIfEmpty()
+										   from y in scarPurchaseInvoices.Where(y => y.NumAtCard == x.OrderID.ToString()).DefaultIfEmpty()
 										   where y == null || y.NumAtCard == null
 										   select x).ToList();
 
-			_exportManager.ExportToCsv(missingPurchaseInvoices);
+			if (missingPurchaseInvoices != null && missingPurchaseInvoices.Count > 0)
+				_exportManager.ExportToCsv(missingPurchaseInvoices);
 
 			foreach (var purchaseInvoice in missingPurchaseInvoices) {
 				var created = await Common.RcwServiceLayer.TryCreateAsync(ToPurchaseInvoice(purchaseInvoice));

@@ -18,19 +18,15 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 		}
 
 		/// <inheritdoc/>
-		public virtual IList<Invoice> GetAllWithNumAtCard()
+		public virtual IList<Invoice> GetAllValid()
 		{
-			return (from x in _dbContext.Invoices
-					where x.NumAtCard != null && x.NumAtCard.Trim() != string.Empty
-					select x).ToList();
-		}
+			var query = (from x in _dbContext.Invoices
+						 where x.CancelStatus == CANCEL_STATUS_NO &&
+							   x.CardCode != null && x.CardCode.Trim() != "" &&
+							   x.NumAtCard != null && x.NumAtCard.Trim() != ""
+						 select x).ToList();
 
-		/// <inheritdoc/>
-		public virtual IList<Invoice> GetNonCancelled()
-		{
-			return (from x in _dbContext.Invoices
-					where x.CancelStatus == CANCEL_STATUS_NO
-					select x).ToList();
+			return query.Where(x => decimal.TryParse(x.NumAtCard, out _)).ToList();
 		}
 
 		/// <inheritdoc/>

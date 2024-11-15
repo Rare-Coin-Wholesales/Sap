@@ -9,10 +9,10 @@ namespace Sap.ApiToScarAabwMapper
 			return new CreditNote {
 				DocEntry = x.DocEntry,
 				CardCode = x.CardCode,
-				Code = x.Code,
-				Comments = x.Comments,
-				Description = x.Description,
-				DocNum = x.DocNum,
+				//Code = x.Code,
+				//Comments = x.Comments,
+				//Description = x.Description,
+				//DocNum = x.DocNum,
 				DocType = x.DocType,
 			};
 		}

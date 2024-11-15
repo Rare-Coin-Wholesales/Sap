@@ -17,10 +17,12 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 		/// </summary>
 		IList<TradingAccountTransaction> GetARs();
 		/// <summary>
-		/// Inserts a <see cref="TradingAccountTransaction"/>.
+		/// Tries to insert a <see cref="TradingAccountTransaction"/>.
 		/// </summary>
 		/// <param name="ent">The <see cref="TradingAccountTransaction"/> to insert.</param>
-		void Insert(TradingAccountTransaction ent);
+		/// <param name="errorMsg">Any error messages. String.empty if there are no errors.</param>
+		/// <returns>True if inserted succesfully. Otherwise, false.</returns>
+		bool TryInsert(TradingAccountTransaction ent, out string errorMsg);
 		/// <summary>
 		/// Automatically updates the [TradingAccountTransaction] table by calling stored procedure [TradingAccountTransactionUpdate].
 		/// </summary>
