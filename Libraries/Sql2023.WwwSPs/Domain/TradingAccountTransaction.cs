@@ -9,8 +9,6 @@ namespace Sql2023.WwwSPs.Domain
     [Table("TradingAccountTransaction")]
     public partial class TradingAccountTransaction
     {
-        [Key]
-        [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [StringLength(71)]
         public string Id { get; set; }
@@ -18,7 +16,8 @@ namespace Sql2023.WwwSPs.Domain
         [StringLength(15)]
         public string InsightCustomerId { get; set; }
 
-        [Required]
+        [Key]
+        [Column(Order = 0)]
         [StringLength(21)]
         public string DocumentId { get; set; }
 
@@ -44,7 +43,8 @@ namespace Sql2023.WwwSPs.Domain
 
         public short? RMDocumentType { get; set; }
 
-        [Required]
+        [Key]
+        [Column(Order = 2)]
         [StringLength(20)]
         public string TransactionType { get; set; }
 
@@ -65,7 +65,6 @@ namespace Sql2023.WwwSPs.Domain
         public int SortOrder { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        [Required]
         [StringLength(26)]
         public string DescriptiveType { get; set; }
     }

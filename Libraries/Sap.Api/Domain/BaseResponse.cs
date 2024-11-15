@@ -8,6 +8,12 @@ namespace Sap.Api.Domain
 		[JsonProperty("error")]
 		public Error Error;
 
+		[JsonProperty("odata.metadata")]
+		public string OdataMetadata;
+
+		[JsonProperty("odata.nextLink")]
+		public string OdataNextLink;
+
 		public BaseResponse()
 		{
 			Error = new Error();

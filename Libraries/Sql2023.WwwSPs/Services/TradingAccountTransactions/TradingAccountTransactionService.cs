@@ -30,18 +30,24 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 		}
 
 		/// <inheritdoc/>
-		public virtual void Insert(TradingAccountTransaction ent)
+		public virtual bool TryInsert(TradingAccountTransaction ent, out string errorMsg)
 		{
-			if (ent == null)
-				throw new ArgumentNullException("ent", "Something happened with your connection. Refresh the page and try again.");
+			if (ent == null) {
+				errorMsg = "Something happened with your connection. Refresh the page and try again.";
+				return false;
+			}
+
+			errorMsg = string.Empty;
 
 			try {
 				_dbContext.TradingAccountTransactions.Add(ent);
 				_dbContext.SaveChanges();
+				return true;
 			}
 
 			catch (Exception ex) {
-				throw new Exception(GetFullErrorText(ex, "TradingAccountTransactionService.Update()"));
+				errorMsg = GetFullErrorText(ex, "TryInsert(TradingAccountTransaction ent, out string errorMsg)");
+				return false;
 			}
 		}
 
@@ -49,7 +55,9 @@ namespace Sql2023.WwwSPs.Services.TradingAccountTransactions
 		public virtual void Update()
 		{
 			try {
+				_dbContext.Database.CommandTimeout = 337;
 				_dbContext.Database.ExecuteSqlCommand("[dbo].[TradingAccountTransactionUpdate]");
+				_dbContext.Database.CommandTimeout = null;
 			}
 
 			catch (Exception ex) {

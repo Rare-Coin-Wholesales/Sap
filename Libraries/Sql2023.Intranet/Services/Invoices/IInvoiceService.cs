@@ -24,5 +24,10 @@ namespace Sql2023.Intranet.Services.Invoices
 		/// </summary>
 		/// <returns>A list of customer IDs.</returns>
 		IList<string> GetRecentCustomerIds();
+		/// <summary>
+		/// Gets the Terms from an Invoice.
+		/// </summary>
+		/// <param name="invoiceId">The Invoice ID.</param>
+		string GetTerms(int invoiceId);
 	}
 }

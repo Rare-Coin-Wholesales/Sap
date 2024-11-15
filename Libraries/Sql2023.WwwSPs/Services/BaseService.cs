@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Linq;
 using Sap.Core;
 using Sap.Services.Security;
 using Sql2023.WwwSPs.Domain;
@@ -25,6 +27,22 @@ namespace Sql2023.WwwSPs.Services
 			_dbContext = new WwwSPsDb(_connectionString);
 		}
 
+		protected string GetDbEntityValidationExceptionMessage(DbEntityValidationException dbEx)
+		{
+			var msg = string.Empty;
+			var list = new List<DbValidationError>();
+
+			foreach (var valErrors in dbEx.EntityValidationErrors)
+				list.AddRange(valErrors.ValidationErrors);
+
+			var temp = list.Select(x => new { x.PropertyName, x.ErrorMessage }).Distinct().ToList();
+
+			foreach (var er in temp)
+				msg = $"{msg}Property: {er.PropertyName} Error: {er.ErrorMessage}{Environment.NewLine}";
+
+			return msg;
+		}
+
 		/// <summary>
 		/// Gets the full error text. This supports errors reported by SQL.
 		/// </summary>
@@ -46,17 +64,16 @@ namespace Sql2023.WwwSPs.Services
 																   : $"Exception thrown in {methodName}.{Environment.NewLine}{Environment.NewLine}";
 
 			if (ex is DbEntityValidationException dbEx) {
-				foreach (var valErrors in dbEx.EntityValidationErrors)
-					foreach (var er in valErrors.ValidationErrors)
-						msg = $"{msg}Property: {er.PropertyName} Error: {er.ErrorMessage}{Environment.NewLine}";
-
+				msg = GetDbEntityValidationExceptionMessage(dbEx);
 				msg = $"{msg}{methodLine}";
 			}
 
 			else if (ex.InnerException == null) {
+				var temp = ex.ToString().Length <= 1000 ? ex.ToString()
+														: ex.ToString().Substring(0,1000);
 				msg = $"{msg}{ex.Message}{Environment.NewLine}{Environment.NewLine}";
 				msg = $"{msg}{methodLine}";
-				msg = $"{msg}{ex}{Environment.NewLine}{Environment.NewLine}";
+				msg = $"{msg}{temp}{Environment.NewLine}{Environment.NewLine}";
 			}
 
 			else
