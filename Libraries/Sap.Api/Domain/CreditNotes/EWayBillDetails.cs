@@ -1,3 +1,6 @@
 ﻿using Sap.Core;
 
-public partial class EWayBillDetails : BaseEntity { }
+namespace Sap.Api.Domain.CreditNotes
+{
+	public partial class EWayBillDetails : BaseEntity { }
+}

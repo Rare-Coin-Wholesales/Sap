@@ -1,43 +1,49 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using B1SLayer;
 using Sap.Api.Domain.CreditNotes;
 using Sap.Automation;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.CreditNotes;
+using Sap.Core;
+using Web202209.SAP_ArrowAndBranchWinery.Services.CreditNotes;
 
 namespace Sap.Aabw.Automation
 {
 	public partial class CreditNoteUtil
 	{
-		private readonly CreditNoteService _creditNoteService = new CreditNoteService();
+		private readonly ICreditNoteService _creditNoteService = new CreditNoteService();
+		private readonly IDocumentLineService _documentLineService = new DocumentLineService();
 
-		public async Task GetAllCreditNotes(SLConnection serviceLayer)
+		public async Task GetAllCreditNotes()
 		{
 			Common.nLog.Trace("Begin method GetAllCreditNotes().");
-			var list = await serviceLayer.Request(CreditNoteRequest.ACTION).GetAllAsync<CreditNote>();
+			var list = await Common.AabwServiceLayer.GetAllCreditNotesAsync();
 
-			if (list == null || list.Count == 0) {
-				Common.nLog.Warn("List is empty.");
+			if (list == null || list.Count == 0)
 				return;
-			}
 			else {
+				var dt = CommonUtil.ToDataTable(list);
 				_creditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_creditNoteService.Insert(Common._aabwMapper.ToSql(v));
-					}
-
-					catch (Exception ex) {
-						#region Log
-						if (ex.InnerException == null)
-							Common.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Common._aabwMapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-						else
-							throw;
-						#endregion
-					}
-				}
+				if (_creditNoteService.TryBulkCopy(dt, out var errorMsg))
+					InsertDocumentLines(list);
+				else
+					Common.nLog.Error(errorMsg);
 			}
+
+			_creditNoteService.TransferToDbo();
+		}
+
+		private void InsertDocumentLines(IList<CreditNote> list)
+		{
+			var docLines = new List<DocumentLine>();
+
+			foreach (var v in list)
+				docLines.AddRange(v.DocumentLines);
+
+			var dt = CommonUtil.ToDataTable(docLines);
+			_documentLineService.TruncateTable();
+
+			if (!_documentLineService.TryBulkCopy(dt, out var errorMsg2))
+				Common.nLog.Error(errorMsg2);
 		}
 	}
 }

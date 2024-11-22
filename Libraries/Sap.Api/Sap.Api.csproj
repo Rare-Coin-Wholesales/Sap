@@ -175,9 +175,14 @@
     <Compile Include="Domain\JournalEntryDocumentTypes\JournalEntryDocumentTypeResponse.cs" />
     <Compile Include="Domain\Login\LoginRequest.cs" />
     <Compile Include="Domain\Login\LoginResponse.cs" />
+    <Compile Include="Domain\PurchaseCreditNotes\AddressExtension.cs" />
+    <Compile Include="Domain\PurchaseCreditNotes\DocumentLine.cs" />
+    <Compile Include="Domain\PurchaseCreditNotes\EWayBillDetails.cs" />
+    <Compile Include="Domain\PurchaseCreditNotes\LineTaxJurisdiction.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNote.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteRequest.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteResponse.cs" />
+    <Compile Include="Domain\PurchaseCreditNotes\TaxExtension.cs" />
     <Compile Include="Domain\PurchaseInvoices\AddressExtension.cs" />
     <Compile Include="Domain\PurchaseInvoices\DocumentInstallment.cs" />
     <Compile Include="Domain\PurchaseInvoices\EWayBillDetails.cs" />

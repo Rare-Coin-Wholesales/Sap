@@ -37,6 +37,9 @@
     <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_RareCoinWholesalers\ScarletWitch.Sap_RareCoinWholesalers.csproj" />
     <ProjectReference Include="..\..\Libraries\Sql2023.Intranet\Sql2023.Intranet.csproj" />
     <ProjectReference Include="..\..\Libraries\Sql2023.WwwSPs\Sql2023.WwwSPs.csproj" />
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchRareCoins\Web202209.SAP_ArrowAndBranchRareCoins.csproj" />
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchWinery\Web202209.SAP_ArrowAndBranchWinery.csproj" />
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_RareCoinWholesalers\Web202209.SAP_RareCoinWholesalers.csproj" />
   </ItemGroup>
 
 </Project>

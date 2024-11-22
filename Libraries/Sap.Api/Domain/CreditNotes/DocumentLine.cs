@@ -698,5 +698,18 @@ namespace Sap.Api.Domain.CreditNotes
 		[JsonProperty("DocumentLinesBinAllocations")]
 		public IList<object> DocumentLinesBinAllocations;
 		#endregion
+
+		public DocumentLine()
+		{
+			BatchNumbers = new List<object>();
+			CCDNumbers = new List<object>();
+			DocumentLineAdditionalExpenses = new List<object>();
+			DocumentLinesBinAllocations = new List<object>();
+			EBooksDetails = new List<object>();
+			ExportProcesses = new List<object>();
+			LineTaxJurisdictions = new List<LineTaxJurisdiction>();
+			SerialNumbers = new List<object>();
+			WithholdingTaxLines = new List<object>();
+		}
 	}
 }

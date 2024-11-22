@@ -17,8 +17,8 @@ namespace Sap.Automation
 		public static DateTime StartTime;
 		/// <summary>8:30am</summary>
 		public static DateTime LowerBound = DateTime.Today.AddHours(8).AddMinutes(30);
-		/// <summary>5:30pm</summary>
-		public static DateTime UpperBound = DateTime.Today.AddHours(17).AddMinutes(30);
+		/// <summary>8:00pm</summary>
+		public static DateTime UpperBound = DateTime.Today.AddHours(20).AddMinutes(0);
 		public static DefaultLogger defaultLogger = new DefaultLogger();
 		public static Logger nLog = LogManager.GetCurrentClassLogger();
 		public static readonly ApiToScarAabrcMapper.Mapper _aabrcMapper = new ApiToScarAabrcMapper.Mapper();
@@ -83,7 +83,7 @@ namespace Sap.Automation
 
 				await new Aabrc.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Aabrc.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
-				await new Aabrc.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
+				await new Aabrc.Automation.CreditNoteUtil().GetAllCreditNotes();
 				await new Aabrc.Automation.DepositUtil().GetAllDeposits(serviceLayer);
 				await new Aabrc.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
 				await new Aabrc.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
@@ -93,7 +93,7 @@ namespace Sap.Automation
 				await new Aabrc.Automation.ItemUtil().GetAllItems(serviceLayer);
 				await new Aabrc.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
 				await new Aabrc.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
-				await new Aabrc.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
+				await new Aabrc.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
 				await new Aabrc.Automation.PurchaseInvoiceUtil().GetAllPurchaseInvoices(serviceLayer);
 				await new Aabrc.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
 				await new Aabrc.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
@@ -135,7 +135,7 @@ namespace Sap.Automation
 
 				await new Aabw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Aabw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
-				await new Aabw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
+				await new Aabw.Automation.CreditNoteUtil().GetAllCreditNotes();
 				await new Aabw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
 				await new Aabw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
 				await new Aabw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
@@ -145,7 +145,7 @@ namespace Sap.Automation
 				await new Aabw.Automation.ItemUtil().GetAllItems(serviceLayer);
 				await new Aabw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
 				await new Aabw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
-				await new Aabw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
+				await new Aabw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
 				await new Aabw.Automation.PurchaseInvoiceUtil().GetAllPurchaseInvoices(serviceLayer);
 				await new Aabw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
 				await new Aabw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);
@@ -187,7 +187,7 @@ namespace Sap.Automation
 
 				await new Rcw.Automation.ChartOfAccountUtil().GetAllChartOfAccounts(serviceLayer);
 				await new Rcw.Automation.ChecksforPaymentUtil().GetAllChecksforPayments(serviceLayer);
-				await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes(serviceLayer);
+				await new Rcw.Automation.CreditNoteUtil().GetAllCreditNotes();
 				await new Rcw.Automation.DepositUtil().GetAllDeposits(serviceLayer);
 				await new Rcw.Automation.FAAccountDeterminationUtil().GetAllFAAccountDeterminations(serviceLayer);
 				await new Rcw.Automation.GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules(serviceLayer);
@@ -197,7 +197,7 @@ namespace Sap.Automation
 				await new Rcw.Automation.ItemUtil().GetAllItems(serviceLayer);
 				await new Rcw.Automation.JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes(serviceLayer);
 				await new Rcw.Automation.JournalEntryUtil().GetAllJournalEntrys(serviceLayer);
-				await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes(serviceLayer);
+				await new Rcw.Automation.PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
 				await new Rcw.Automation.PurchaseInvoiceUtil().GetAllPurchaseInvoices(serviceLayer);
 				await new Rcw.Automation.PurchaseOrderUtil().GetAllPurchaseOrders(serviceLayer);
 				await new Rcw.Automation.PurchaseQuotationUtil().GetAllPurchaseQuotations(serviceLayer);

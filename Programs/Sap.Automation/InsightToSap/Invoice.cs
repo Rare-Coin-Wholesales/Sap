@@ -235,8 +235,7 @@ namespace Sap.Automation
 		/// </summary>
 		public static async Task CreateMissingInvoices()
 		{
-			var invoices = _intranetInvoiceService.GetRecent()
-					.Where(x => x.DateEntered >= SapStartDate && x.DateInvoiced >= SapStartDate).ToList();
+			var invoices = _intranetInvoiceService.GetRecent().Where(x => x.DateInvoiced >= SapStartDate).ToList();
 
 			if (invoices == null || invoices.Count == 0)
 				return;
