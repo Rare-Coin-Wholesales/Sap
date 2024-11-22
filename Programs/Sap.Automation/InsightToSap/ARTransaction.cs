@@ -15,15 +15,16 @@ namespace Sap.Automation
 		#region Utilities
 		private static IList<Invoice> GetARTransactions()
 		{
-			var accounts = _tradingAccountService.GetAll();
-			var arTransactions = _tradingAccountTransactionService.GetARs();
-			var scarInvoices = _scarInvoiceService.GetAllValid();
+			var tradingAccounts = _tradingAccountService.GetAll();
+			var tradingAccountTransactions = _tradingAccountTransactionService.GetARs();
+			var sapInvoices = _scarInvoiceService.GetAllValid();
+			sapInvoices = sapInvoices.Where(x => x.DocDate.Value >= SapStartDate).ToList();
 
-			return (from i in scarInvoices
-					join ta in accounts on i.CardCode equals ta.InsightCustomerId // left join
-					from t in arTransactions.Where(x => x.DocumentId == i.NumAtCard && i.CardCode == x.InsightCustomerId).DefaultIfEmpty()
-					where t == null || t.DocumentId == null
-					select i).ToList();
+			return (from sap in sapInvoices
+					join ta in tradingAccounts on sap.CardCode equals ta.InsightCustomerId // left join
+					from tat in tradingAccountTransactions.Where(x => x.DocumentId == sap.NumAtCard && sap.CardCode == x.InsightCustomerId).DefaultIfEmpty()
+					where tat == null || tat.DocumentId == null
+					select sap).ToList();
 		}
 
 		private static TradingAccountTransaction ToTradingAccountTransaction(Invoice v)

@@ -7,7 +7,6 @@ namespace Sap.Api.Domain.CreditNotes
 	public partial class CreditNoteRequest : BaseRequest
 	{
 		public const string ACTION = "CreditNotes";
-
 		#region Fields
 		[JsonProperty("odata.etag")]
 		public string OdataEtag;

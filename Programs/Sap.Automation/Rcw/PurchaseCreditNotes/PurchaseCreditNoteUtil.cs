@@ -1,43 +1,49 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using B1SLayer;
 using Sap.Api.Domain.PurchaseCreditNotes;
 using Sap.Automation;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseCreditNotes;
+using Sap.Core;
+using Web202209.SAP_RareCoinWholesalers.Services.PurchaseCreditNotes;
 
 namespace Sap.Rcw.Automation
 {
 	public partial class PurchaseCreditNoteUtil
 	{
-		private readonly PurchaseCreditNoteService _purchaseCreditNoteService = new PurchaseCreditNoteService();
+		private readonly IPurchaseCreditNoteService _purchaseCreditNoteService = new PurchaseCreditNoteService();
+		private readonly IDocumentLineService _documentLineService = new DocumentLineService();
 
-		public async Task GetAllPurchaseCreditNotes(SLConnection serviceLayer)
+		public async Task GetAllPurchaseCreditNotes()
 		{
 			Common.nLog.Trace("Begin method GetAllPurchaseCreditNotes().");
-			var list = await serviceLayer.Request(PurchaseCreditNoteRequest.ACTION).GetAllAsync<PurchaseCreditNote>();
+			var list = await Common.RcwServiceLayer.GetAllPurchaseCreditNotesAsync();
 
-			if (list == null || list.Count == 0) {
-				Common.nLog.Warn("List is empty.");
+			if (list == null || list.Count == 0)
 				return;
-			}
 			else {
+				var dt = CommonUtil.ToDataTable(list);
 				_purchaseCreditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_purchaseCreditNoteService.Insert(Common._rcwMapper.ToSql(v));
-					}
-
-					catch (Exception ex) {
-						#region Log
-						if (ex.InnerException == null)
-							Common.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Common._rcwMapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-						else
-							throw;
-						#endregion
-					}
-				}
+				if (_purchaseCreditNoteService.TryBulkCopy(dt, out var errorMsg))
+					InsertDocumentLines(list);
+				else
+					Common.nLog.Error(errorMsg);
 			}
+
+			_purchaseCreditNoteService.TransferToDbo();
+		}
+
+		private void InsertDocumentLines(IList<PurchaseCreditNote> list)
+		{
+			var docLines = new List<DocumentLine>();
+
+			foreach (var v in list)
+				docLines.AddRange(v.DocumentLines);
+
+			var dt = CommonUtil.ToDataTable(docLines);
+			_documentLineService.TruncateTable();
+
+			if (!_documentLineService.TryBulkCopy(dt, out var errorMsg2))
+				Common.nLog.Error(errorMsg2);
 		}
 	}
 }

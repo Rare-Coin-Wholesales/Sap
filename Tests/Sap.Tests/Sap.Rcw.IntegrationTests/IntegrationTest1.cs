@@ -1,15 +1,16 @@
 using B1SLayer;
+using Sap.Api;
 using Sap.Api.Http;
 using Sap.ApiToScarRcwMapper;
 using Sap.Core;
 using Sap.Services.Security;
+using Sap.Tests;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountCategories;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentationCategories;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.BillOfExchangeTransactions;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChartOfAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChecksforPayments;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.CreditNotes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.Deposits;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
@@ -17,7 +18,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.IncomingPayments;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntries;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntryDocumentTypes;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseCreditNotes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseOrders;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseQuotations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseTaxInvoices;
@@ -25,6 +25,8 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.Quotations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.SalesTaxInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.TransactionCodes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.VendorPayments;
+using Web202209.SAP_RareCoinWholesalers.Services.CreditNotes;
+using Web202209.SAP_RareCoinWholesalers.Services.PurchaseCreditNotes;
 
 namespace Sap.Rcw.IntegrationTests
 {
@@ -39,6 +41,7 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 
 		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Rcw_CompanyDb, Username, Password);
+		public static readonly ServiceLayer RcwServiceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Username, Password);
 
 		#region AccountCategory
 		private readonly AccountCategoryService _accountCategoryService = new();
@@ -230,33 +233,18 @@ namespace Sap.Rcw.IntegrationTests
 		#endregion
 
 		#region CreditNote
-		private readonly CreditNoteService _creditNoteService = new();
-
 		[Fact]
-		public void Test_CreditNote_Integration()
+		public async void Test_CreditNote_Integration()
 		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
+			ICreditNoteService _creditNoteService = new CreditNoteService();
+			var list = await RcwServiceLayer.GetAllCreditNotesAsync();
+			var dt = CommonUtil.ToDataTable(list);
+			_creditNoteService.TruncateTable();
 
-			var list = client.ListCreditNotes();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_creditNoteService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_creditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			if (_creditNoteService.TryBulkCopy(dt, out var errorMsg))
+				true.ShouldEqual(true);
+			else
+				errorMsg.ShouldEqual("Failed");
 		}
 		#endregion
 
@@ -490,33 +478,24 @@ namespace Sap.Rcw.IntegrationTests
 		#endregion
 
 		#region PurchaseCreditNote
-		private readonly PurchaseCreditNoteService _purchaseCreditNoteService = new();
-
 		[Fact]
-		public void Test_PurchaseCreditNote_Integration()
+		public async void Test_PurchaseCreditNote_Integration()
 		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
+			var _purchaseCreditNoteService = new PurchaseCreditNoteService();
+			var list = await RcwServiceLayer.GetAllPurchaseCreditNotesAsync();
+			File.AppendAllText(@"C:\Logs\SAP Automation\2024 11\21\_.txt", $"list.Count: {list.Count}{Environment.NewLine}{Environment.NewLine}");
+			//string json = JsonConvert.SerializeObject(list, Formatting.Indented);
+			//File.AppendAllText(@"C:\Logs\SAP Automation\2024 11\21\_.txt", $"{json}{Environment.NewLine}{Environment.NewLine}");
+			//DataTable dt = JsonConvert.DeserializeObject<DataTable>(json);
+			var dt = CommonUtil.ToDataTable(list);
+			File.AppendAllText(@"C:\Logs\SAP Automation\2024 11\21\_.txt", $"dt.Columns.Count: {dt.Columns.Count}{Environment.NewLine}");
+			_purchaseCreditNoteService.CheckColumnMappings(dt, "Import", "PurchaseCreditNote");
+			_purchaseCreditNoteService.TruncateTable();
 
-			var list = client.ListPurchaseCreditNotes();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_purchaseCreditNoteService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			if (_purchaseCreditNoteService.TryBulkCopy(dt, out var errorMsg))
+				true.ShouldEqual(true);
+			else
+				errorMsg.ShouldEqual("Failed");
 		}
 		#endregion
 

@@ -15,15 +15,16 @@ namespace Sap.Automation
 		#region Utilities
 		private static IList<PurchaseInvoice> GetAPTransactions()
 		{
-			var accounts = _tradingAccountService.GetAll();
-			var apTransactions = _tradingAccountTransactionService.GetAPs();
-			var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetAllValid();
+			var tradingAccounts = _tradingAccountService.GetAll();
+			var tradingAccountTransactions = _tradingAccountTransactionService.GetAPs();
+			var sapPurchaseInvoices = _scarPurchaseInvoiceService.GetAllValid();
+			sapPurchaseInvoices = sapPurchaseInvoices.Where(x => x.DocDate.Value >= SapStartDate).ToList();
 
-			return (from i in scarPurchaseInvoices // Remember: AP BusinessPartners start with "V"
-					join ta in accounts on i.CardCode equals "V" + ta.InsightCustomerId // left join
-					from t in apTransactions.Where(x => x.DocumentId == i.NumAtCard && i.CardCode == "V" + x.InsightCustomerId).DefaultIfEmpty()
-					where t == null || t.DocumentId == null
-					select i).ToList();
+			return (from sap in sapPurchaseInvoices // Remember: AP BusinessPartners start with "V"
+					join ta in tradingAccounts on sap.CardCode equals "V" + ta.InsightCustomerId // left join
+					from tat in tradingAccountTransactions.Where(x => x.DocumentId == sap.NumAtCard && sap.CardCode == "V" + x.InsightCustomerId).DefaultIfEmpty()
+					where tat == null || tat.DocumentId == null
+					select sap).ToList();
 		}
 
 		private static TradingAccountTransaction ToTradingAccountTransaction(PurchaseInvoice v)

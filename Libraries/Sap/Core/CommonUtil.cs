@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Globalization;
 using System.Net.Mail;
+using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Sap.Core
@@ -88,6 +90,47 @@ namespace Sap.Core
 
 				return email;
 			}
+		}
+
+		/// <summary>
+		/// Converts a List to a DataTable.
+		/// </summary>
+		/// <param name="list">The list to convert.</param>
+		public static DataTable ToDataTable<T>(IList<T> list)
+		{
+			Type type;
+			object[] values;
+			var dataTable = new DataTable();
+			// get all the fields
+			var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
+			var fieldLen = fields.Length;
+
+			foreach (var field in fields) {
+				// defining type of data column gives proper data table 
+				type = field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>) ?
+							Nullable.GetUnderlyingType(field.FieldType) : field.FieldType;
+
+				if (type.ToString().StartsWith("System.") && !type.ToString().StartsWith("System.Collection"))
+					dataTable.Columns.Add(field.Name, type); // set column names as field names
+				else
+					--fieldLen;
+			}
+
+			foreach (T item in list) {
+				values = new object[fieldLen];
+
+				for (int i = 0; i < fieldLen; i++) {
+					type = fields[i].FieldType.IsGenericType && fields[i].FieldType.GetGenericTypeDefinition() == typeof(Nullable<>) ?
+								Nullable.GetUnderlyingType(fields[i].FieldType) : fields[i].FieldType;
+
+					if (type.ToString().StartsWith("System.") && !type.ToString().StartsWith("System.Collection"))
+						values[i] = fields[i].GetValue(item); // insert field values to datatable rows
+				}
+
+				dataTable.Rows.Add(values);
+			}
+
+			return dataTable;
 		}
 
 		/// <summary>

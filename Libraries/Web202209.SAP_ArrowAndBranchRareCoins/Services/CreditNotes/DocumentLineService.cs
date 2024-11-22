@@ -1,0 +1,19 @@
+﻿using System.Data;
+
+namespace Web202209.SAP_ArrowAndBranchRareCoins.Services.CreditNotes
+{
+	public partial class DocumentLineService : BaseService, IDocumentLineService
+	{
+		/// <inheritdoc/>
+		public virtual void TruncateTable()
+		{
+			base.TruncateTable("Import", "CreditNote_DocumentLine");
+		}
+
+		/// <inheritdoc/>
+		public virtual bool TryBulkCopy(DataTable dt, out string errorMessage)
+		{
+			return base.TryBulkCopy(dt, "Import.CreditNote_DocumentLine", out errorMessage);
+		}
+	}
+}

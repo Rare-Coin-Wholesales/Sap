@@ -220,6 +220,18 @@
       <Project>{ff69b15b-9240-4d3d-86c4-f0f0b97fb4ab}</Project>
       <Name>Sql2023.WwwSPs</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchRareCoins\Web202209.SAP_ArrowAndBranchRareCoins.csproj">
+      <Project>{3690416a-a8ea-4b71-8c8d-efc7f17991b1}</Project>
+      <Name>Web202209.SAP_ArrowAndBranchRareCoins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchWinery\Web202209.SAP_ArrowAndBranchWinery.csproj">
+      <Project>{c0da4933-035d-4217-9097-7eeee6b5c07a}</Project>
+      <Name>Web202209.SAP_ArrowAndBranchWinery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_RareCoinWholesalers\Web202209.SAP_RareCoinWholesalers.csproj">
+      <Project>{5687651c-bec8-4864-9a9b-fef04a364f91}</Project>
+      <Name>Web202209.SAP_RareCoinWholesalers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

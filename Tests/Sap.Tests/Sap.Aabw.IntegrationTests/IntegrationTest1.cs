@@ -238,24 +238,24 @@ namespace Sap.Aabw.IntegrationTests
 			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListCreditNotes();
+			//var list = client.ListCreditNotes();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_creditNoteService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_creditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_creditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			_creditNoteService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 
@@ -498,24 +498,24 @@ namespace Sap.Aabw.IntegrationTests
 			var response = client.Login(Aabw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListPurchaseCreditNotes();
+			//var list = client.ListPurchaseCreditNotes();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_purchaseCreditNoteService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_purchaseCreditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			//_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 

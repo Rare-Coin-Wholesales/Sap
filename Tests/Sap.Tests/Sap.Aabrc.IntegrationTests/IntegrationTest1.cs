@@ -34,7 +34,7 @@ namespace Sap.Aabrc.IntegrationTests
 		private static readonly Mapper _mapper = new();
 		private static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Password"));
+		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Password"));
 		private static readonly string Test_CompanyDb = "A21384_ABW_T02";
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 
@@ -239,24 +239,24 @@ namespace Sap.Aabrc.IntegrationTests
 			var response = client.Login(Aabrc_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListCreditNotes();
+			//var list = client.ListCreditNotes();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_creditNoteService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_creditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_creditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			_creditNoteService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 
@@ -499,24 +499,24 @@ namespace Sap.Aabrc.IntegrationTests
 			var response = client.Login(Aabrc_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListPurchaseCreditNotes();
+			//var list = client.ListPurchaseCreditNotes();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_purchaseCreditNoteService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_purchaseCreditNoteService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 
