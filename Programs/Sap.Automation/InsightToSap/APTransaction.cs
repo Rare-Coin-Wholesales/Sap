@@ -7,7 +7,7 @@ using Sql2023.WwwSPs.Domain;
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		// Insight Order => SAP PurchaseInvoice (A/P)
 		public const string AP = "AP";

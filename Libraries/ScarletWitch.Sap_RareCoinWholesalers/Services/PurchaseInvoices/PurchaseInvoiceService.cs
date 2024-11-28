@@ -30,6 +30,17 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices
 		}
 
 		/// <inheritdoc/>
+		public virtual IList<PurchaseInvoice> GetForEsds()
+		{
+			var query = (from x in _dbContext.PurchaseInvoices
+						 where x.DocDate != null && x.DocTotal != null &&
+							   x.CardCode != null && x.CardCode.Trim() != ""
+						 select x).ToList();
+
+			return query;
+		}
+
+		/// <inheritdoc/>
 		public virtual void Insert(PurchaseInvoice x)
 		{
 			#region Input check

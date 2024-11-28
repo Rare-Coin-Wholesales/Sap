@@ -17,6 +17,10 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices
 		/// </summary>
 		IList<PurchaseInvoice> GetAllValid();
 		/// <summary>
+		/// Gets PurchaseInvoices for ESD insert.
+		/// </summary>
+		IList<PurchaseInvoice> GetForEsds();
+		/// <summary>
 		/// Inserts a <see cref="PurchaseInvoice"/>.
 		/// </summary>
 		/// <param name="x">The <see cref="PurchaseInvoice"/>.</param>

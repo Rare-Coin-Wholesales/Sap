@@ -2,6 +2,7 @@ using Sap.Api;
 using Sap.Api.Domain.PurchaseInvoices;
 using Sap.Core;
 using Sap.Services.Security;
+using Sap.Tests;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.Export;
@@ -12,6 +13,7 @@ namespace Sap.Rcw.IntegrationTests
 {
 	public partial class PurchaseInvoiceIntegrationTests
 	{
+		#region Fields
 		private const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000046";
 		private const string AMEX_72006 = "_SYS00000000047";
 		private const string DOCUMENT_SERVICE = "dDocument_Service";
@@ -27,7 +29,8 @@ namespace Sap.Rcw.IntegrationTests
 		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, TEST_COMPANY_DB, Username, Password);
+		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Username, Password);
+		#endregion
 
 		#region Utilities
 		private void AddErrorLogs()
@@ -101,6 +104,32 @@ namespace Sap.Rcw.IntegrationTests
 			};
 		}
 		#endregion
+
+		[Fact]
+		public async void Test_CancelPurchaseInvoice()
+		{
+			AddErrorLogs();
+			var invoice = await _serviceLayer.GetPurchaseInvoiceAsync(398);
+			invoice.ShouldNotBeNull();
+			_serviceLayer.LogToCsv(new List<PurchaseInvoice> { invoice });
+
+			await _serviceLayer.CancelAsync(invoice);
+		}
+
+		[Fact]
+		public async void Test_CancelPurchaseInvoices()
+		{
+			AddErrorLogs();
+			int[] tests = { 407, 408 };
+
+			foreach (var test in tests) {
+				var invoice = await _serviceLayer.GetPurchaseInvoiceAsync(test);
+				invoice.ShouldNotBeNull();
+				_serviceLayer.LogToCsv(new List<PurchaseInvoice> { invoice });
+
+				await _serviceLayer.CancelAsync(invoice);
+			}
+		}
 
 		/// <summary>
 		/// Order => PurchaseInvoice (A/P).

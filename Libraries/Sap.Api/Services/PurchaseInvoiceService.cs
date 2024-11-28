@@ -11,7 +11,7 @@ namespace Sap.Api
 	{
 		public async Task CancelAsync(PurchaseInvoice x)
 		{
-			await Request($"PurchaseInvoice({x.DocEntry})/Cancel").PostAsync();
+			await Request($"PurchaseInvoices({x.DocEntry})/Cancel").PostAsync();
 		}
 
 		protected async Task<PurchaseInvoice> CreateAsync(PurchaseInvoice x)

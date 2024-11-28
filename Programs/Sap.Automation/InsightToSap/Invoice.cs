@@ -8,7 +8,7 @@ using Sql2023.Intranet.Services.Terms;
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		private static readonly IInvoiceService _intranetInvoiceService = new InvoiceService();
 

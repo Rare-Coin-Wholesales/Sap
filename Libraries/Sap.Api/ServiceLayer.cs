@@ -5,6 +5,7 @@ using Sap.Core;
 
 namespace Sap.Api
 {
+	/// <inheritdoc/>
 	public partial class ServiceLayer : SLConnection
 	{
 		public const string CANCEL_STATUS_NO = "csNo";

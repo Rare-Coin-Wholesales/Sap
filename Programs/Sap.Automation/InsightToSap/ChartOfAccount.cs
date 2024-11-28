@@ -1,6 +1,6 @@
 ﻿namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		// RCW - LIVE
 		protected const string ACCOUNTS_PAYABLE_TRADE = "_SYS00000000044";
