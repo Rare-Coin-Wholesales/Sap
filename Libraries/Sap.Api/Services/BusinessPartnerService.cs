@@ -68,5 +68,29 @@ namespace Sap.Api
 				return (null, GetErrorMessage(ex));
 			}
 		}
+
+		public async Task<(List<BusinessPartner>, string ErrorMsg)> TryCreateAsync(List<BusinessPartner> list)
+		{
+			if (list == null)
+				return (null, "list is required.");
+			if (list.Count < 1)
+				return (null, "list is empty.");
+
+			var error = string.Empty;
+			var result = new List<BusinessPartner>();
+
+			foreach (var v in list) {
+				try {
+					var created = await CreateAsync(v);
+					result.Add(created);
+				}
+
+				catch (Exception ex) {
+					error = $"{error}{GetErrorMessage(ex)}{Environment.NewLine}";
+				}
+			}
+
+			return (result, error);
+		}
 	}
 }

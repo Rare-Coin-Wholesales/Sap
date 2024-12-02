@@ -8,7 +8,7 @@ using Sql2023.Intranet.Services.Logging;
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		private static readonly IExportManager _exportManager = new ExportManager();
 		private static readonly IInventoryService _inventoryService = new InventoryService();

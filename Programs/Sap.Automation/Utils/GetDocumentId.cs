@@ -1,6 +1,6 @@
 ﻿namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		protected const int MAX_DOCUMENT_ID_LENGTH = 21;
 

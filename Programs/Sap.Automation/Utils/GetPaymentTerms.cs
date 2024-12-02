@@ -3,7 +3,7 @@ using System;
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		public static string GetPaymentTerms(string transactionType, string numAtCard)
 		{

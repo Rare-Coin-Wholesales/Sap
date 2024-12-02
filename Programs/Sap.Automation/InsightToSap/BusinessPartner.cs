@@ -10,7 +10,7 @@ using Sql2023.Intranet.Services.UnixCustomers;
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		private static readonly IBusinessPartnerService _businessPartnerService = new BusinessPartnerService();
 		private static readonly IUnixCustomerService _unixCustomerService = new UnixCustomerService();
@@ -57,6 +57,60 @@ namespace Sap.Automation
 				ShipToState = customer.CustState ?? "",
 				Notes = customer.BuildNotes(),
 			};
+		}
+
+		public static async Task CreateMissingApInvoiceVendors()
+		{
+			var vendors = ApInvoices;
+
+			if (vendors == null || vendors.Count == 0)
+				return;
+
+			var unixCustomers = _unixCustomerService.GetAll();
+			unixCustomers = (from uc in unixCustomers
+							 join v in vendors on uc.CustID equals v.VendorId
+							 select uc).Distinct().ToList();
+
+			var businessPartners = _businessPartnerService.GetAll();
+			List<UnixCustomer> missing;
+
+			#region Customers
+			missing = (from x in unixCustomers // left join
+					   from y in businessPartners.Where(y => y.CardCode == x.CustID).DefaultIfEmpty()
+					   where y == null || y.CardCode == null
+					   select x).ToList();
+
+			if (missing != null && missing.Count > 0)
+				_exportManager.ExportToCsv(missing);
+
+			foreach (var bp in missing) {
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToCustomer(bp));
+
+				if (created.Item1 == null) { // IndexOf() returns -1 if the string is not found
+					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
+						Common.nLog.Error(created.ErrorMsg);
+				}
+			}
+			#endregion
+
+			#region Vendors
+			missing = (from x in unixCustomers // left join
+					   from y in businessPartners.Where(y => y.CardCode == x.VendorId).DefaultIfEmpty()
+					   where y == null || y.CardCode == null
+					   select x).ToList();
+
+			if (missing != null && missing.Count > 0)
+				_exportManager.ExportToCsv(missing);
+
+			foreach (var bp in missing) {
+				var created = await Common.RcwServiceLayer.TryCreateAsync(ToSupplier(bp));
+
+				if (created.Item1 == null) { // IndexOf() returns -1 if the string is not found
+					if (created.ErrorMsg.IndexOf("already assigned to a business partner", StringComparison.OrdinalIgnoreCase) < 0)
+						Common.nLog.Error(created.ErrorMsg);
+				}
+			}
+			#endregion
 		}
 
 		public static async Task CreateMissingCustomersAndVendors()

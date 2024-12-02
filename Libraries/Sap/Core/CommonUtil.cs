@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Net.Mail;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Microsoft.VisualBasic.FileIO;
 
 namespace Sap.Core
 {
@@ -131,6 +133,75 @@ namespace Sap.Core
 			}
 
 			return dataTable;
+		}
+
+		/// <summary>
+		/// Converts a flat file to a <see cref="DataTable"/>.
+		/// </summary>
+		/// <param name="filePath">The file path.</param>
+		/// <param name="delimiter">The delimiter. The default is a comma.</param>
+		/// <param name="hasFieldsEnclosedInQuotes">Whether the fields are enclosed in quotes or not (key distinguisher for CSV files).</param>
+		/// <returns></returns>
+		public static DataTable ToDataTable(string filePath, string delimiter = ",", bool hasFieldsEnclosedInQuotes = false)
+		{
+			#region Check Input
+			var log = "";
+
+			if (String.IsNullOrWhiteSpace(filePath))
+				log = String.Format("{0}filePath is required.{1}", log, Environment.NewLine);
+			else if (!File.Exists(filePath))
+				log = String.Format("{0}filePath '{2}' does not exist.{1}", log, Environment.NewLine, filePath);
+
+			if (String.IsNullOrEmpty(delimiter)) // whitespace is a valid delimiter, so only check IsNullOrEmpty
+				log = String.Format("{0}delimiter is required.{1}", log, Environment.NewLine);
+
+			if (!String.IsNullOrWhiteSpace(log)) {
+				log = String.Format("{0}Exception thrown in FileUtil.ToDataTable(string filePath, string delimiter, bool hasFieldsEnclosedInQuotes).{1}", log, Environment.NewLine);
+				Console.Write("\n{0}", log);
+				return null;
+			}
+			#endregion
+			var dt = new DataTable();
+
+			try {
+				using (var tfp = new TextFieldParser(filePath)) {
+					DataColumn datecolumn;
+					tfp.SetDelimiters(new string[] { delimiter });
+					tfp.HasFieldsEnclosedInQuotes = hasFieldsEnclosedInQuotes;
+					var colFields = tfp.ReadFields();
+
+					foreach (string column in colFields) {
+						datecolumn = new DataColumn(column);
+						datecolumn.AllowDBNull = true;
+						dt.Columns.Add(datecolumn);
+					}
+
+					string[] fieldData;
+
+					while (!tfp.EndOfData) {
+						fieldData = tfp.ReadFields();
+
+						for (int i = 0; i < fieldData.Length; i++) {
+							if (fieldData[i].Equals("")) // make empty values null
+								fieldData[i] = null;
+						}
+
+						dt.Rows.Add(fieldData);
+					}
+				}
+			}
+
+			catch (Exception ex) {
+				#region Log
+				if (ex.InnerException == null)
+					Console.Write("{0}{2}Exception thrown in FileUtil.ToDataTable(string filePath='{3}', string delimiter='{4}', bool hasFieldsEnclosedInQuotes='{5}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, filePath, delimiter, hasFieldsEnclosedInQuotes);
+				else
+					Console.Write("{0}{2}Exception thrown in INNER EXCEPTION of FileUtil.ToDataTable(string filePath='{3}', string delimiter='{4}', bool hasFieldsEnclosedInQuotes='{5}').{2}{1}{2}{2}", ex.InnerException.Message, ex.InnerException.ToString(), Environment.NewLine, filePath, delimiter, hasFieldsEnclosedInQuotes);
+				#endregion
+				return null;
+			}
+
+			return dt;
 		}
 
 		/// <summary>

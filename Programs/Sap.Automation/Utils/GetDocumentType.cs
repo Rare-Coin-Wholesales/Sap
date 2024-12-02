@@ -2,7 +2,7 @@
 
 namespace Sap.Automation
 {
-	internal partial class InsightToSap
+	partial class InsightToSap
 	{
 		protected const int INVOICE = 1;
 		protected const int CREDIT_MEMO = 5;
