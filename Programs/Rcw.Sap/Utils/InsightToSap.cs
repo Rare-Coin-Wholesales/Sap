@@ -1,0 +1,35 @@
+﻿using System;
+using System.Threading.Tasks;
+using ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
+using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
+using Sql2023.Intranet.Services.Export;
+using Sql2023.WwwSPs.Services.TradingAccounts;
+using Sql2023.WwwSPs.Services.TradingAccountTransactions;
+
+namespace Rcw.Sap
+{
+	partial class Program
+	{
+		protected const int SALE_INVOICE = 1;
+		protected const string DOCUMENT_SERVICE = "dDocument_Service";
+		protected const string TAX_EXEMPT = "EX";
+		/// <summary>Nov 1, 2024</summary>
+		protected static readonly DateTime SapStartDate = new DateTime(2024, 11, 1);
+		protected static readonly DateTime ThreeMonthsAgo = DateTime.Now.AddDays(-92);
+		protected static readonly IExportManager _exportManager = new ExportManager();
+		protected static readonly IInvoiceService _scarInvoiceService = new InvoiceService();
+		protected static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
+		protected static readonly ITradingAccountService _tradingAccountService = new TradingAccountService();
+		protected static readonly ITradingAccountTransactionService _tradingAccountTransactionService = new TradingAccountTransactionService();
+
+		public static async Task InsightToSap()
+		{
+			await CreateMissingEsds();
+			await CreateMissingPdsjs();
+
+			InsertAPTransactions();
+			InsertARTransactions();
+			_tradingAccountTransactionService.Update();
+		}
+	}
+}

@@ -9,6 +9,8 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 	{
 		public virtual DbSet<CreditNote> CreditNotes { get; set; }
 		public virtual DbSet<CreditNote_DocumentLine> CreditNote_DocumentLine { get; set; }
+		public virtual DbSet<IncomingPayment_PaymentCheck> IncomingPayment_PaymentCheck { get; set; }
+		public virtual DbSet<IncomingPayment_PaymentInvoice> IncomingPayment_PaymentInvoice { get; set; }
 		public virtual DbSet<PurchaseCreditNote> PurchaseCreditNotes { get; set; }
 		public virtual DbSet<PurchaseCreditNote_DocumentLine> PurchaseCreditNote_DocumentLine { get; set; }
 		public virtual DbSet<AccountSegmentationCategory> AccountSegmentationCategories { get; set; }
@@ -514,6 +516,58 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 
 			modelBuilder.Entity<CreditNote_DocumentLine>()
 				.Property(e => e.WeightOfRecycledPlastic)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentCheck>()
+				.Property(e => e.CheckSum)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.SumApplied)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.AppliedFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.AppliedSys)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.DocRate)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.DiscountPercent)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.PaidSum)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.WitholdingTaxApplied)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.WitholdingTaxAppliedFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.WitholdingTaxAppliedSC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.TotalDiscount)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.TotalDiscountFC)
+				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
+				.Property(e => e.TotalDiscountSC)
 				.HasPrecision(19, 4);
 
 			modelBuilder.Entity<PurchaseCreditNote>()

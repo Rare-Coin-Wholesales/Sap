@@ -23,7 +23,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchRareCoins.Domain
 		public virtual DbSet<ChecksforPaymentLine> ChecksforPaymentLines { get; set; }
 		public virtual DbSet<ContactEmployee> ContactEmployees { get; set; }
 		public virtual DbSet<CreditLine> CreditLines { get; set; }
-		public virtual DbSet<CreditNote> CreditNotes { get; set; }
 		public virtual DbSet<Deposit> Deposits { get; set; }
 		public virtual DbSet<DocumentInstallment> DocumentInstallments { get; set; }
 		public virtual DbSet<DocumentLine> DocumentLines { get; set; }
@@ -44,7 +43,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchRareCoins.Domain
 		public virtual DbSet<PaymentCheck> PaymentChecks { get; set; }
 		public virtual DbSet<PaymentDocumentReferencesCollection> PaymentDocumentReferencesCollections { get; set; }
 		public virtual DbSet<PaymentInvoice> PaymentInvoices { get; set; }
-		public virtual DbSet<PurchaseCreditNote> PurchaseCreditNotes { get; set; }
 		public virtual DbSet<PurchaseInvoice> PurchaseInvoices { get; set; }
 		public virtual DbSet<PurchaseInvoice_DocumentLine> PurchaseInvoice_DocumentLine { get; set; }
 		public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
@@ -352,30 +350,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchRareCoins.Domain
 
 			modelBuilder.Entity<CashFlowAssignment>()
 				.Property(e => e.PaymentMeans)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.CardCode)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.Code)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.Comments)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.Description)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.DocNum)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<CreditNote>()
-				.Property(e => e.DocType)
 				.IsUnicode(false);
 
 			modelBuilder.Entity<Deposit>()
@@ -3080,30 +3054,6 @@ namespace ScarletWitch.Sap_ArrowAndBranchRareCoins.Domain
 
 			modelBuilder.Entity<PaymentDocumentReferencesCollection>()
 				.Property(e => e.Remark)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.CardCode)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.Code)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.Comments)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.Description)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.DocNum)
-				.IsUnicode(false);
-
-			modelBuilder.Entity<PurchaseCreditNote>()
-				.Property(e => e.DocType)
 				.IsUnicode(false);
 
 			modelBuilder.Entity<PurchaseInvoice>()

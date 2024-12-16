@@ -135,6 +135,7 @@
     <Compile Include="Utils\End.cs" />
     <Compile Include="Utils\ProcessAsync.cs" />
     <Compile Include="Utils\Start.cs" />
+    <Compile Include="Utils\TryConnect.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

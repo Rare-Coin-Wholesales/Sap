@@ -57,6 +57,8 @@
     <Compile Include="Domain\BPIntrastatExtension.cs" />
     <Compile Include="Domain\CreditNote.cs" />
     <Compile Include="Domain\CreditNote_DocumentLine.cs" />
+    <Compile Include="Domain\IncomingPayment_PaymentCheck.cs" />
+    <Compile Include="Domain\IncomingPayment_PaymentInvoice.cs" />
     <Compile Include="Domain\PurchaseCreditNote.cs" />
     <Compile Include="Domain\PurchaseCreditNote_DocumentLine.cs" />
     <Compile Include="Domain\SAP_RareCoinWholesalersDb.cs" />
@@ -67,6 +69,12 @@
     <Compile Include="Services\CreditNotes\DocumentLineService.cs" />
     <Compile Include="Services\CreditNotes\ICreditNoteService.cs" />
     <Compile Include="Services\CreditNotes\IDocumentLineService.cs" />
+    <Compile Include="Services\IncomingPayments\IIncomingPaymentService.cs" />
+    <Compile Include="Services\IncomingPayments\IncomingPaymentService.cs" />
+    <Compile Include="Services\IncomingPayments\IPaymentCheckService.cs" />
+    <Compile Include="Services\IncomingPayments\IPaymentInvoiceService.cs" />
+    <Compile Include="Services\IncomingPayments\PaymentCheckService.cs" />
+    <Compile Include="Services\IncomingPayments\PaymentInvoiceService.cs" />
     <Compile Include="Services\PurchaseCreditNotes\DocumentLineService.cs" />
     <Compile Include="Services\PurchaseCreditNotes\IDocumentLineService.cs" />
     <Compile Include="Services\PurchaseCreditNotes\IPurchaseCreditNoteService.cs" />

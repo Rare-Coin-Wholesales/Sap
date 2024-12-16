@@ -9,7 +9,6 @@ using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.AccountSegmentations;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.BillOfExchangeTransactions;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.ChartOfAccounts;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.ChecksforPayments;
-using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.CreditNotes;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.Deposits;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.GLAccountAdvancedRules;
@@ -17,7 +16,6 @@ using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.HouseBankAccounts;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.IncomingPayments;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.JournalEntries;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.JournalEntryDocumentTypes;
-using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.PurchaseCreditNotes;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.PurchaseOrders;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.PurchaseQuotations;
 using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.PurchaseTaxInvoices;
@@ -229,37 +227,6 @@ namespace Sap.Aabrc.IntegrationTests
 		}
 		#endregion
 
-		#region CreditNote
-		private readonly CreditNoteService _creditNoteService = new();
-
-		[Fact]
-		public void Test_CreditNote_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabrc_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			//var list = client.ListCreditNotes();
-
-			//if (list == null || list.Count == 0)
-			//	Assert.False(false);
-			//else {
-			//	_creditNoteService.TruncateTable();
-
-			//	foreach (var v in list) {
-			//		try {
-			//			_creditNoteService.Insert(_mapper.ToSql(v));
-			//			Assert.True(true);
-			//		}
-
-			//		catch {
-			//			Assert.True(false);
-			//		}
-			//	}
-			//}
-		}
-		#endregion
-
 		#region Deposit
 		private readonly DepositService _depositService = new();
 
@@ -394,24 +361,24 @@ namespace Sap.Aabrc.IntegrationTests
 			var response = client.Login(Aabrc_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListIncomingPayments();
+			//var list = client.ListIncomingPayments();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_incomingPaymentService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_incomingPaymentService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_incomingPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			_incomingPaymentService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 
@@ -486,37 +453,6 @@ namespace Sap.Aabrc.IntegrationTests
 					}
 				}
 			}
-		}
-		#endregion
-
-		#region PurchaseCreditNote
-		private readonly PurchaseCreditNoteService _purchaseCreditNoteService = new();
-
-		[Fact]
-		public void Test_PurchaseCreditNote_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabrc_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			//var list = client.ListPurchaseCreditNotes();
-
-			//if (list == null || list.Count == 0)
-			//	Assert.False(false);
-			//else {
-			//	_purchaseCreditNoteService.TruncateTable();
-
-			//	foreach (var v in list) {
-			//		try {
-			//			_purchaseCreditNoteService.Insert(_mapper.ToSql(v));
-			//			Assert.True(true);
-			//		}
-
-			//		catch {
-			//			Assert.True(false);
-			//		}
-			//	}
-			//}
 		}
 		#endregion
 

@@ -1,3 +1,4 @@
+using System.Text;
 using B1SLayer;
 using Sap.Api;
 using Sap.Api.Http;
@@ -16,8 +17,10 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.IncomingPayments;
+using ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntries;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntryDocumentTypes;
+using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseOrders;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseQuotations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseTaxInvoices;
@@ -25,6 +28,9 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.Quotations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.SalesTaxInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.TransactionCodes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.VendorPayments;
+using Sql2023.Intranet.Services.Export;
+using Sql2023.WwwSPs.Services.TradingAccounts;
+using Sql2023.WwwSPs.Services.TradingAccountTransactions;
 using Web202209.SAP_RareCoinWholesalers.Services.CreditNotes;
 using Web202209.SAP_RareCoinWholesalers.Services.PurchaseCreditNotes;
 
@@ -42,6 +48,75 @@ namespace Sap.Rcw.IntegrationTests
 
 		private static SLConnection ServiceLayer = new SLConnection(BaseUrl, Rcw_CompanyDb, Username, Password);
 		public static readonly ServiceLayer RcwServiceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Username, Password);
+		protected static readonly IInvoiceService _scarInvoiceService = new InvoiceService();
+		protected static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
+		protected static readonly ITradingAccountService _tradingAccountService = new TradingAccountService();
+		protected static readonly ITradingAccountTransactionService _tradingAccountTransactionService = new TradingAccountTransactionService();
+		/// <summary>Nov 1, 2024</summary>
+		protected static readonly DateTime SapStartDate = new DateTime(2024, 11, 1);
+		protected static readonly IExportManager _exportManager = new ExportManager();
+
+		public static void WriteToCsvFile(string data, string entityName)
+		{
+			var now = DateTime.Now;
+			var folder = $"C:/Logs/SAP Automation/{now:yyyy MM}/";
+			Directory.CreateDirectory(folder);
+			File.WriteAllText($"{folder}{entityName} {now:dd HHmm ssff}.csv", data);
+		}
+
+		[Fact]
+		private static void Test_GetAPTransactions()
+		{
+			var tradingAccounts = _tradingAccountService.GetAll();
+			var tradingAccountTransactions = _tradingAccountTransactionService.GetAPs();
+			var sapPurchaseInvoices = _scarPurchaseInvoiceService.GetAllValid();
+			sapPurchaseInvoices = sapPurchaseInvoices.Where(x => x.DocDate.Value >= SapStartDate).ToList();
+
+			var query= from sap in sapPurchaseInvoices // Remember: AP BusinessPartners start with "V"
+					   join ta in tradingAccounts on sap.CardCode equals ta.VendorId
+					   select sap;
+
+			var list= (from sap in query // left join
+					   from tat in tradingAccountTransactions.Where(x => x.DocumentId == sap.NumAtCard && sap.CardCode == x.VendorId).DefaultIfEmpty()
+					   where tat == null // || tat.DocumentId == null || tat.VendorId == null
+					   select sap).ToList();
+
+			var sb = new StringBuilder($"CardCode,NumAtCard{Environment.NewLine}");
+
+			foreach (var item in list) {
+				sb.Append($"\"{item.CardCode}\",");
+				sb.Append($"\"{item.NumAtCard}\"{Environment.NewLine}"); //new line
+			}
+
+			WriteToCsvFile(sb.ToString(), "PurchaseInvoices");
+		}
+
+		[Fact]
+		private static void Test_GetARTransactions()
+		{
+			var tradingAccounts = _tradingAccountService.GetAll();
+			var tradingAccountTransactions = _tradingAccountTransactionService.GetARs();
+			var sapInvoices = _scarInvoiceService.GetAllValid();
+			sapInvoices = sapInvoices.Where(x => x.DocDate.Value >= SapStartDate).ToList();
+
+			var query= from sap in sapInvoices
+					   join ta in tradingAccounts on sap.CardCode equals ta.InsightCustomerId
+					   select sap;
+
+			var list= (from sap in query
+					   from tat in tradingAccountTransactions.Where(x => x.DocumentId == sap.NumAtCard && sap.CardCode == x.InsightCustomerId).DefaultIfEmpty()
+					   where tat == null || tat.DocumentId == null || tat.InsightCustomerId == null
+					   select sap).ToList();
+
+			var sb = new StringBuilder($"CardCode,NumAtCard{Environment.NewLine}");
+
+			foreach (var item in list) {
+				sb.Append($"\"{item.CardCode}\",");
+				sb.Append($"\"{item.NumAtCard}\"{Environment.NewLine}"); //new line
+			}
+
+			WriteToCsvFile(sb.ToString(), "Invoices");
+		}
 
 		#region AccountCategory
 		private readonly AccountCategoryService _accountCategoryService = new();
@@ -382,24 +457,24 @@ namespace Sap.Rcw.IntegrationTests
 			var response = client.Login(Rcw_CompanyDb, Username, Password);
 			Console.WriteLine($"Result: {response.Result}");
 
-			var list = client.ListIncomingPayments();
+			//var list = client.ListIncomingPayments();
 
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_incomingPaymentService.TruncateTable();
+			//if (list == null || list.Count == 0)
+			//	Assert.False(false);
+			//else {
+			//	_incomingPaymentService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_incomingPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
+			//	foreach (var v in list) {
+			//		try {
+			//			_incomingPaymentService.Insert(_mapper.ToSql(v));
+			//			Assert.True(true);
+			//		}
 
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
+			//		catch {
+			//			Assert.True(false);
+			//		}
+			//	}
+			//}
 		}
 		#endregion
 

@@ -50,6 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Custom\TradingAccount.cs" />
+    <Compile Include="Custom\TradingAccountTransaction.cs" />
     <Compile Include="Domain\NtaClientNameEmail.cs" />
     <Compile Include="Domain\NtaCoin.cs" />
     <Compile Include="Domain\NTACoinAutoReloadOnly.cs" />
