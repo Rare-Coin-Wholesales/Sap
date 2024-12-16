@@ -15,8 +15,8 @@ namespace Sap.Automation
 		#region Fields
 		public static bool doAabw, doRcw, doAabrc;
 		public static DateTime StartTime;
-		/// <summary>8:30am</summary>
-		public static DateTime LowerBound = DateTime.Today.AddHours(8).AddMinutes(30);
+		/// <summary>7:45am</summary>
+		public static DateTime LowerBound = DateTime.Today.AddHours(7).AddMinutes(45);
 		/// <summary>8:00pm</summary>
 		public static DateTime UpperBound = DateTime.Today.AddHours(20).AddMinutes(0);
 		public static DefaultLogger defaultLogger = new DefaultLogger();

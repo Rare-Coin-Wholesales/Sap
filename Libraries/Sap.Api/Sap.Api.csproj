@@ -151,9 +151,13 @@
     <Compile Include="Domain\HouseBankAccounts\HouseBankAccount.cs" />
     <Compile Include="Domain\HouseBankAccounts\HouseBankAccountRequest.cs" />
     <Compile Include="Domain\HouseBankAccounts\HouseBankAccountResponse.cs" />
+    <Compile Include="Domain\IncomingPayments\BillOfExchange.cs" />
+    <Compile Include="Domain\IncomingPayments\CashFlowAssignment.cs" />
     <Compile Include="Domain\IncomingPayments\IncomingPayment.cs" />
     <Compile Include="Domain\IncomingPayments\IncomingPaymentRequest.cs" />
     <Compile Include="Domain\IncomingPayments\IncomingPaymentResponse.cs" />
+    <Compile Include="Domain\IncomingPayments\PaymentCheck.cs" />
+    <Compile Include="Domain\IncomingPayments\PaymentInvoice.cs" />
     <Compile Include="Domain\Invoices\AddressExtension.cs" />
     <Compile Include="Domain\Invoices\DocumentInstallment.cs" />
     <Compile Include="Domain\Invoices\EWayBillDetails.cs" />

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
+using Sap.Core;
 
 namespace Aabw.Sap
 {
@@ -7,8 +9,17 @@ namespace Aabw.Sap
 		static async Task Main(string[] args)
 		{
 			Start(args);
-			await ProcessAsync();
-			End(0);
+
+			try {
+				await ProcessAsync();
+			}
+
+			catch (Exception ex) {
+				nLog.Error(ex.CustomMessage);
+				await End(1);
+			}
+
+			await End(0);
 		}
 	}
 }

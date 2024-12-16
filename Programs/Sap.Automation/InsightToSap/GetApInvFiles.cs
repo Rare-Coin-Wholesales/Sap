@@ -9,7 +9,7 @@ namespace Sap.Automation
 	partial class InsightToSap
 	{
 		const string AP_INV = "APInv*";
-		const string FOLDER = @"\\DC-RCW\ftp\Dynamics\AP\Imported\";
+		const string FOLDER = @"\\DC-RCW\ftp\Dynamics\";
 		static List<string> ApInvFiles;
 
 		private static void GetApInvFiles()

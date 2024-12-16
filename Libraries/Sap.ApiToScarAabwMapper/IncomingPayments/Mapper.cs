@@ -59,7 +59,7 @@ namespace Sap.ApiToScarAabwMapper
 				CertificationNumber = x.CertificationNumber,
 				CheckAccount = x.CheckAccount,
 				Cig = x.Cig,
-				ContactPersonCode = x.ContactPersonCode,
+				ContactPersonCode = x.ContactPersonCode == null ? null : x.ContactPersonCode.ToString(),
 				ControlAccount = x.ControlAccount,
 				CounterReference = x.CounterReference,
 				Cup = x.Cup,

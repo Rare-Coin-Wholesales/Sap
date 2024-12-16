@@ -25,7 +25,6 @@ namespace Sap.Automation
 			Common.RcwServiceLayer.AddErrorLogs();
 			await CreateMissingCustomersAndVendors();
 			await CreateMissingInvoices();
-			await CreateMissingPurchaseInvoices();
 			await CreateMissingEsds();
 
 			InsertAPTransactions();

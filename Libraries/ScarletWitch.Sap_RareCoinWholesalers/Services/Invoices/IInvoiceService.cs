@@ -17,6 +17,10 @@ namespace ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices
 		/// </summary>
 		IList<Invoice> GetAllValid();
 		/// <summary>
+		/// Gets Invoices for PDSJ insert.
+		/// </summary>
+		IList<Invoice> GetForPdsjs();
+		/// <summary>
 		/// Inserts a <see cref="Invoice"/>.
 		/// </summary>
 		/// <param name="x">The <see cref="Invoice"/>.</param>

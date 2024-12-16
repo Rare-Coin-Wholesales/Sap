@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using NLog;
 
 namespace Aabw.Sap
@@ -12,10 +13,11 @@ namespace Aabw.Sap
 		/// </summary>
 		/// <param name="exitCode">The exit code to return to the operating system.
 		/// Use 0 (zero) to indicate that the process completed successfully.</param>
-		public static void End(int exitCode)
+		static async Task End(int exitCode)
 		{
 			EndTimeUtc = DateTime.UtcNow;
 			nLog.Info($"Ending {PROGRAM_NAME}. . .");
+			await _serviceLayer.LogoutAsync();
 			string body, subject;
 			var ts = EndTimeUtc - StartTimeUtc;
 

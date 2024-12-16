@@ -13,8 +13,8 @@ namespace Aabrc.Sap
 		static IEncryptionUtil _encryptionUtil;
 		static string Aabrc_CompanyDb;
 		static string Aabrc_Password;
+		static string Aabrc_Username;
 		static string BaseUrl;
-		static string Username;
 
 		static void Start(string[] args)
 		{
@@ -24,8 +24,8 @@ namespace Aabrc.Sap
 			_encryptionUtil = new EncryptionUtil();
 			Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
 			Aabrc_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Password"));
+			Aabrc_Username = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Username");
 			BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-			Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
 		}
 	}
 }
