@@ -9,6 +9,13 @@ namespace Sap.Api
 {
 	public partial class ServiceLayer : SLConnection
 	{
+		protected static void SetLineDocEntry(IList<IncomingPayment> list)
+		{
+			foreach (var payment in list)
+				foreach (var check in payment.PaymentChecks)
+					check.IncomingPaymentDocEntry = payment.DocEntry;
+		}
+
 		public async Task CancelAsync(IncomingPayment x)
 		{
 			await Request($"IncomingPayments({x.DocEntry})/Cancel").PostAsync();
@@ -23,6 +30,7 @@ namespace Sap.Api
 		public async Task<IList<IncomingPayment>> GetAllIncomingPaymentsAsync()
 		{
 			var all = await Request("IncomingPayments").GetAllAsync<IncomingPayment>();
+			SetLineDocEntry(all);
 			return all;
 		}
 
@@ -32,14 +40,26 @@ namespace Sap.Api
 			return entity;
 		}
 
+		public async Task<IList<IncomingPayment>> GetIncomingPaymentsByDocDateAsync(DateTime minDate)
+		{
+			var list = await Request("IncomingPayments")
+				.Filter($"DocDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(100)
+				.WithCaseInsensitive()
+				.GetAsync<List<IncomingPayment>>();
+
+			SetLineDocEntry(list);
+			return list;
+		}
+
 		public void LogToCsv(IList<IncomingPayment> list)
 		{
-			var log = "DocEntry,DocNum,Cancelled,CardCode,CardName,Remarks\r\n";
+			var log = "DocEntry,DocNum,DocDate,CardCode,CardName,TransferSum,Remarks,TransferReference,Reference2,CounterReference\r\n";
 
 			foreach (var v in list)
-				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.Cancelled}\",\"{v.CardCode}\",\"{v.CardName}\",\"{v.Remarks}\"{Environment.NewLine}";
+				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.DocDate:yyyy-MM-dd}\",\"{v.CardCode}\",\"{v.CardName}\",\"{v.TransferSum:n2}\",\"{v.Remarks}\",\"{v.TransferReference}\",\"{v.Reference2}\",\"{v.CounterReference}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/SAP Automation/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
 			File.WriteAllText(String.Format("{0}IncomingPayments {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
@@ -56,7 +76,7 @@ namespace Sap.Api
 			}
 
 			catch (Exception ex) {
-				return (null, GetErrorMessage(ex));
+				return (null, GetFullErrorText(ex, null));
 			}
 		}
 	}

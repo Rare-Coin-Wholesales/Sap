@@ -35,28 +35,6 @@ namespace Sap.Api.Http
 		#endregion
 		#region Utilities
 		/// <summary>
-		/// Sets fields and cookie based on the <see cref="LoginResponse"/>.
-		/// </summary>
-		/// <param name="response">The <see cref="LoginResponse"/>.</param>
-		//public void SetFieldsAndCookie(LoginResponse response)
-		//{
-		//	if (response == null || String.IsNullOrWhiteSpace(response.SessionId))
-		//		return;
-
-		//	SessionId = response.SessionId;
-		//	Version = response.Version;
-		//	SessionTimeout = response.SessionTimeout ?? 20;
-		//	TimeOutTime = DateTime.UtcNow.AddMinutes(SessionTimeout);
-
-		//	try {
-		//		Client.DefaultRequestHeaders.Remove("Cookie");
-		//	}
-		//	catch { }
-
-		//	Client.DefaultRequestHeaders.TryAddWithoutValidation("Cookie", $"B1SESSION={SessionId};HttpOnly; ROUTEID=.node1; path=/b1s");
-		//}
-
-		/// <summary>
 		/// Writes a JSON string to a file on your Desktop.
 		/// </summary>
 		/// <param name="response">The JSON response string</param>
@@ -67,7 +45,7 @@ namespace Sap.Api.Http
 
 			var now = DateTime.Now;
 			var filename = String.Format("{0}{1}.json", responseName, now.ToString("HHmm ssff"));
-			var folder = $"C:/Logs/SAP Automation/{now:yyyy MM}/{now:dd}/";
+			var folder = $"C:/Logs/Sap.Api/{now:yyyy MM}/{now:dd}/";
 			Directory.CreateDirectory(folder);
 
 			var parsedJson = JsonConvert.DeserializeObject(response);

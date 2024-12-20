@@ -102,6 +102,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AP\APTransaction.cs" />
+    <Compile Include="AP\GetApInvFiles.cs" />
+    <Compile Include="AP\GetApInvoices.cs" />
+    <Compile Include="AP\PurchaseInvoice.cs" />
+    <Compile Include="AR\ARTransaction.cs" />
+    <Compile Include="AR\GetArInvFiles.cs" />
+    <Compile Include="AR\GetArInvoices.cs" />
+    <Compile Include="AR\Invoice.cs" />
     <Compile Include="Domain\AccountCategories\AccountCategoryUtil.cs" />
     <Compile Include="Domain\AccountSegmentationCategories\AccountSegmentationCategoryUtil.cs" />
     <Compile Include="Domain\AccountSegmentations\AccountSegmentationUtil.cs" />
@@ -109,6 +117,8 @@
     <Compile Include="Domain\ArInvoice.cs" />
     <Compile Include="Domain\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
     <Compile Include="Domain\BusinessPartners\BusinessPartnerUtil.cs" />
+    <Compile Include="Domain\BusinessPartners\InsertBPAddress.cs" />
+    <Compile Include="Domain\BusinessPartners\InsertContactEmployee.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountUtil.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPaymentUtil.cs" />
     <Compile Include="Domain\CreditNotes\CreditNoteUtil.cs" />
@@ -117,9 +127,13 @@
     <Compile Include="Domain\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
     <Compile Include="Domain\HouseBankAccounts\HouseBankAccountUtil.cs" />
     <Compile Include="Domain\IncomingPayments\IncomingPaymentUtil.cs" />
+    <Compile Include="Domain\IncomingPayments\InsertPaymentChecks.cs" />
+    <Compile Include="Domain\IncomingPayments\InsertPaymentInvoices.cs" />
+    <Compile Include="Domain\Invoices\InsertDocumentLines.cs" />
     <Compile Include="Domain\Invoices\InvoiceUtil.cs" />
     <Compile Include="Domain\Items\ItemUtil.cs" />
     <Compile Include="Domain\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
+    <Compile Include="Domain\JournalEntrys\InsertDocumentLines.cs" />
     <Compile Include="Domain\JournalEntrys\JournalEntryUtil.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
@@ -134,22 +148,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\AddErrorLogs.cs" />
     <Compile Include="Utils\AddTraceLogs.cs" />
-    <Compile Include="Utils\APTransaction.cs" />
-    <Compile Include="Utils\ARTransaction.cs" />
     <Compile Include="Utils\BusinessPartner.cs" />
     <Compile Include="Utils\ChartOfAccount.cs" />
     <Compile Include="Utils\End.cs" />
-    <Compile Include="Utils\GetApInvFiles.cs" />
-    <Compile Include="Utils\GetApInvoices.cs" />
-    <Compile Include="Utils\GetArInvFiles.cs" />
-    <Compile Include="Utils\GetArInvoices.cs" />
     <Compile Include="Utils\GetDocumentId.cs" />
     <Compile Include="Utils\GetDocumentType.cs" />
+    <Compile Include="Utils\GetFullErrorText.cs" />
     <Compile Include="Utils\GetPaymentTerms.cs" />
     <Compile Include="Utils\InsightToSap.cs" />
-    <Compile Include="Utils\Invoice.cs" />
     <Compile Include="Utils\SapToSql.cs" />
-    <Compile Include="Utils\PurchaseInvoice.cs" />
     <Compile Include="Utils\Start.cs" />
     <Compile Include="Utils\TryConnect.cs" />
   </ItemGroup>

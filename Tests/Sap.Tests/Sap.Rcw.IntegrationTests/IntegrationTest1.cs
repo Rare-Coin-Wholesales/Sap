@@ -16,9 +16,7 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.Deposits;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.IncomingPayments;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntries;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.JournalEntryDocumentTypes;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseOrders;
@@ -437,80 +435,6 @@ namespace Sap.Rcw.IntegrationTests
 					try {
 						_houseBankAccountService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region IncomingPayment
-		private readonly IncomingPaymentService _incomingPaymentService = new();
-
-		[Fact]
-		public void Test_IncomingPayment_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			//var list = client.ListIncomingPayments();
-
-			//if (list == null || list.Count == 0)
-			//	Assert.False(false);
-			//else {
-			//	_incomingPaymentService.TruncateTable();
-
-			//	foreach (var v in list) {
-			//		try {
-			//			_incomingPaymentService.Insert(_mapper.ToSql(v));
-			//			Assert.True(true);
-			//		}
-
-			//		catch {
-			//			Assert.True(false);
-			//		}
-			//	}
-			//}
-		}
-		#endregion
-
-		#region JournalEntry
-		private readonly JournalEntryService _journalEntryService = new();
-
-		[Fact]
-		public void Test_JournalEntry_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListJournalEntries();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_journalEntryService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_journalEntryService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.JournalEntryLines) {
-							try {
-								line.JdtNum = v.JdtNum;
-								_journalEntryService.InsertJournalEntryLine(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
 					}
 
 					catch {

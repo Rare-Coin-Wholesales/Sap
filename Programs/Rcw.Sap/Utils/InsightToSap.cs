@@ -31,5 +31,18 @@ namespace Rcw.Sap
 			InsertARTransactions();
 			_tradingAccountTransactionService.Update();
 		}
+
+		public static async Task<bool> TryInsightToSap()
+		{
+			try {
+				await InsightToSap();
+				return true;
+			}
+
+			catch (Exception ex) {
+				nLog.Error(GetFullErrorText(ex, "Exception thrown in TryInsightToSap()."));
+				return false;
+			}
+		}
 	}
 }

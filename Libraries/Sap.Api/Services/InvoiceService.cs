@@ -32,6 +32,17 @@ namespace Sap.Api
 			return entity;
 		}
 
+		public async Task<IList<Invoice>> GetInvoicesByUpdateDateAsync(DateTime minDate)
+		{
+			var list = await Request("Invoices")
+				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(100)
+				.WithCaseInsensitive()
+				.GetAsync<List<Invoice>>();
+
+			return list;
+		}
+
 		public void LogToCsv(IList<Invoice> list)
 		{
 			var log = "DocEntry,DocNum,NumAtCard,Cancelled,CancelStatus,CardCode,CancelDate,CardName,Comments\r\n";
@@ -39,7 +50,7 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.NumAtCard}\",\"{v.Cancelled}\",\"{v.CancelStatus}\",\"{v.CardCode}\",\"{v.CancelDate}\",\"{v.CardName}\",\"{v.Comments}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/SAP Automation/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
 			File.WriteAllText(String.Format("{0}Invoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
@@ -59,7 +70,7 @@ namespace Sap.Api
 			}
 
 			catch (Exception ex) {
-				return (null, GetErrorMessage(ex));
+				return (null, GetFullErrorText(ex, null));
 			}
 		}
 	}

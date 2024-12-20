@@ -6,6 +6,7 @@ namespace Sap.Api.Domain.IncomingPayments
 	public partial class PaymentCheck : BaseEntity
 	{
 		#region Fields
+		public int? IncomingPaymentDocEntry;
 		public int? LineNum;
 		public DateTime? DueDate;
 		public int? CheckNumber;

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using Sap.Core;
+﻿using System.Threading.Tasks;
 
 namespace Aabw.Sap
 {
@@ -10,14 +8,8 @@ namespace Aabw.Sap
 		{
 			Start(args);
 
-			try {
-				await ProcessAsync();
-			}
-
-			catch (Exception ex) {
-				nLog.Error(ex.CustomMessage);
-				await End(1);
-			}
+			if (TryConnectAsync())
+				await TrySapToSql();
 
 			await End(0);
 		}

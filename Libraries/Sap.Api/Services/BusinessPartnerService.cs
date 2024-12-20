@@ -37,6 +37,17 @@ namespace Sap.Api
 			return entity;
 		}
 
+		public async Task<IList<BusinessPartner>> GetBusinessPartnersByUpdateDateAsync(DateTime minDate)
+		{
+			var list = await Request("BusinessPartners")
+				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(100)
+				.WithCaseInsensitive()
+				.GetAsync<List<BusinessPartner>>();
+
+			return list;
+		}
+
 		public void LogToCsv(IList<BusinessPartner> list)
 		{
 			var log = "CardCode,CardType,CardName\r\n";
@@ -44,7 +55,7 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = String.Format($"{log}\"{v.CardCode}\",\"{v.CardType}\",\"{v.CardName}\"{Environment.NewLine}");
 
-			var folder = String.Format("C:/Logs/SAP Automation/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
 			File.WriteAllText(String.Format("{0}BusinessPartners {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
@@ -65,7 +76,7 @@ namespace Sap.Api
 			}
 
 			catch (Exception ex) {
-				return (null, GetErrorMessage(ex));
+				return (null, GetFullErrorText(ex, null));
 			}
 		}
 
@@ -86,7 +97,7 @@ namespace Sap.Api
 				}
 
 				catch (Exception ex) {
-					error = $"{error}{GetErrorMessage(ex)}{Environment.NewLine}";
+					error = $"{error}{GetFullErrorText(ex, null)}{Environment.NewLine}";
 				}
 			}
 

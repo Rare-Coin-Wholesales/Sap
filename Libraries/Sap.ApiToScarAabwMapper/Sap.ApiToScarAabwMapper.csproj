@@ -54,7 +54,6 @@
     <Compile Include="FAAccountDeterminations\Mapper.cs" />
     <Compile Include="GLAccountAdvancedRules\Mapper.cs" />
     <Compile Include="HouseBankAccounts\Mapper.cs" />
-    <Compile Include="IncomingPayments\Mapper.cs" />
     <Compile Include="Invoices\Mapper.cs" />
     <Compile Include="JournalEntries\Mapper.cs" />
     <Compile Include="JournalEntryDocumentTypes\Mapper.cs" />

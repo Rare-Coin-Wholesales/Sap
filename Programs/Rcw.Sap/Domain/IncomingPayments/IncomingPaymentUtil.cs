@@ -1,39 +1,84 @@
 ﻿using System;
 using System.Threading.Tasks;
-using NLog;
-using Sap.Api.Domain.IncomingPayments;
 using Sap.Core;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.IncomingPayments;
+using Web202209.SAP_RareCoinWholesalers.Services.IncomingPayments;
 
 namespace Rcw.Sap
 {
 	public partial class IncomingPaymentUtil
 	{
-		private readonly IncomingPaymentService _incomingPaymentService = new IncomingPaymentService();
+		DateTime EndTimeUtc, StartTimeUtc;
+		private readonly IIncomingPaymentService _incomingPaymentService = new IncomingPaymentService();
 
 		public async Task GetAllIncomingPayments()
 		{
 			Program.nLog.Info("Begin method GetAllIncomingPayments().");
-			var list = await Program._serviceLayer.Request(IncomingPaymentRequest.ACTION).GetAllAsync<IncomingPayment>();
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetAllIncomingPaymentsAsync();
 
 			if (list == null || list.Count == 0)
-				Program.nLog.Warn("There are no IncomingPayments to import.");
+				return;
 			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
 				_incomingPaymentService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_incomingPaymentService.Insert(Program._mapper.ToSql(v));
-					}
-
-					catch (Exception ex) {
-						Program.nLog.Warn(ex.CustomMessage("Exception thrown running _incomingPaymentService.Insert(Program._mapper.ToSql(v))."));
-					}
+				if (_incomingPaymentService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertPaymentChecks(list);
+					InsertPaymentInvoices(list);
 				}
+
+				else
+					Program.nLog.Error(errorMsg);
 			}
 
+			_incomingPaymentService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
 			Program.nLog.Info("End method GetAllIncomingPayments().");
-			LogManager.Flush();
+			LogSummary();
+		}
+
+		public async Task GetIncomingPaymentsByDocDate(DateTime minDate)
+		{
+			Program.nLog.Info("Begin method GetIncomingPaymentsByDocDate(DateTime minDate).");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetIncomingPaymentsByDocDateAsync(minDate);
+
+			if (list == null || list.Count == 0)
+				return;
+			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
+				_incomingPaymentService.TruncateTable();
+
+				if (_incomingPaymentService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertPaymentChecks(list);
+					InsertPaymentInvoices(list);
+				}
+
+				else
+					Program.nLog.Error(errorMsg);
+			}
+
+			_incomingPaymentService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetIncomingPaymentsByDocDate(DateTime minDate).");
+			LogSummary();
+		}
+
+		void LogSummary()
+		{
+			var ts = EndTimeUtc - StartTimeUtc;
+			Program.nLog.Info("IncomingPayments Summary:");
+
+			if (ts.TotalSeconds < 61)
+				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
+			else if (ts.TotalMinutes < 61)
+				Program.nLog.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
+			else
+				Program.nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
+
+			Program.nLog.Info("");
 		}
 	}
 }

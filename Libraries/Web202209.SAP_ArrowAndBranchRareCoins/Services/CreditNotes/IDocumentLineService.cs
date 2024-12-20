@@ -8,7 +8,7 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services.CreditNotes
 	public interface IDocumentLineService
 	{
 		/// <summary>
-		/// Truncates the [CreditNote_DocumentLine] table.
+		/// Truncates the [Import].[CreditNote_DocumentLine] table.
 		/// </summary>
 		void TruncateTable();
 		/// <summary>

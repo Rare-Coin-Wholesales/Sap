@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\..\packages\xunit.core.2.9.2\build\xunit.core.props" Condition="Exists('..\..\packages\xunit.core.2.9.2\build\xunit.core.props')" />
+  <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{76F19E1A-CB22-4759-8AFC-A8569DAF5953}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Sap.Api.Tests</RootNamespace>
+    <AssemblyName>Sap.Api.Tests</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
+    <IsCodedUITest>False</IsCodedUITest>
+    <TestProjectType>UnitTest</TestProjectType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="BusinessPartners\BusinessPartnerTests.cs" />
+    <Compile Include="IncomingPayments\IncomingPaymentTests.cs" />
+    <Compile Include="Invoices\InvoiceTests.cs" />
+    <Compile Include="Items\ItemTests.cs" />
+    <Compile Include="PurchaseInvoices\PurchaseInvoiceTests.cs" />
+    <Compile Include="TestExtensions.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="B1SLayer, Version=1.3.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\B1SLayer.1.3.2\lib\netstandard2.0\B1SLayer.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl, Version=3.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.3.0.6\lib\net472\Flurl.dll</HintPath>
+    </Reference>
+    <Reference Include="Flurl.Http, Version=3.2.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Flurl.Http.3.2.4\lib\net472\Flurl.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="xunit.abstractions, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.abstractions.2.0.3\lib\net35\xunit.abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.assert, Version=2.9.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.assert.2.9.2\lib\netstandard1.1\xunit.assert.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.core, Version=2.9.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.core.2.9.2\lib\net452\xunit.core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="xunit.execution.desktop, Version=2.9.2.0, Culture=neutral, PublicKeyToken=8d05b1bb7a6fdb6c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\xunit.extensibility.execution.2.9.2\lib\net452\xunit.execution.desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\..\packages\xunit.analyzers.1.16.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+    <Analyzer Include="..\..\packages\xunit.analyzers.1.16.0\analyzers\dotnet\cs\xunit.analyzers.fixes.dll" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabrcMapper\Sap.ApiToScarAabrcMapper.csproj">
+      <Project>{cd1d4ba1-640e-4583-af4d-00fc82b9f5e7}</Project>
+      <Name>Sap.ApiToScarAabrcMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarAabwMapper\Sap.ApiToScarAabwMapper.csproj">
+      <Project>{7ac6d830-6b51-47f1-820d-2bdd4ae5038b}</Project>
+      <Name>Sap.ApiToScarAabwMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sap.ApiToScarRcwMapper\Sap.ApiToScarRcwMapper.csproj">
+      <Project>{0e222421-4885-4939-84df-d92b0c977a6c}</Project>
+      <Name>Sap.ApiToScarRcwMapper</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sap.Api\Sap.Api.csproj">
+      <Project>{d3505318-2863-4148-9911-fb3d6b522b41}</Project>
+      <Name>Sap.Api</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sap\Sap.csproj">
+      <Project>{02aa86ea-1f77-4eaf-8482-cb69a3181fca}</Project>
+      <Name>Sap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchRareCoins\ScarletWitch.Sap_ArrowAndBranchRareCoins.csproj">
+      <Project>{915a2e68-f7d5-4b8b-b1e0-6bfa04926469}</Project>
+      <Name>ScarletWitch.Sap_ArrowAndBranchRareCoins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_ArrowAndBranchWinery\ScarletWitch.Sap_ArrowAndBranchWinery.csproj">
+      <Project>{da21efd0-18e5-4126-bf63-f03420abb994}</Project>
+      <Name>ScarletWitch.Sap_ArrowAndBranchWinery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\ScarletWitch.Sap_RareCoinWholesalers\ScarletWitch.Sap_RareCoinWholesalers.csproj">
+      <Project>{1140c7a5-3dff-44c1-891a-0c706201fa52}</Project>
+      <Name>ScarletWitch.Sap_RareCoinWholesalers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sql2023.Intranet\Sql2023.Intranet.csproj">
+      <Project>{b219338f-6e3d-4ced-87ce-21ed027f3fa0}</Project>
+      <Name>Sql2023.Intranet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Sql2023.WwwSPs\Sql2023.WwwSPs.csproj">
+      <Project>{ff69b15b-9240-4d3d-86c4-f0f0b97fb4ab}</Project>
+      <Name>Sql2023.WwwSPs</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchRareCoins\Web202209.SAP_ArrowAndBranchRareCoins.csproj">
+      <Project>{3690416a-a8ea-4b71-8c8d-efc7f17991b1}</Project>
+      <Name>Web202209.SAP_ArrowAndBranchRareCoins</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_ArrowAndBranchWinery\Web202209.SAP_ArrowAndBranchWinery.csproj">
+      <Project>{c0da4933-035d-4217-9097-7eeee6b5c07a}</Project>
+      <Name>Web202209.SAP_ArrowAndBranchWinery</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Libraries\Web202209.SAP_RareCoinWholesalers\Web202209.SAP_RareCoinWholesalers.csproj">
+      <Project>{5687651c-bec8-4864-9a9b-fef04a364f91}</Project>
+      <Name>Web202209.SAP_RareCoinWholesalers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.targets')" />
+  <Import Project="..\..\packages\xunit.core.2.9.2\build\xunit.core.targets" Condition="Exists('..\..\packages\xunit.core.2.9.2\build\xunit.core.targets')" />
+</Project>

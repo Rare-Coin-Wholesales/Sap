@@ -8,7 +8,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Services.PurchaseCreditNotes
 	public interface IDocumentLineService
 	{
 		/// <summary>
-		/// Truncates the [PurchaseCreditNote_DocumentLine] table.
+		/// Truncates the [Import].[PurchaseCreditNote_DocumentLine] table.
 		/// </summary>
 		void TruncateTable();
 		/// <summary>

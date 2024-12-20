@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data;
 
 namespace Web202209.SAP_RareCoinWholesalers.Services.IncomingPayments
 {
-	internal class PaymentInvoiceService
+	public partial class PaymentInvoiceService : BaseService, IPaymentInvoiceService
 	{
+		/// <inheritdoc/>
+		public virtual void TruncateTable()
+		{
+			base.TruncateTable("Import", "IncomingPayment_PaymentInvoice");
+		}
+
+		/// <inheritdoc/>
+		public virtual bool TryBulkCopy(DataTable dt, out string errorMessage)
+		{
+			return base.TryBulkCopy(dt, "Import.IncomingPayment_PaymentInvoice", out errorMessage);
+		}
 	}
 }

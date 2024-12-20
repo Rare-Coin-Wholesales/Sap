@@ -256,32 +256,6 @@ namespace Sap.Aabrc.UnitTests
 		}
 		#endregion
 
-		#region JournalEntries
-		[Fact]
-		public void Test_ListJournalEntries()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListJournalEntries();
-			Assert.True(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetJournalEntryById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetJournalEntryById("4");
-
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
 		#region JournalEntryDocumentTypes
 		[Fact]
 		public void Test_ListJournalEntryDocumentTypes()
