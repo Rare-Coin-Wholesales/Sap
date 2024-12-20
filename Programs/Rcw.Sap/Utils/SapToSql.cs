@@ -10,6 +10,7 @@ namespace Rcw.Sap
 	{
 		public static Mapper _mapper;
 		public static ServiceLayer _serviceLayer;
+		static readonly DateTime DateThreshold = DateTime.Today.AddDays(-14);
 		/// <summary>7:45am</summary>
 		static readonly DateTime LowerBound = DateTime.Today.AddHours(7).AddMinutes(45);
 		/// <summary>8:00pm</summary>
@@ -21,14 +22,20 @@ namespace Rcw.Sap
 
 			try {
 				_mapper = new Mapper();
+
+				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound) {
+					await new BusinessPartnerUtil().GetAllBusinessPartners();
+					await new IncomingPaymentUtil().GetAllIncomingPayments();
+				}
+
+				else {
+					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(DateThreshold);
+				}
+
 				await new AccountCategoryUtil().GetAllAccountCategorys();
 				await new AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys();
 				await new AccountSegmentationUtil().GetAllAccountSegmentations();
 				await new BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions();
-
-				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound)
-					await new BusinessPartnerUtil().GetAllBusinessPartners();
-
 				await new ChartOfAccountUtil().GetAllChartOfAccounts();
 				await new ChecksforPaymentUtil().GetAllChecksforPayments();
 				await new CreditNoteUtil().GetAllCreditNotes();
@@ -36,11 +43,10 @@ namespace Rcw.Sap
 				await new FAAccountDeterminationUtil().GetAllFAAccountDeterminations();
 				await new GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules();
 				await new HouseBankAccountUtil().GetAllHouseBankAccounts();
-				await new IncomingPaymentUtil().GetAllIncomingPayments();
 				await new InvoiceUtil().GetAllInvoices();
 				await new ItemUtil().GetAllItems();
 				await new JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes();
-				await new JournalEntryUtil().GetAllJournalEntrys();
+				await new JournalEntryUtil().GetAllJournalEntries();
 				await new PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
 				await new PurchaseInvoiceUtil().GetAllPurchaseInvoices();
 				await new PurchaseOrderUtil().GetAllPurchaseOrders();
@@ -58,6 +64,19 @@ namespace Rcw.Sap
 				nLog.Error(ex.CustomMessage("Exception thrown in SapToSql()."));
 			}
 			#endregion
+		}
+
+		public static async Task<bool> TrySapToSql()
+		{
+			try {
+				await SapToSql();
+				return true;
+			}
+
+			catch (Exception ex) {
+				nLog.Error(GetFullErrorText(ex, "Exception thrown in TrySapToSql()."));
+				return false;
+			}
 		}
 	}
 }

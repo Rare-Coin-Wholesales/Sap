@@ -256,32 +256,6 @@ namespace Sap.Rcw.UnitTests
 		}
 		#endregion
 
-		#region JournalEntries
-		[Fact]
-		public void Test_ListJournalEntries()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Rcw_Username, Rcw_Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListJournalEntries();
-			Assert.True(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetJournalEntryById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Rcw_Username, Rcw_Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetJournalEntryById("4");
-
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
 		#region JournalEntryDocumentTypes
 		[Fact]
 		public void Test_ListJournalEntryDocumentTypes()

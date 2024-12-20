@@ -180,7 +180,7 @@ namespace Web202209.SAP_ArrowAndBranchWinery.Services
 			if (dt == null)
 				errorMessage = $"{errorMessage}dt is null.{Environment.NewLine}";
 			else if (dt.Rows.Count < 1)
-				errorMessage = $"{errorMessage}dt is empty.{Environment.NewLine}";
+				return true;
 
 			if (String.IsNullOrWhiteSpace(destinationTableName))
 				errorMessage = $"{errorMessage}destinationTableName is required.{Environment.NewLine}";

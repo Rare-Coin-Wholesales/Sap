@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using B1SLayer;
-using Sap.Core;
 
 namespace Sap.Api
 {
@@ -30,23 +29,37 @@ namespace Sap.Api
 				log = $"{log}{Environment.NewLine}";
 				log = $"{log}Response: {call.HttpResponseMessage?.StatusCode}{Environment.NewLine}";
 				log = $"{log}{response}";
-				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n4} seconds{Environment.NewLine}";
+				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n3} seconds{Environment.NewLine}";
 				log = $"{log}{Environment.NewLine}";
 
-				var folder = $"C:/Logs/SAP Automation/{DateTime.Now:yyyy MM}/";
+				var folder = $"C:/Logs/Sap.Api/{DateTime.Now:yyyy MM}/";
 				Directory.CreateDirectory(folder);
 				File.WriteAllText($"{folder}Error {DateTime.Now:dd HHmm ssff}.log", log);
 			});
 		}
 
-		public string GetErrorMessage(Exception ex)
+		/// <summary>
+		/// Gets a standardized error message for an Exception.
+		/// </summary>
+		/// <param name="ex">The Exception.</param>
+		/// <param name="additionalInfo">Any additional info you want to inject into the returned message.</param>
+		protected string GetFullErrorText(Exception ex, string additionalInfo)
 		{
+			var additionalLine = String.IsNullOrWhiteSpace(additionalInfo) ? string.Empty
+																		   : $"{additionalInfo}.{Environment.NewLine}{Environment.NewLine}";
 			if (ex is SLException)
-				return ex.Message;
-			else if (ex.InnerException == null)
-				return ex.CustomMessage();
+				return $"{additionalLine}{ex.Message}";
 
-			return ex.InnerException.CustomMessage();
+			if (ex.InnerException == null) {
+				var temp = ex.ToString().Length > 1000 ? ex.ToString().Substring(0, 1000)
+													   : ex.ToString();
+
+				var msg = $"{ex.Message}{Environment.NewLine}{Environment.NewLine}";
+					msg = $"{msg}{additionalLine}";
+				return $"{msg}{temp}{Environment.NewLine}{Environment.NewLine}";
+			}
+
+			return GetFullErrorText(ex.InnerException, additionalInfo);
 		}
 	}
 }

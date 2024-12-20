@@ -115,6 +115,8 @@
     <Compile Include="Domain\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
     <Compile Include="Domain\HouseBankAccounts\HouseBankAccountUtil.cs" />
     <Compile Include="Domain\IncomingPayments\IncomingPaymentUtil.cs" />
+    <Compile Include="Domain\IncomingPayments\InsertPaymentChecks.cs" />
+    <Compile Include="Domain\IncomingPayments\InsertPaymentInvoices.cs" />
     <Compile Include="Domain\Invoices\InvoiceUtil.cs" />
     <Compile Include="Domain\Items\ItemUtil.cs" />
     <Compile Include="Domain\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
@@ -133,7 +135,8 @@
     <Compile Include="Utils\AddErrorLogs.cs" />
     <Compile Include="Utils\AddTraceLogs.cs" />
     <Compile Include="Utils\End.cs" />
-    <Compile Include="Utils\ProcessAsync.cs" />
+    <Compile Include="Utils\GetFullErrorText.cs" />
+    <Compile Include="Utils\SapToSql.cs" />
     <Compile Include="Utils\Start.cs" />
     <Compile Include="Utils\TryConnect.cs" />
   </ItemGroup>

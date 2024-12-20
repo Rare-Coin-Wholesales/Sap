@@ -12,7 +12,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Services.CreditNotes
 		/// </summary>
 		void TransferToDbo();
 		/// <summary>
-		/// Truncates the [CreditNote] table.
+		/// Truncates the [Import].[CreditNote] table.
 		/// </summary>
 		void TruncateTable();
 		/// <summary>

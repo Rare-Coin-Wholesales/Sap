@@ -79,7 +79,6 @@
     <Compile Include="Domain\FAAccountDetermination.cs" />
     <Compile Include="Domain\GLAccountAdvancedRule.cs" />
     <Compile Include="Domain\HouseBankAccount.cs" />
-    <Compile Include="Domain\IncomingPayment.cs" />
     <Compile Include="Domain\Invoice.cs" />
     <Compile Include="Domain\Invoice_DocumentLine.cs" />
     <Compile Include="Domain\Item.cs" />
@@ -146,8 +145,6 @@
     <Compile Include="Services\GLAccountAdvancedRules\IGLAccountAdvancedRuleService.cs" />
     <Compile Include="Services\HouseBankAccounts\HouseBankAccountService.cs" />
     <Compile Include="Services\HouseBankAccounts\IHouseBankAccountService.cs" />
-    <Compile Include="Services\IncomingPayments\IIncomingPaymentService.cs" />
-    <Compile Include="Services\IncomingPayments\IncomingPaymentService.cs" />
     <Compile Include="Services\Invoices\IInvoiceService.cs" />
     <Compile Include="Services\Invoices\InvoiceService.cs" />
     <Compile Include="Services\JournalEntries\IJournalEntryService.cs" />

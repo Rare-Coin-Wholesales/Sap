@@ -12,7 +12,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Services.IncomingPayments
 		/// </summary>
 		void TransferToDbo();
 		/// <summary>
-		/// Truncates the [IncomingPayment] table.
+		/// Truncates the [Import].[IncomingPayment] table.
 		/// </summary>
 		void TruncateTable();
 		/// <summary>

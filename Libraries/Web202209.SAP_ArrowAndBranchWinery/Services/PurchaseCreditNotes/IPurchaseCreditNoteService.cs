@@ -12,7 +12,7 @@ namespace Web202209.SAP_ArrowAndBranchWinery.Services.PurchaseCreditNotes
 		/// </summary>
 		void TransferToDbo();
 		/// <summary>
-		/// Truncates the [PurchaseCreditNote] table.
+		/// Truncates the [Import].[PurchaseCreditNote] table.
 		/// </summary>
 		void TruncateTable();
 		/// <summary>
