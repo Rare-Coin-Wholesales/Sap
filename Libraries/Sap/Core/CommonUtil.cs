@@ -107,6 +107,9 @@ namespace Sap.Core
 			var fields = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance);
 			var fieldLen = fields.Length;
 
+			if (fieldLen < 1)
+				throw new Exception("There are no Fields. Get by Properties instead. Exception thrown in ToDataTable<T>(IList<T> list).");
+
 			foreach (var field in fields) {
 				// defining type of data column gives proper data table 
 				type = field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>) ?

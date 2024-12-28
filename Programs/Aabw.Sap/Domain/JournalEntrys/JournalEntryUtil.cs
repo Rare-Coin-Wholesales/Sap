@@ -1,57 +1,82 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Sap.Api.Domain.JournalEntries;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.JournalEntries;
+using Sap.Core;
+using Web202209.SAP_ArrowAndBranchWinery.Services.JournalEntries;
 
 namespace Aabw.Sap
 {
 	public partial class JournalEntryUtil
 	{
-		private readonly JournalEntryService _journalEntryService = new JournalEntryService();
+		DateTime EndTimeUtc, StartTimeUtc;
+		private readonly IJournalEntryService _journalEntryService = new JournalEntryService();
 
-		public async Task GetAllJournalEntrys()
+		public async Task GetAllJournalEntries()
 		{
-			Program.nLog.Trace("Begin method GetAllJournalEntrys().");
-			var list = await Program._serviceLayer.Request(JournalEntryRequest.ACTION).GetAllAsync<JournalEntry>();
+			Program.nLog.Info("Begin method GetAllJournalEntries().");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetAllJournalEntriesAsync();
 
-			if (list == null || list.Count == 0) {
-				Program.nLog.Warn("List is empty.");
+			if (list == null || list.Count == 0)
 				return;
-			}
 			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
 				_journalEntryService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_journalEntryService.Insert(Program._mapper.ToSql(v));
-
-						foreach (var line in v.JournalEntryLines) {
-							try {
-								line.JdtNum = v.JdtNum;
-								_journalEntryService.InsertJournalEntryLine(Program._mapper.ToSql(line));
-							}
-
-							catch (Exception ex) {
-								#region Log
-								if (ex.InnerException == null)
-									Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-								else
-									throw;
-								#endregion
-							}
-						}
-					}
-
-					catch (Exception ex) {
-						#region Log
-						if (ex.InnerException == null)
-							Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-						else
-							throw;
-						#endregion
-					}
+				if (_journalEntryService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertDocumentLines(list);
 				}
+
+				else
+					Program.nLog.Error(errorMsg);
 			}
+
+			_journalEntryService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetAllJournalEntries().");
+			LogSummary();
+		}
+
+		public async Task GetJournalEntriesByReferenceDate(DateTime minDate)
+		{
+			Program.nLog.Info("Begin method GetJournalEntriesByReferenceDate(DateTime minDate).");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetJournalEntriesByReferenceDateAsync(minDate);
+
+			if (list == null || list.Count == 0)
+				return;
+			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
+				_journalEntryService.TruncateTable();
+
+				if (_journalEntryService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertDocumentLines(list);
+				}
+
+				else
+					Program.nLog.Error(errorMsg);
+			}
+
+			_journalEntryService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetJournalEntriesByReferenceDate(DateTime minDate).");
+			LogSummary();
+		}
+
+		void LogSummary()
+		{
+			var ts = EndTimeUtc - StartTimeUtc;
+			Program.nLog.Info("JournalEntries Summary:");
+
+			if (ts.TotalSeconds < 61)
+				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
+			else if (ts.TotalMinutes < 61)
+				Program.nLog.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
+			else
+				Program.nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
+
+			Program.nLog.Info("");
 		}
 	}
 }

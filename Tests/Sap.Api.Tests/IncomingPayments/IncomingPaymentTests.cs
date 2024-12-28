@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Sap.Api.Tests
 {
-	public partial class IncomingPaymentIntegrationTests
+	public partial class IncomingPaymentTests
 	{
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
@@ -42,9 +42,9 @@ namespace Sap.Api.Tests
 		private void WriteToJsonFile(string data, string entityName)
 		{
 			var now = DateTime.Now;
-			var folder = $"C:/Logs/Sap.Api.Tests/{now:yyyy MM}/";
+			var folder = $"C:/Logs/Sap.Api.Tests/{now:yyyy MM}/{now:dd}/";
 			Directory.CreateDirectory(folder);
-			File.WriteAllText($"{folder}{entityName} {now:dd HHmm ssff}.json", data);
+			File.WriteAllText($"{folder}{entityName} {now:HHmm ssff}.json", data);
 		}
 		#endregion
 

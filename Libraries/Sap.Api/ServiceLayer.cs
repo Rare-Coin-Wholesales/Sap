@@ -11,6 +11,7 @@ namespace Sap.Api
 		public const string CANCEL_STATUS_YES = "csYes";
 		public const string CANCELLED_NO = "tNO";
 		public const string CANCELLED_YES = "tYES";
+		string FileOutputFolder = $"C:/Logs/Sap.Api/{DateTime.Now:yyyy MM}/{DateTime.Now:dd}/";
 
 		public ServiceLayer(string serviceLayerRoot, string companyDb, string username, string password)
 			: base(serviceLayerRoot, companyDb, username, password) { }
@@ -46,7 +47,7 @@ namespace Sap.Api
 		protected string GetFullErrorText(Exception ex, string additionalInfo)
 		{
 			var additionalLine = String.IsNullOrWhiteSpace(additionalInfo) ? string.Empty
-																		   : $"{additionalInfo}.{Environment.NewLine}{Environment.NewLine}";
+																		   : $"{additionalInfo}{Environment.NewLine}{Environment.NewLine}";
 			if (ex is SLException)
 				return $"{additionalLine}{ex.Message}";
 

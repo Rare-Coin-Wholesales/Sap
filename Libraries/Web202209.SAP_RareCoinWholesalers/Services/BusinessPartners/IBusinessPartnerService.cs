@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using Web202209.SAP_RareCoinWholesalers.Domain;
 
 namespace Web202209.SAP_RareCoinWholesalers.Services.BusinessPartners
 {
@@ -7,6 +9,10 @@ namespace Web202209.SAP_RareCoinWholesalers.Services.BusinessPartners
 	/// </summary>
 	public interface IBusinessPartnerService
 	{
+		/// <summary>
+		/// Gets all BusinessPartners.
+		/// </summary>
+		IList<BusinessPartner> GetAll();
 		/// <summary>
 		/// Transfers [BusinessPartner] to [dbo].
 		/// </summary>

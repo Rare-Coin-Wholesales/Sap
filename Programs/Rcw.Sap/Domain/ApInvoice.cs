@@ -66,9 +66,9 @@ namespace Rcw.Sap
 			foreach (var v in list)
 				log = String.Format($"{log}\"{v.DocumentType}\",\"{v.VendorId}\",\"{v.SapVendorId}\",\"{v.VendorDocNumberStr}\",\"{v.DateStr}\",\"{v.Amount:n2}\"{Environment.NewLine}");
 
-			var folder = String.Format("C:/Logs/Rcw.Sap/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/Rcw.Sap/{0:yyyy MM}/{0:dd}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}ApInvoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			File.WriteAllText(String.Format("{0}ApInvoices {1:HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
 	}
 }

@@ -26,6 +26,17 @@ namespace Sap.Api
 			return all;
 		}
 
+		public async Task<IList<PurchaseInvoice>> GetPurchaseInvoicesByUpdateDateAsync(DateTime minDate)
+		{
+			var list = await Request("PurchaseInvoices")
+				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(100)
+				.WithCaseInsensitive()
+				.GetAsync<List<PurchaseInvoice>>();
+
+			return list;
+		}
+
 		public async Task<PurchaseInvoice> GetPurchaseInvoiceAsync(object id)
 		{
 			var entity = await Request("PurchaseInvoices", id).GetAsync<PurchaseInvoice>();
@@ -39,9 +50,8 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.NumAtCard}\",\"{v.Cancelled}\",\"{v.CancelStatus}\",\"{v.CardCode}\",\"{v.CancelDate}\",\"{v.CardName}\",\"{v.Comments}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}PurchaseInvoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}PurchaseInvoices {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
 		public async Task PatchAsync(PurchaseInvoice x)

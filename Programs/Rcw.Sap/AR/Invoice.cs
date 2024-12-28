@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.Invoices;
 using Sql2023.Intranet.Services.Invoices;
-using Sql2023.Intranet.Services.Terms;
 
 namespace Rcw.Sap
 {
@@ -148,7 +147,7 @@ namespace Rcw.Sap
 					if (invoices == null || invoices.Count == 0)
 						return;
 
-					var scarInvoices = _scarInvoiceService.GetForPdsjs();
+					var scarInvoices = _invoiceService.GetForPdsjs();
 					var missingInvoices = (from x in invoices // left join
 										   from y in scarInvoices.Where(y => y.NumAtCard == x.InvoiceStr).DefaultIfEmpty()
 										   where y == null || y.NumAtCard == null

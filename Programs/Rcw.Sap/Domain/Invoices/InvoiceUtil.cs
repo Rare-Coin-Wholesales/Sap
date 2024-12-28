@@ -8,7 +8,7 @@ namespace Rcw.Sap
 	public partial class InvoiceUtil
 	{
 		DateTime EndTimeUtc, StartTimeUtc;
-		private readonly IInvoiceService _invoiceService = new InvoiceService();
+		private readonly InvoiceService _invoiceService = new InvoiceService();
 
 		public async Task GetAllInvoices()
 		{
@@ -43,8 +43,10 @@ namespace Rcw.Sap
 			StartTimeUtc = DateTime.UtcNow;
 			var list = await Program._serviceLayer.GetInvoicesByUpdateDateAsync(minDate);
 
-			if (list == null || list.Count == 0)
+			if (list == null || list.Count == 0) {
+				Program.nLog.Info($"No new invoices after {minDate:MMM d, yyyy}{Environment.NewLine}");
 				return;
+			}
 			else {
 				Program._serviceLayer.LogToCsv(list);
 				var dt = CommonUtil.ToDataTable(list);

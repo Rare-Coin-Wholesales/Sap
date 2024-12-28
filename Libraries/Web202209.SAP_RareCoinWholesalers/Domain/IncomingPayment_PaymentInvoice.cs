@@ -6,14 +6,17 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Import.IncomingPayment_PaymentInvoice")]
     public partial class IncomingPayment_PaymentInvoice
     {
-        public int Id { get; set; }
+        [Key]
+        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int DocNum { get; set; }
 
-        public int? DocNum { get; set; }
-
-        public int? LineNum { get; set; }
+        [Key]
+        [Column(Order = 1)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int LineNum { get; set; }
 
         public int? DocEntry { get; set; }
 
@@ -27,7 +30,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 
         public int? DocLine { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string InvoiceType { get; set; }
 
         public decimal? DiscountPercent { get; set; }
@@ -42,22 +45,22 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 
         public decimal? WitholdingTaxAppliedSC { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string LinkDate { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string DistributionRule { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string DistributionRule2 { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string DistributionRule3 { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string DistributionRule4 { get; set; }
 
-        [StringLength(4000)]
+        [StringLength(2000)]
         public string DistributionRule5 { get; set; }
 
         public decimal? TotalDiscount { get; set; }

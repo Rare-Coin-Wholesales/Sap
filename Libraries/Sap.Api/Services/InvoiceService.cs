@@ -50,9 +50,8 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.NumAtCard}\",\"{v.Cancelled}\",\"{v.CancelStatus}\",\"{v.CardCode}\",\"{v.CancelDate}\",\"{v.CardName}\",\"{v.Comments}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}Invoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}Invoices {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
 		public async Task PatchAsync(Invoice x)

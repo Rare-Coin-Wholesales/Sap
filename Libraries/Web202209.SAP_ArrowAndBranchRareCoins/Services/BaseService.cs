@@ -32,7 +32,7 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services
 		}
 
 		#region Utilities
-		protected string GetColumnMapping(DataColumn column)
+		protected string GetColumnMapping(DataColumn column, string destinationTableName)
 		{
 			if (column == null || String.IsNullOrWhiteSpace(column.ColumnName))
 				return string.Empty;
@@ -41,69 +41,64 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services
 
 			switch (col) {
 				case "BPLIDASSIGNEDTOINVOICE":
-					return "BPL_IDAssignedToInvoice";
+					if (destinationTableName.Equals("Import.CreditNote") || destinationTableName.Equals("Import.PurchaseCreditNote"))
+						return "BPL_IDAssignedToInvoice";
+					return "BPLIDAssignedToInvoice";
 				case "ODATAETAG":
-					return "odataetag";
+					if (destinationTableName.Equals("Import.CreditNote") || destinationTableName.Equals("Import.PurchaseCreditNote"))
+						return "odataetag";
+					return "OdataEtag";
 				case "POSCASHREGISTER":
-					return "POS_CashRegister";
+					if (destinationTableName.Equals("Import.CreditNote") || destinationTableName.Equals("Import.PurchaseCreditNote"))
+						return "POS_CashRegister";
+					return "POSCashRegister";
 				default:
 					return column.ColumnName;
 			}
 		}
 
-		protected string GetDbEntityValidationExceptionMessage(DbEntityValidationException dbEx)
+		/// <summary>
+		/// Gets all validation errors from SQL.
+		/// </summary>
+		/// <param name="ex">The DbEntityValidationException.</param>
+		protected string GetFullErrorText(DbEntityValidationException ex)
 		{
 			var msg = string.Empty;
 			var list = new List<DbValidationError>();
 
-			foreach (var valErrors in dbEx.EntityValidationErrors)
-				list.AddRange(valErrors.ValidationErrors);
+			foreach (var er in ex.EntityValidationErrors)
+				list.AddRange(er.ValidationErrors);
 
 			var temp = list.Select(x => new { x.PropertyName, x.ErrorMessage }).Distinct().ToList();
 
 			foreach (var er in temp)
 				msg = $"{msg}Property: {er.PropertyName} Error: {er.ErrorMessage}{Environment.NewLine}";
 
-			return msg;
+			return $"{msg}{Environment.NewLine}";
 		}
 
 		/// <summary>
-		/// Gets the full error text. This supports errors reported by SQL.
+		/// Gets a standardized error message for an Exception.
 		/// </summary>
-		/// <param name="ex">The <see cref="Exception"/>.</param>
-		protected string GetFullErrorText(Exception ex)
+		/// <param name="ex">The Exception.</param>
+		/// <param name="additionalInfo">Any additional info you want to inject into the returned message.</param>
+		protected string GetFullErrorText(Exception ex, string additionalInfo)
 		{
-			return GetFullErrorText(ex, null);
-		}
+			var additionalLine = String.IsNullOrWhiteSpace(additionalInfo) ? string.Empty
+																		   : $"{additionalInfo}{Environment.NewLine}{Environment.NewLine}";
+			if (ex is DbEntityValidationException dbEx)
+				return $"{GetFullErrorText(dbEx)}{additionalLine}";
 
-		/// <summary>
-		/// Gets the full error text. This supports errors reported by SQL.
-		/// </summary>
-		/// <param name="ex">The <see cref="Exception"/>.</param>
-		/// <param name="methodName">The calling method's name.</param>
-		protected string GetFullErrorText(Exception ex, string methodName)
-		{
-			var msg = string.Empty;
-			var methodLine = String.IsNullOrWhiteSpace(methodName) ? string.Empty
-																   : $"Exception thrown in {methodName}.{Environment.NewLine}{Environment.NewLine}";
+			if (ex.InnerException == null) {
+				var temp = ex.ToString().Length > 1000 ? ex.ToString().Substring(0, 1000)
+													   : ex.ToString();
 
-			if (ex is DbEntityValidationException dbEx) {
-				msg = GetDbEntityValidationExceptionMessage(dbEx);
-				msg = $"{msg}{methodLine}";
+				var msg = $"{ex.Message}{Environment.NewLine}{Environment.NewLine}";
+				msg = $"{msg}{additionalLine}";
+				return $"{msg}{temp}{Environment.NewLine}{Environment.NewLine}";
 			}
 
-			else if (ex.InnerException == null) {
-				var temp = ex.ToString().Length <= 1000 ? ex.ToString()
-														: ex.ToString().Substring(0,1000);
-				msg = $"{msg}{ex.Message}{Environment.NewLine}{Environment.NewLine}";
-				msg = $"{msg}{methodLine}";
-				msg = $"{msg}{temp}{Environment.NewLine}{Environment.NewLine}";
-			}
-
-			else
-				msg = GetFullErrorText(ex.InnerException, methodName);
-
-			return msg;
+			return GetFullErrorText(ex.InnerException, additionalInfo);
 		}
 		#endregion
 
@@ -130,12 +125,13 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services
 					}
 				}
 
-				File.WriteAllText($"C:/Logs/SAP Automation/{DateTime.Now:yyyy MM}/{DateTime.Now:dd}/CheckColumnMappings().txt", sb.ToString());
+				Directory.CreateDirectory($"C:/Logs/Sap.Api/{DateTime.Now:yyyy MM}/{DateTime.Now:dd}/");
+				File.WriteAllText($"C:/Logs/Sap.Api/{DateTime.Now:yyyy MM}/{DateTime.Now:dd}/{destSchema}.{destTable} {DateTime.Now:HHmm ssff}.txt", sb.ToString());
 			}
 
 			#region catch (Exception ex)
 			catch (Exception ex) {
-				throw new Exception(GetFullErrorText(ex, "CheckColumnMappings(DataTable sourceDt, string destSchema, string destTable)"));
+				throw new Exception(GetFullErrorText(ex, "Exception thrown in CheckColumnMappings(DataTable sourceDt, string destSchema, string destTable)."));
 			}
 			#endregion
 
@@ -198,20 +194,26 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services
 						sbc.DestinationTableName = destinationTableName;
 						sbc.BulkCopyTimeout = 300;
 
-						foreach (DataColumn column in dt.Columns) {
-							try {
-								sbc.ColumnMappings.Add(column.ColumnName, GetColumnMapping(column));
-							}
+						foreach (DataColumn column in dt.Columns)
+							sbc.ColumnMappings.Add(column.ColumnName, GetColumnMapping(column, destinationTableName));
 
-							#region catch (Exception ex)
-							catch (Exception ex) {
-								errorMessage = GetFullErrorText(ex, $"column: {column}");
-								return false;
-							}
-							#endregion
+						try {
+							sbc.WriteToServer(dt);
 						}
 
-						sbc.WriteToServer(dt);
+						#region catch (Exception ex)
+						catch (Exception ex) {
+							var log = string.Empty;
+
+							foreach (SqlBulkCopyColumnMapping v in sbc.ColumnMappings) {
+								if (v.SourceColumn != v.DestinationColumn)
+									log = $"{log}{v.SourceColumn} != {v.DestinationColumn}{Environment.NewLine}";
+							}
+
+							errorMessage = GetFullErrorText(ex, $"{log}{Environment.NewLine}Exception thrown running: sbc.WriteToServer(dt);");
+							return false;
+						}
+						#endregion
 					}
 				}
 
@@ -220,7 +222,7 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Services
 
 			#region catch (Exception ex)
 			catch (Exception ex) {
-				errorMessage = GetFullErrorText(ex, "TryBulkCopy(DataTable dt, string destinationTableName, out string errorMessage)");
+				errorMessage = GetFullErrorText(ex, $"Exception thrown in TryBulkCopy(DataTable dt, string destinationTableName='{destinationTableName}', out string errorMessage).");
 				return false;
 			}
 			#endregion

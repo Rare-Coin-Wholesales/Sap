@@ -98,9 +98,9 @@ namespace Rcw.Sap
 			foreach (var v in list)
 				log = String.Format($"{log}\"{v.Type}\",\"{v.TypeID}\",\"{v.InvoiceStr}\",\"{v.DateStr}\",\"{v.Customer}\",\"{v.CustomerPO}\",\"{v.TermsCode}\",\"{v.SalesOrder}\",\"{v.Cost:n2}\",\"{v.Amount:n2}\",\"{v.Freight:n2}\",\"{v.Tax:n2}\",\"{v.SalesPerson}\",\"{v.Batch}\"{Environment.NewLine}");
 
-			var folder = String.Format("C:/Logs/Rcw.Sap/{0:yyyy MM}/", DateTime.Now);
+			var folder = String.Format("C:/Logs/Rcw.Sap/{0:yyyy MM}/{0:dd}/", DateTime.Now);
 			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}ArInvoices {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			File.WriteAllText(String.Format("{0}ArInvoices {1:HHmm ssff}.csv", folder, DateTime.Now), log);
 		}
 	}
 }

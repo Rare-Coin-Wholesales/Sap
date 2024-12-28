@@ -1,10 +1,9 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
-using Sap.Api;
 using Sap.Api.Domain.PurchaseInvoices;
-using Sap.Api.Tests;
 using Sap.Core;
 using Sap.Services.Security;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
@@ -30,17 +29,25 @@ namespace Sap.Api.Tests
 		private static readonly ILogger _logger = new DefaultLogger();
 		private static readonly IOrderService _intranetOrderService = new OrderService();
 		private static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
+		private static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
+		private static readonly string Aabrc_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Password"));
+		private static readonly string Aabrc_Username = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Username");
+		private static readonly string Aabw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabw_CompanyDb");
+		private static readonly string Aabw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabw_Password"));
+		private static readonly string Aabw_Username = CommonUtil.GetEnvironmentVariable("SAP_Aabw_Username");
 		private static readonly string BaseUrl = CommonUtil.GetEnvironmentVariable("SAP_BaseUrl");
-		private static readonly string Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
-		private static readonly string Username = CommonUtil.GetEnvironmentVariable("SAP_Username");
-		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Username, Password);
+		private static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
+		private static readonly string Rcw_Username = CommonUtil.GetEnvironmentVariable("SAP_Rcw_Username");
+		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabrc_CompanyDb, Aabrc_Username, Aabrc_Password);
+		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabw_CompanyDb, Aabw_Username, Aabw_Password);
+		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Rcw_Username, Rcw_Password);
 		#endregion
 
 		#region Utilities
-		private void AddErrorLogs()
+		private void AddTraceLogs()
 		{
-			_serviceLayer.OnError(async call => {
+			_serviceLayer.AfterCall(async call => {
 				var log = string.Empty;
 				log = $"{log}Request: {call.HttpRequestMessage.Method}  {call.HttpRequestMessage.RequestUri}{Environment.NewLine}";
 				log = $"{log}Body sent: {call.RequestBody}{Environment.NewLine}";
@@ -50,7 +57,7 @@ namespace Sap.Api.Tests
 				log = $"{log}Call duration: {(DateTime.UtcNow - call.StartedUtc).TotalSeconds:n3} seconds{Environment.NewLine}";
 				log = $"{log}{Environment.NewLine}";
 
-				_exportManager.WriteToFile(log, "Error");
+				WriteToJsonFile(log, "Response");
 			});
 		}
 
@@ -108,12 +115,20 @@ namespace Sap.Api.Tests
 				DocumentLines = GetDocumentLines(x),
 			};
 		}
+
+		private void WriteToJsonFile(string data, string entityName)
+		{
+			var now = DateTime.Now;
+			var folder = $"C:/Logs/Sap.Api.Tests/{now:yyyy MM}/{now:dd}/";
+			Directory.CreateDirectory(folder);
+			File.WriteAllText($"{folder}{entityName} {now:HHmm ssff}.json", data);
+		}
 		#endregion
 
 		[Fact]
 		public async void Test_CancelPurchaseInvoice()
 		{
-			AddErrorLogs();
+			AddTraceLogs();
 			var invoice = await _serviceLayer.GetPurchaseInvoiceAsync(398);
 			invoice.ShouldNotBeNull();
 			_serviceLayer.LogToCsv(new List<PurchaseInvoice> { invoice });
@@ -124,7 +139,7 @@ namespace Sap.Api.Tests
 		[Fact]
 		public async void Test_CancelPurchaseInvoices()
 		{
-			AddErrorLogs();
+			AddTraceLogs();
 			int[] tests = { 407, 408 };
 
 			foreach (var test in tests) {
@@ -142,7 +157,7 @@ namespace Sap.Api.Tests
 		[Fact]
 		public async Task Test_CreatePurchaseInvoicesAsync()
 		{
-			AddErrorLogs();
+			AddTraceLogs();
 			var purchaseInvoices = _intranetOrderService.GetRecent();
 
 			if (purchaseInvoices == null || purchaseInvoices.Count == 0)
@@ -162,6 +177,13 @@ namespace Sap.Api.Tests
 				if (created.Item1 == null)
 					throw new Exception(created.Item2);
 			}
+		}
+
+		[Fact]
+		public async Task Test_GetAllAsync()
+		{
+			AddTraceLogs();
+			var all = await _serviceLayer.Request("PurchaseInvoices").GetAllAsync<object>();
 		}
 	}
 }

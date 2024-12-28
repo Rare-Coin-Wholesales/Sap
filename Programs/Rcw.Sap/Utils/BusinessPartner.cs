@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Sap.Api.Domain.BusinessPartners;
 using Sap.Core;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.BusinessPartners;
+using Web202209.SAP_RareCoinWholesalers.Services.BusinessPartners;
 using Sql2023.Intranet.Domain;
 using Sql2023.Intranet.Services.UnixCustomers;
 

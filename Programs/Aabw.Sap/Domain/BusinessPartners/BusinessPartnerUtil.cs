@@ -1,93 +1,85 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.BusinessPartners;
+using Sap.Core;
+using Web202209.SAP_ArrowAndBranchWinery.Services.BusinessPartners;
 
 namespace Aabw.Sap
 {
 	public partial class BusinessPartnerUtil
 	{
+		DateTime EndTimeUtc, StartTimeUtc;
 		private readonly BusinessPartnerService _businessPartnerService = new BusinessPartnerService();
 
 		public async Task GetAllBusinessPartners()
 		{
-			Program.nLog.Trace("Begin method GetAllBusinessPartners().");
+			Program.nLog.Info("Begin method GetAllBusinessPartners().");
+			StartTimeUtc = DateTime.UtcNow;
 			var list = await Program._serviceLayer.GetAllBusinessPartnersAsync();
 
 			if (list == null || list.Count == 0)
 				return;
 			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
 				_businessPartnerService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_businessPartnerService.Insert(Program._mapper.ToSql(v));
-
-						#region Insert BPAddress
-						foreach (var line in v.BPAddresses) {
-							try {
-								_businessPartnerService.Insert(Program._mapper.ToSql(line));
-							}
-
-							catch (Exception ex) {
-								#region Log
-								if (ex.InnerException == null)
-									Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-								else
-									throw;
-								#endregion
-							}
-						}
-						#endregion
-
-						#region Insert BPIntrastatExtension
-						//_businessPartnerService.Insert(Program._mapper.ToSql(v.BPIntrastatExtension));
-						#endregion
-
-						#region Insert BPPaymentMethod
-						foreach (var line in v.BPPaymentMethods) {
-							try {
-								_businessPartnerService.Insert(Program._mapper.ToSql(line));
-							}
-
-							catch (Exception ex) {
-								#region Log
-								if (ex.InnerException == null)
-									Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-								else
-									throw;
-								#endregion
-							}
-						}
-						#endregion
-
-						#region Insert ContactEmployee
-						foreach (var line in v.ContactEmployees) {
-							try {
-								_businessPartnerService.Insert(Program._mapper.ToSql(line));
-							}
-
-							catch (Exception ex) {
-								#region Log
-								if (ex.InnerException == null)
-									Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-								else
-									throw;
-								#endregion
-							}
-						}
-						#endregion
-					}
-
-					catch (Exception ex) {
-						#region Log
-						if (ex.InnerException == null)
-							Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-						else
-							throw;
-						#endregion
-					}
+				if (_businessPartnerService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertBPAddresss(list);
+					InsertContactEmployee(list);
 				}
+
+				else
+					Program.nLog.Error(errorMsg);
 			}
+
+			_businessPartnerService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetAllBusinessPartners().");
+			LogSummary();
+		}
+
+		public async Task GetBusinessPartnersByUpdateDate(DateTime minDate)
+		{
+			Program.nLog.Info("Begin method GetBusinessPartnersByUpdateDate(DateTime minDate).");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetBusinessPartnersByUpdateDateAsync(minDate);
+
+			if (list == null || list.Count == 0)
+				return;
+			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
+				_businessPartnerService.CheckColumnMappings(dt, "Import", "BusinessPartner");
+				_businessPartnerService.TruncateTable();
+
+				if (_businessPartnerService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertBPAddresss(list);
+					InsertContactEmployee(list);
+				}
+
+				else
+					Program.nLog.Error(errorMsg);
+			}
+
+			_businessPartnerService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetBusinessPartnersByUpdateDate(DateTime minDate).");
+			LogSummary();
+		}
+
+		void LogSummary()
+		{
+			var ts = EndTimeUtc - StartTimeUtc;
+			Program.nLog.Info("BusinessPartners Summary:");
+
+			if (ts.TotalSeconds < 61)
+				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
+			else if (ts.TotalMinutes < 61)
+				Program.nLog.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
+			else
+				Program.nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
+
+			Program.nLog.Info("");
 		}
 	}
 }

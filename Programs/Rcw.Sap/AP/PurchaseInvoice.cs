@@ -71,7 +71,7 @@ namespace Rcw.Sap
 					if (purchaseInvoices == null || purchaseInvoices.Count == 0)
 						return;
 
-					var scarPurchaseInvoices = _scarPurchaseInvoiceService.GetForEsds();
+					var scarPurchaseInvoices = _purchaseInvoiceService.GetForEsds();
 					var missingPurchaseInvoices = (from x in purchaseInvoices // left join
 												   from y in scarPurchaseInvoices.Where(y => y.NumAtCard == x.VendorDocNumberStr).DefaultIfEmpty()
 												   where y == null || y.NumAtCard == null

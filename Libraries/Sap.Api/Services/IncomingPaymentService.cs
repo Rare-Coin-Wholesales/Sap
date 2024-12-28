@@ -11,9 +11,9 @@ namespace Sap.Api
 	{
 		protected static void SetLineDocEntry(IList<IncomingPayment> list)
 		{
-			foreach (var payment in list)
-				foreach (var check in payment.PaymentChecks)
-					check.IncomingPaymentDocEntry = payment.DocEntry;
+			foreach (var item in list)
+				foreach (var line in item.PaymentChecks)
+					line.IncomingPaymentDocEntry = item.DocEntry;
 		}
 
 		public async Task CancelAsync(IncomingPayment x)
@@ -37,6 +37,7 @@ namespace Sap.Api
 		public async Task<IncomingPayment> GetIncomingPaymentAsync(object id)
 		{
 			var entity = await Request("IncomingPayments", id).GetAsync<IncomingPayment>();
+			SetLineDocEntry(new List<IncomingPayment> { entity });
 			return entity;
 		}
 
@@ -59,9 +60,8 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = $"{log}\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.DocDate:yyyy-MM-dd}\",\"{v.CardCode}\",\"{v.CardName}\",\"{v.TransferSum:n2}\",\"{v.Remarks}\",\"{v.TransferReference}\",\"{v.Reference2}\",\"{v.CounterReference}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}IncomingPayments {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}IncomingPayments {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
 		public async Task PatchAsync(IncomingPayment x)

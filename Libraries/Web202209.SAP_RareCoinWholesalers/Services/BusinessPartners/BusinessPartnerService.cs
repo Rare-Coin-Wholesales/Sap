@@ -1,13 +1,23 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using Web202209.SAP_RareCoinWholesalers.Domain;
 
 namespace Web202209.SAP_RareCoinWholesalers.Services.BusinessPartners
 {
 	public partial class BusinessPartnerService : BaseService, IBusinessPartnerService
 	{
 		/// <inheritdoc/>
+		public virtual IList<BusinessPartner> GetAll()
+		{
+			return (from x in _dbContext.BusinessPartners
+					select x).ToList();
+		}
+
+		/// <inheritdoc/>
 		public virtual void TransferToDbo()
 		{
-			_dbContext.Database.ExecuteSqlCommand("EXEC [Import].[BusinessPartner_TransferToDbo]");
+			_dbContext.Database.ExecuteSqlCommand("EXEC [Import].[BusinessPartnerTables_TransferToDbo]");
 		}
 
 		/// <inheritdoc/>

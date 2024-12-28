@@ -9,7 +9,6 @@ namespace Sap.ApiToScarAabrcMapper
 			return new Deposit {
 				AbsEntry = x.AbsEntry,
 				DepositAccount = x.DepositAccount,
-				DepositNumber = x.DepositNumber,
 				DepositType = x.DepositType,
 				JournalRemarks = x.JournalRemarks,
 				VoucherAccount = x.VoucherAccount,

@@ -45,17 +45,13 @@
     <Compile Include="AccountCategories\Mapper.cs" />
     <Compile Include="AccountSegmentationCategories\Mapper.cs" />
     <Compile Include="AccountSegmentations\Mapper.cs" />
-    <Compile Include="BusinessPartners\Mapper.cs" />
     <Compile Include="BillOfExchangeTransactions\Mapper.cs" />
     <Compile Include="ChartOfAccounts\Mapper.cs" />
     <Compile Include="ChecksforPayments\Mapper.cs" />
     <Compile Include="Common\Mapper.cs" />
-    <Compile Include="Deposits\Mapper.cs" />
     <Compile Include="FAAccountDeterminations\Mapper.cs" />
     <Compile Include="GLAccountAdvancedRules\Mapper.cs" />
     <Compile Include="HouseBankAccounts\Mapper.cs" />
-    <Compile Include="Invoices\Mapper.cs" />
-    <Compile Include="JournalEntries\Mapper.cs" />
     <Compile Include="JournalEntryDocumentTypes\Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseInvoices\Mapper.cs" />
