@@ -114,10 +114,10 @@
     <Compile Include="Services\AccountSegmentations\AccountSegmentationService.cs" />
     <Compile Include="Services\AccountSegmentations\IAccountSegmentationService.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\BusinessPartners\BusinessPartnerService.cs" />
-    <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\BillOfExchangeTransactionService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\IBillOfExchangeTransactionService.cs" />
+    <Compile Include="Services\BusinessPartners\BusinessPartnerService.cs" />
+    <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
     <Compile Include="Services\ChartOfAccounts\ChartOfAccountService.cs" />
     <Compile Include="Services\ChartOfAccounts\IChartOfAccountService.cs" />
     <Compile Include="Services\ChecksforPayments\ChecksforPaymentService.cs" />
@@ -138,8 +138,6 @@
     <Compile Include="Services\Common\SalesTaxInvoiceLineService.cs" />
     <Compile Include="Services\Common\SalesTaxInvoiceOperationCodeService.cs" />
     <Compile Include="Services\Common\TaxExtensionService.cs" />
-    <Compile Include="Services\Deposits\DepositService.cs" />
-    <Compile Include="Services\Deposits\IDepositService.cs" />
     <Compile Include="Services\FAAccountDeterminations\FAAccountDeterminationService.cs" />
     <Compile Include="Services\FAAccountDeterminations\IFAAccountDeterminationService.cs" />
     <Compile Include="Services\GLAccountAdvancedRules\GLAccountAdvancedRuleService.cs" />
@@ -148,8 +146,6 @@
     <Compile Include="Services\HouseBankAccounts\IHouseBankAccountService.cs" />
     <Compile Include="Services\Invoices\IInvoiceService.cs" />
     <Compile Include="Services\Invoices\InvoiceService.cs" />
-    <Compile Include="Services\JournalEntries\IJournalEntryService.cs" />
-    <Compile Include="Services\JournalEntries\JournalEntryService.cs" />
     <Compile Include="Services\JournalEntryDocumentTypes\IJournalEntryDocumentTypeService.cs" />
     <Compile Include="Services\JournalEntryDocumentTypes\JournalEntryDocumentTypeService.cs" />
     <Compile Include="Services\PurchaseInvoices\IPurchaseInvoiceService.cs" />

@@ -1,41 +1,86 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Sap.Api.Domain.Deposits;
-using ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.Deposits;
+using Sap.Core;
+using Web202209.SAP_ArrowAndBranchRareCoins.Services.Deposits;
 
 namespace Aabrc.Sap
 {
 	public partial class DepositUtil
 	{
-		private readonly DepositService _depositService = new DepositService();
+		DateTime EndTimeUtc, StartTimeUtc;
+		private readonly IDepositService _depositService = new DepositService();
 
 		public async Task GetAllDeposits()
 		{
-			Program.nLog.Trace("Begin method GetAllDeposits().");
-			var list = await Program._serviceLayer.Request(DepositRequest.ACTION).GetAllAsync<Deposit>();
+			Program.nLog.Info("Begin method GetAllDeposits().");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetAllDepositsAsync();
 
 			if (list == null || list.Count == 0) {
-				Program.nLog.Warn("List is empty.");
+				Program.nLog.Info($"Aabrc doesn't have any Deposits yet.{Environment.NewLine}");
 				return;
 			}
 			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
 				_depositService.TruncateTable();
 
-				foreach (var v in list) {
-					try {
-						_depositService.Insert(Program._mapper.ToSql(v));
-					}
-
-					catch (Exception ex) {
-						#region Log
-						if (ex.InnerException == null)
-							Program.nLog.Warn("{0}{2}Exception thrown running _service.Insert(Program._mapper.ToSql(v)).{2}{1}{2}{2}", ex.Message, ex, Environment.NewLine);
-						else
-							throw;
-						#endregion
-					}
+				if (_depositService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertCheckLines(list);
 				}
+
+				else
+					Program.nLog.Error(errorMsg);
 			}
+
+			_depositService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetAllDeposits().");
+			LogSummary();
+		}
+
+		public async Task GetDepositsByDepositDateAsync(DateTime minDate)
+		{
+			Program.nLog.Info("Begin method GetDepositsByDepositDateAsync(DateTime minDate).");
+			StartTimeUtc = DateTime.UtcNow;
+			var list = await Program._serviceLayer.GetDepositsByDepositDateAsync(minDate);
+
+			if (list == null || list.Count == 0) {
+				Program.nLog.Info($"No new Deposits after {minDate:MMM d, yyyy}{Environment.NewLine}");
+				return;
+			}
+			else {
+				Program._serviceLayer.LogToCsv(list);
+				var dt = CommonUtil.ToDataTable(list);
+				_depositService.TruncateTable();
+
+				if (_depositService.TryBulkCopy(dt, out var errorMsg)) {
+					InsertCheckLines(list);
+				}
+
+				else
+					Program.nLog.Error(errorMsg);
+			}
+
+			_depositService.TransferToDbo();
+			EndTimeUtc = DateTime.UtcNow;
+			Program.nLog.Info("End method GetDepositsByDepositDateAsync(DateTime minDate).");
+			LogSummary();
+		}
+
+		void LogSummary()
+		{
+			var ts = EndTimeUtc - StartTimeUtc;
+			Program.nLog.Info("Deposits Summary:");
+
+			if (ts.TotalSeconds < 61)
+				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
+			else if (ts.TotalMinutes < 61)
+				Program.nLog.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
+			else
+				Program.nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
+
+			Program.nLog.Info("");
 		}
 	}
 }

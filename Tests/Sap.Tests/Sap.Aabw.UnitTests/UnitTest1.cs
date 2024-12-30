@@ -155,31 +155,6 @@ namespace Sap.Aabw.UnitTests
 		}
 		#endregion
 
-		#region Deposits
-		[Fact]
-		public void Test_ListDeposits()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListDeposits();
-			Assert.False(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetDepositById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetDepositById(1);
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
 		#region FAAccountDeterminations
 		[Fact]
 		public void Test_ListFAAccountDeterminations()

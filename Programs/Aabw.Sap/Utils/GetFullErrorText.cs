@@ -36,7 +36,7 @@ namespace Aabw.Sap
 		static string GetFullErrorText(Exception ex, string additionalInfo)
 		{
 			var additionalLine = String.IsNullOrWhiteSpace(additionalInfo) ? string.Empty
-																		   : $"{additionalInfo}.{Environment.NewLine}{Environment.NewLine}";
+																		   : $"{additionalInfo}{Environment.NewLine}{Environment.NewLine}";
 			if (ex is SLException)
 				return $"{additionalLine}{ex.Message}";
 			if (ex is DbEntityValidationException dbEx)

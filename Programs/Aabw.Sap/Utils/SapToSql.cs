@@ -11,10 +11,10 @@ namespace Aabw.Sap
 		public static Mapper _mapper;
 		public static ServiceLayer _serviceLayer;
 		static readonly DateTime DateThreshold = DateTime.Today.AddDays(-14);
-		/// <summary>7:45am</summary>
-		static readonly DateTime LowerBound = DateTime.Today.AddHours(7).AddMinutes(45);
-		/// <summary>8:00pm</summary>
-		static readonly DateTime UpperBound = DateTime.Today.AddHours(20).AddMinutes(0);
+		/// <summary>3am</summary>
+		static readonly DateTime LowerBound = DateTime.Today.AddHours(3).AddMinutes(0);
+		/// <summary>10:30pm</summary>
+		static readonly DateTime UpperBound = DateTime.Today.AddHours(22).AddMinutes(30);
 
 		static async Task SapToSql()
 		{
@@ -25,11 +25,18 @@ namespace Aabw.Sap
 
 				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound) {
 					await new BusinessPartnerUtil().GetAllBusinessPartners();
+					await new DepositUtil().GetAllDeposits();
 					await new IncomingPaymentUtil().GetAllIncomingPayments();
+					await new InvoiceUtil().GetAllInvoices();
+					await new JournalEntryUtil().GetAllJournalEntries();
 				}
 
 				else {
+					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(DateThreshold);
+					await new DepositUtil().GetDepositsByDepositDateAsync(DateThreshold);
 					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(DateThreshold);
+					await new InvoiceUtil().GetInvoicesByUpdateDate(DateThreshold);
+					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(DateThreshold);
 				}
 
 				await new AccountCategoryUtil().GetAllAccountCategorys();
@@ -43,10 +50,8 @@ namespace Aabw.Sap
 				await new FAAccountDeterminationUtil().GetAllFAAccountDeterminations();
 				await new GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules();
 				await new HouseBankAccountUtil().GetAllHouseBankAccounts();
-				await new InvoiceUtil().GetAllInvoices();
 				await new ItemUtil().GetAllItems();
 				await new JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes();
-				await new JournalEntryUtil().GetAllJournalEntrys();
 				await new PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
 				await new PurchaseInvoiceUtil().GetAllPurchaseInvoices();
 				await new PurchaseOrderUtil().GetAllPurchaseOrders();

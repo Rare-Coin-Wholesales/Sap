@@ -69,7 +69,7 @@ namespace Aabw.Sap
 		void LogSummary()
 		{
 			var ts = EndTimeUtc - StartTimeUtc;
-			Program.nLog.Info("IncomingPaymentUtil() Summary:");
+			Program.nLog.Info("IncomingPayments Summary:");
 
 			if (ts.TotalSeconds < 61)
 				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));

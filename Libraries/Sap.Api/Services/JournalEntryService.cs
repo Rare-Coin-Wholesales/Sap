@@ -37,6 +37,7 @@ namespace Sap.Api
 		public async Task<JournalEntry> GetJournalEntryAsync(object id)
 		{
 			var entity = await Request("JournalEntries", id).GetAsync<JournalEntry>();
+			SetLineJdtNum(new List<JournalEntry> { entity });
 			return entity;
 		}
 
@@ -59,9 +60,8 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = $"{log}\"{v.JdtNum}\",\"{v.ReferenceDate:yyyy-MM-dd}\",\"{v.Reference2}\"{Environment.NewLine}";
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}JournalEntries {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}JournalEntries {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
 		public async Task PatchAsync(JournalEntry x)

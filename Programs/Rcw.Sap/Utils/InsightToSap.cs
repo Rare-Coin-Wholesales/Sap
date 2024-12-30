@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.Invoices;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseInvoices;
 using Sql2023.Intranet.Services.Export;
 using Sql2023.WwwSPs.Services.TradingAccounts;
 using Sql2023.WwwSPs.Services.TradingAccountTransactions;
+using Web202209.SAP_RareCoinWholesalers.Services.Invoices;
+using Web202209.SAP_RareCoinWholesalers.Services.PurchaseInvoices;
 
 namespace Rcw.Sap
 {
@@ -17,8 +17,8 @@ namespace Rcw.Sap
 		protected static readonly DateTime SapStartDate = new DateTime(2024, 11, 1);
 		protected static readonly DateTime ThreeMonthsAgo = DateTime.Now.AddDays(-92);
 		protected static readonly IExportManager _exportManager = new ExportManager();
-		protected static readonly IInvoiceService _scarInvoiceService = new InvoiceService();
-		protected static readonly IPurchaseInvoiceService _scarPurchaseInvoiceService = new PurchaseInvoiceService();
+		protected static readonly IInvoiceService _invoiceService = new InvoiceService();
+		protected static readonly IPurchaseInvoiceService _purchaseInvoiceService = new PurchaseInvoiceService();
 		protected static readonly ITradingAccountService _tradingAccountService = new TradingAccountService();
 		protected static readonly ITradingAccountTransactionService _tradingAccountTransactionService = new TradingAccountTransactionService();
 

@@ -113,8 +113,6 @@
     <Compile Include="Services\AccountSegmentations\AccountSegmentationService.cs" />
     <Compile Include="Services\AccountSegmentations\IAccountSegmentationService.cs" />
     <Compile Include="Services\BaseService.cs" />
-    <Compile Include="Services\BusinessPartners\BusinessPartnerService.cs" />
-    <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\BillOfExchangeTransactionService.cs" />
     <Compile Include="Services\BillOfExchangeTransactions\IBillOfExchangeTransactionService.cs" />
     <Compile Include="Services\ChartOfAccounts\ChartOfAccountService.cs" />
@@ -145,10 +143,6 @@
     <Compile Include="Services\GLAccountAdvancedRules\IGLAccountAdvancedRuleService.cs" />
     <Compile Include="Services\HouseBankAccounts\HouseBankAccountService.cs" />
     <Compile Include="Services\HouseBankAccounts\IHouseBankAccountService.cs" />
-    <Compile Include="Services\Invoices\IInvoiceService.cs" />
-    <Compile Include="Services\Invoices\InvoiceService.cs" />
-    <Compile Include="Services\JournalEntries\IJournalEntryService.cs" />
-    <Compile Include="Services\JournalEntries\JournalEntryService.cs" />
     <Compile Include="Services\JournalEntryDocumentTypes\IJournalEntryDocumentTypeService.cs" />
     <Compile Include="Services\JournalEntryDocumentTypes\JournalEntryDocumentTypeService.cs" />
     <Compile Include="Services\PurchaseInvoices\IPurchaseInvoiceService.cs" />

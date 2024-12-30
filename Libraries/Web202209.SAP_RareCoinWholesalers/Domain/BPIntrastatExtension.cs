@@ -6,7 +6,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Import.BPIntrastatExtension")]
+    [Table("BPIntrastatExtension")]
     public partial class BPIntrastatExtension
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

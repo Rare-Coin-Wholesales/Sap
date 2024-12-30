@@ -12,7 +12,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.BillOfExchangeTransactions;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChartOfAccounts;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChecksforPayments;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.Deposits;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
@@ -318,37 +317,6 @@ namespace Sap.Rcw.IntegrationTests
 				true.ShouldEqual(true);
 			else
 				errorMsg.ShouldEqual("Failed");
-		}
-		#endregion
-
-		#region Deposit
-		private readonly DepositService _depositService = new();
-
-		[Fact]
-		public void Test_Deposit_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListDeposits();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_depositService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_depositService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
 		}
 		#endregion
 

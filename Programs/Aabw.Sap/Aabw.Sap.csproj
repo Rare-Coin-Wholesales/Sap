@@ -107,9 +107,12 @@
     <Compile Include="Domain\AccountSegmentations\AccountSegmentationUtil.cs" />
     <Compile Include="Domain\BillOfExchangeTransactions\BillOfExchangeTransactionUtil.cs" />
     <Compile Include="Domain\BusinessPartners\BusinessPartnerUtil.cs" />
+    <Compile Include="Domain\BusinessPartners\InsertBPAddress.cs" />
+    <Compile Include="Domain\BusinessPartners\InsertContactEmployee.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountUtil.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPaymentUtil.cs" />
     <Compile Include="Domain\CreditNotes\CreditNoteUtil.cs" />
+    <Compile Include="Domain\Deposits\CheckLineUtil.cs" />
     <Compile Include="Domain\Deposits\DepositUtil.cs" />
     <Compile Include="Domain\FAAccountDeterminations\FAAccountDeterminationUtil.cs" />
     <Compile Include="Domain\GLAccountAdvancedRules\GLAccountAdvancedRuleUtil.cs" />
@@ -117,9 +120,11 @@
     <Compile Include="Domain\IncomingPayments\IncomingPaymentUtil.cs" />
     <Compile Include="Domain\IncomingPayments\InsertPaymentChecks.cs" />
     <Compile Include="Domain\IncomingPayments\InsertPaymentInvoices.cs" />
+    <Compile Include="Domain\Invoices\InsertDocumentLines.cs" />
     <Compile Include="Domain\Invoices\InvoiceUtil.cs" />
     <Compile Include="Domain\Items\ItemUtil.cs" />
     <Compile Include="Domain\JournalEntryDocumentTypes\JournalEntryDocumentTypeUtil.cs" />
+    <Compile Include="Domain\JournalEntrys\InsertDocumentLines.cs" />
     <Compile Include="Domain\JournalEntrys\JournalEntryUtil.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoiceUtil.cs" />

@@ -139,6 +139,7 @@
     <Compile Include="Domain\CreditNotes\EWayBillDetails.cs" />
     <Compile Include="Domain\CreditNotes\LineTaxJurisdiction.cs" />
     <Compile Include="Domain\CreditNotes\TaxExtension.cs" />
+    <Compile Include="Domain\Deposits\CheckLine.cs" />
     <Compile Include="Domain\Deposits\Deposit.cs" />
     <Compile Include="Domain\Deposits\DepositRequest.cs" />
     <Compile Include="Domain\Deposits\DepositResponse.cs" />

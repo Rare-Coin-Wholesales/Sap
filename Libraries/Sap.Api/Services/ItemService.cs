@@ -44,9 +44,8 @@ namespace Sap.Api
 			foreach (var v in list)
 				log = String.Format($"{log}\"{v.ItemType}\",\"{v.ItemCode}\",\"{v.ItemName}\"{Environment.NewLine}");
 
-			var folder = String.Format("C:/Logs/Sap.Api/{0:yyyy MM}/", DateTime.Now);
-			Directory.CreateDirectory(folder);
-			File.WriteAllText(String.Format("{0}Items {1:dd HHmm ssff}.csv", folder, DateTime.Now), log);
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}Items {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
 		public async Task PatchAsync(Item x)

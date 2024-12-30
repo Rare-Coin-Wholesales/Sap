@@ -8,7 +8,7 @@ namespace Rcw.Sap
 	public partial class BusinessPartnerUtil
 	{
 		DateTime EndTimeUtc, StartTimeUtc;
-		private readonly IBusinessPartnerService _businessPartnerService = new BusinessPartnerService();
+		private readonly BusinessPartnerService _businessPartnerService = new BusinessPartnerService();
 
 		public async Task GetAllBusinessPartners()
 		{

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using NLog;
-using ScarletWitch.Sap_RareCoinWholesalers.Domain;
 using Sql2023.WwwSPs.Domain;
+using Web202209.SAP_RareCoinWholesalers.Domain;
 
 namespace Rcw.Sap
 {
@@ -17,7 +17,7 @@ namespace Rcw.Sap
 		{
 			var tradingAccounts = _tradingAccountService.GetAll();
 			var tradingAccountTransactions = _tradingAccountTransactionService.GetARs();
-			var sapInvoices = _scarInvoiceService.GetAllValid();
+			var sapInvoices = _invoiceService.GetAllValid();
 			sapInvoices = sapInvoices.Where(x => x.DocDate.Value >= SapStartDate).ToList();
 
 			return (from sap in sapInvoices

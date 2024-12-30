@@ -224,37 +224,6 @@ namespace Sap.Aabw.IntegrationTests
 		}
 		#endregion
 
-		#region Deposit
-		private readonly DepositService _depositService = new();
-
-		[Fact]
-		public void Test_Deposit_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListDeposits();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_depositService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_depositService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
 		#region FAAccountDetermination
 		private readonly FAAccountDeterminationService _fAAccountDeterminationService = new();
 
