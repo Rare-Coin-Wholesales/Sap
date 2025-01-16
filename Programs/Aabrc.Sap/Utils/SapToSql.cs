@@ -10,7 +10,7 @@ namespace Aabrc.Sap
 	{
 		public static Mapper _mapper;
 		public static ServiceLayer _serviceLayer;
-		static readonly DateTime DateThreshold = DateTime.Today.AddDays(-14);
+		static readonly DateTime DateThreshold = DateTime.Today.AddDays(-30);
 		/// <summary>3am</summary>
 		static readonly DateTime LowerBound = DateTime.Today.AddHours(3).AddMinutes(0);
 		/// <summary>10:30pm</summary>
