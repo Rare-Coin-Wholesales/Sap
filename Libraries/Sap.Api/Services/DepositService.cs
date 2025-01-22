@@ -41,11 +41,12 @@ namespace Sap.Api
 			return entity;
 		}
 
-		public async Task<IList<Deposit>> GetDepositsByDepositDateAsync(DateTime minDate)
+		public async Task<IList<Deposit>> GetDepositsByDepositDateAsync(DateTime minDate, int pageSize)
 		{
 			var list = await Request("Deposits")
 				.Filter($"DepositDate ge {minDate:yyyy-MM-dd}")
-				.WithPageSize(100)
+				.WithPageSize(pageSize)
+				.OrderBy("DepositDate desc")
 				.WithCaseInsensitive()
 				.GetAsync<List<Deposit>>();
 

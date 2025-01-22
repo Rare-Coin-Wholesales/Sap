@@ -32,11 +32,12 @@ namespace Sap.Api
 			return entity;
 		}
 
-		public async Task<IList<Invoice>> GetInvoicesByUpdateDateAsync(DateTime minDate)
+		public async Task<IList<Invoice>> GetInvoicesByUpdateDateAsync(DateTime minDate, int pageSize)
 		{
 			var list = await Request("Invoices")
 				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
-				.WithPageSize(100)
+				.WithPageSize(pageSize)
+				.OrderBy("UpdateDate desc")
 				.WithCaseInsensitive()
 				.GetAsync<List<Invoice>>();
 

@@ -41,11 +41,12 @@ namespace Sap.Api
 			return entity;
 		}
 
-		public async Task<IList<IncomingPayment>> GetIncomingPaymentsByDocDateAsync(DateTime minDate)
+		public async Task<IList<IncomingPayment>> GetIncomingPaymentsByDocDateAsync(DateTime minDate, int pageSize)
 		{
 			var list = await Request("IncomingPayments")
 				.Filter($"DocDate ge {minDate:yyyy-MM-dd}")
-				.WithPageSize(100)
+				.WithPageSize(pageSize)
+				.OrderBy("DocDate desc")
 				.WithCaseInsensitive()
 				.GetAsync<List<IncomingPayment>>();
 

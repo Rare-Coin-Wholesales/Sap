@@ -37,15 +37,18 @@ namespace Rcw.Sap
 			LogSummary();
 		}
 
-		public async Task GetJournalEntriesByReferenceDate(DateTime minDate)
+		public async Task GetJournalEntriesByReferenceDate(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetJournalEntriesByReferenceDate(DateTime minDate).");
+			Program.nLog.Info($"Begin method GetJournalEntriesByReferenceDate(DateTime minDate='{minDate}', int pageSize='{pageSize}').");
 			StartTimeUtc = DateTime.UtcNow;
-			var list = await Program._serviceLayer.GetJournalEntriesByReferenceDateAsync(minDate);
+			var list = await Program._serviceLayer.GetJournalEntriesByReferenceDateAsync(minDate, pageSize);
 
-			if (list == null || list.Count == 0)
+			if (list == null || list.Count == 0) {
+				Program.nLog.Info($"No new JournalEntries after {minDate:MMM d, yyyy}{Environment.NewLine}");
 				return;
+			}
 			else {
+				Program.nLog.Info($"{list.Count} JournalEntries found.");
 				Program._serviceLayer.LogToCsv(list);
 				var dt = CommonUtil.ToDataTable(list);
 				_journalEntryService.TruncateTable();
@@ -60,7 +63,7 @@ namespace Rcw.Sap
 
 			_journalEntryService.TransferToDbo();
 			EndTimeUtc = DateTime.UtcNow;
-			Program.nLog.Info("End method GetJournalEntriesByReferenceDate(DateTime minDate).");
+			Program.nLog.Info("End method GetJournalEntriesByReferenceDate(DateTime minDate, int pageSize).");
 			LogSummary();
 		}
 

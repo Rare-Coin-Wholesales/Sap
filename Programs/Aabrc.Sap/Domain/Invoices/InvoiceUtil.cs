@@ -37,11 +37,11 @@ namespace Aabrc.Sap
 			LogSummary();
 		}
 
-		public async Task GetInvoicesByUpdateDate(DateTime minDate)
+		public async Task GetInvoicesByUpdateDate(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetInvoicesByUpdateDate(DateTime minDate).");
+			Program.nLog.Info("Begin method GetInvoicesByUpdateDate(DateTime minDate, int pageSize).");
 			StartTimeUtc = DateTime.UtcNow;
-			var list = await Program._serviceLayer.GetInvoicesByUpdateDateAsync(minDate);
+			var list = await Program._serviceLayer.GetInvoicesByUpdateDateAsync(minDate, pageSize);
 
 			if (list == null || list.Count == 0) {
 				Program.nLog.Info($"No new invoices after {minDate:MMM d, yyyy}{Environment.NewLine}");
@@ -62,7 +62,7 @@ namespace Aabrc.Sap
 
 			_invoiceService.TransferToDbo();
 			EndTimeUtc = DateTime.UtcNow;
-			Program.nLog.Info("End method GetInvoicesByUpdateDate(DateTime minDate).");
+			Program.nLog.Info("End method GetInvoicesByUpdateDate(DateTime minDate, int pageSize).");
 			LogSummary();
 		}
 

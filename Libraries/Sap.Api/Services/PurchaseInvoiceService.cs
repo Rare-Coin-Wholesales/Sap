@@ -26,11 +26,12 @@ namespace Sap.Api
 			return all;
 		}
 
-		public async Task<IList<PurchaseInvoice>> GetPurchaseInvoicesByUpdateDateAsync(DateTime minDate)
+		public async Task<IList<PurchaseInvoice>> GetPurchaseInvoicesByUpdateDateAsync(DateTime minDate, int pageSize)
 		{
 			var list = await Request("PurchaseInvoices")
 				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
-				.WithPageSize(100)
+				.WithPageSize(pageSize)
+				.OrderBy("UpdateDate desc")
 				.WithCaseInsensitive()
 				.GetAsync<List<PurchaseInvoice>>();
 
