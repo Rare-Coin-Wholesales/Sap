@@ -38,11 +38,11 @@ namespace Rcw.Sap
 			LogSummary();
 		}
 
-		public async Task GetBusinessPartnersByUpdateDate(DateTime minDate)
+		public async Task GetBusinessPartnersByUpdateDate(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetBusinessPartnersByUpdateDate(DateTime minDate).");
+			Program.nLog.Info("Begin method GetBusinessPartnersByUpdateDate(DateTime minDate, int pageSize).");
 			StartTimeUtc = DateTime.UtcNow;
-			var list = await Program._serviceLayer.GetBusinessPartnersByUpdateDateAsync(minDate);
+			var list = await Program._serviceLayer.GetBusinessPartnersByUpdateDateAsync(minDate, pageSize);
 
 			if (list == null || list.Count == 0)
 				return;
@@ -62,7 +62,7 @@ namespace Rcw.Sap
 
 			_businessPartnerService.TransferToDbo();
 			EndTimeUtc = DateTime.UtcNow;
-			Program.nLog.Info("End method GetBusinessPartnersByUpdateDate(DateTime minDate).");
+			Program.nLog.Info("End method GetBusinessPartnersByUpdateDate(DateTime minDate, int pageSize).");
 			LogSummary();
 		}
 

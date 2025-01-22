@@ -41,11 +41,12 @@ namespace Sap.Api
 			return entity;
 		}
 
-		public async Task<IList<JournalEntry>> GetJournalEntriesByReferenceDateAsync(DateTime minDate)
+		public async Task<IList<JournalEntry>> GetJournalEntriesByReferenceDateAsync(DateTime minDate, int pageSize)
 		{
 			var list = await Request("JournalEntries")
 				.Filter($"ReferenceDate ge {minDate:yyyy-MM-dd}")
-				.WithPageSize(100)
+				.WithPageSize(pageSize)
+				.OrderBy("ReferenceDate desc")
 				.WithCaseInsensitive()
 				.GetAsync<List<JournalEntry>>();
 

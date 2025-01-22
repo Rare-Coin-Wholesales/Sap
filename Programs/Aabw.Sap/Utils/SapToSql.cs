@@ -8,9 +8,12 @@ namespace Aabw.Sap
 {
 	partial class Program
 	{
+		public const int ALL_PAGE_SIZE = 4000;
+		public const int RECENT_PAGE_SIZE = 200;
 		public static Mapper _mapper;
 		public static ServiceLayer _serviceLayer;
-		static readonly DateTime DateThreshold = DateTime.Today.AddDays(-30);
+		static readonly DateTime AllDateThreshold = DateTime.Today.AddMonths(-12);
+		static readonly DateTime RecentDateThreshold = DateTime.Today.AddDays(-14);
 		/// <summary>3am</summary>
 		static readonly DateTime LowerBound = DateTime.Today.AddHours(3).AddMinutes(0);
 		/// <summary>10:30pm</summary>
@@ -24,19 +27,19 @@ namespace Aabw.Sap
 				_mapper = new Mapper();
 
 				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound) {
-					await new BusinessPartnerUtil().GetAllBusinessPartners();
-					await new DepositUtil().GetAllDeposits();
-					await new IncomingPaymentUtil().GetAllIncomingPayments();
-					await new InvoiceUtil().GetAllInvoices();
-					await new JournalEntryUtil().GetAllJournalEntries();
+					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new DepositUtil().GetDepositsByDepositDateAsync(AllDateThreshold, ALL_PAGE_SIZE);
+					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new InvoiceUtil().GetInvoicesByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(AllDateThreshold, ALL_PAGE_SIZE);
 				}
 
 				else {
-					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(DateThreshold);
-					await new DepositUtil().GetDepositsByDepositDateAsync(DateThreshold);
-					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(DateThreshold);
-					await new InvoiceUtil().GetInvoicesByUpdateDate(DateThreshold);
-					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(DateThreshold);
+					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new DepositUtil().GetDepositsByDepositDateAsync(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new InvoiceUtil().GetInvoicesByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(RecentDateThreshold, RECENT_PAGE_SIZE);
 				}
 
 				await new AccountCategoryUtil().GetAllAccountCategorys();
@@ -46,7 +49,6 @@ namespace Aabw.Sap
 				await new ChartOfAccountUtil().GetAllChartOfAccounts();
 				await new ChecksforPaymentUtil().GetAllChecksforPayments();
 				await new CreditNoteUtil().GetAllCreditNotes();
-				await new DepositUtil().GetAllDeposits();
 				await new FAAccountDeterminationUtil().GetAllFAAccountDeterminations();
 				await new GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules();
 				await new HouseBankAccountUtil().GetAllHouseBankAccounts();

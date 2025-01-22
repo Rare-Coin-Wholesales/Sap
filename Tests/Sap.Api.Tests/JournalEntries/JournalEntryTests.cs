@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Sap.Core;
@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Sap.Api.Tests
 {
-	public partial class IncomingPaymentTests
+	public partial class JournalEntryTests
 	{
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
@@ -20,6 +20,8 @@ namespace Sap.Api.Tests
 		private static readonly string Rcw_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Rcw_CompanyDb");
 		private static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_Username = CommonUtil.GetEnvironmentVariable("SAP_Rcw_Username");
+		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabrc_CompanyDb, Aabrc_Username, Aabrc_Password);
+		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabw_CompanyDb, Aabw_Username, Aabw_Password);
 		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Rcw_Username, Rcw_Password);
 
 		#region Utilities
@@ -49,11 +51,18 @@ namespace Sap.Api.Tests
 		#endregion
 
 		[Fact]
-		public async Task Test_GetIncomingPaymentsByDocDateAsync()
+		public async Task Test_GetAllAsync()
+		{
+			AddTraceLogs();
+			var all = await _serviceLayer.Request("JournalEntries").GetAllAsync<object>();
+		}
+
+		[Fact]
+		public async Task Test_GetJournalEntriesByReferenceDateAsync()
 		{
 			AddTraceLogs();
 			var testDate = DateTime.Today.AddDays(-14);
-			await _serviceLayer.GetIncomingPaymentsByDocDateAsync(testDate, 200);
+			await _serviceLayer.GetJournalEntriesByReferenceDateAsync(testDate, 200);
 		}
 	}
 }

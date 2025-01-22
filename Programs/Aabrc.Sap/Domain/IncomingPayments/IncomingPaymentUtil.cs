@@ -38,11 +38,11 @@ namespace Aabrc.Sap
 			LogSummary();
 		}
 
-		public async Task GetIncomingPaymentsByDocDate(DateTime minDate)
+		public async Task GetIncomingPaymentsByDocDate(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetIncomingPaymentsByDocDate(DateTime minDate).");
+			Program.nLog.Info("Begin method GetIncomingPaymentsByDocDate(DateTime minDate, int pageSize).");
 			StartTimeUtc = DateTime.UtcNow;
-			var list = await Program._serviceLayer.GetIncomingPaymentsByDocDateAsync(minDate);
+			var list = await Program._serviceLayer.GetIncomingPaymentsByDocDateAsync(minDate, pageSize);
 
 			if (list == null || list.Count == 0)
 				return;
@@ -62,7 +62,7 @@ namespace Aabrc.Sap
 
 			_incomingPaymentService.TransferToDbo();
 			EndTimeUtc = DateTime.UtcNow;
-			Program.nLog.Info("End method GetIncomingPaymentsByDocDate(DateTime minDate).");
+			Program.nLog.Info("End method GetIncomingPaymentsByDocDate(DateTime minDate, int pageSize).");
 			LogSummary();
 		}
 

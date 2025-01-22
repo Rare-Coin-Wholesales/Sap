@@ -39,11 +39,11 @@ namespace Aabw.Sap
 			LogSummary();
 		}
 
-		public async Task GetDepositsByDepositDateAsync(DateTime minDate)
+		public async Task GetDepositsByDepositDateAsync(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetDepositsByDepositDateAsync(DateTime minDate).");
+			Program.nLog.Info("Begin method GetDepositsByDepositDateAsync(DateTime minDate, int pageSize).");
 			StartTimeUtc = DateTime.UtcNow;
-			var list = await Program._serviceLayer.GetDepositsByDepositDateAsync(minDate);
+			var list = await Program._serviceLayer.GetDepositsByDepositDateAsync(minDate, pageSize);
 
 			if (list == null || list.Count == 0) {
 				Program.nLog.Info($"No new Deposits after {minDate:MMM d, yyyy}{Environment.NewLine}");
@@ -64,7 +64,7 @@ namespace Aabw.Sap
 
 			_depositService.TransferToDbo();
 			EndTimeUtc = DateTime.UtcNow;
-			Program.nLog.Info("End method GetDepositsByDepositDateAsync(DateTime minDate).");
+			Program.nLog.Info("End method GetDepositsByDepositDateAsync(DateTime minDate, int pageSize).");
 			LogSummary();
 		}
 
