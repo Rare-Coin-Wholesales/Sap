@@ -59,6 +59,8 @@
     <Compile Include="Domain\CreditNote_DocumentLine.cs" />
     <Compile Include="Domain\PurchaseCreditNote.cs" />
     <Compile Include="Domain\PurchaseCreditNote_DocumentLine.cs" />
+    <Compile Include="Domain\PurchaseInvoice.cs" />
+    <Compile Include="Domain\PurchaseInvoice_DocumentLine.cs" />
     <Compile Include="Domain\SAP_ArrowAndBranchRareCoinsDb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SAP_ArrowAndBranchRareCoinsDb.cs" />
@@ -73,6 +75,10 @@
     <Compile Include="Services\BusinessPartners\IBPPaymentMethodService.cs" />
     <Compile Include="Services\BusinessPartners\IBusinessPartnerService.cs" />
     <Compile Include="Services\BusinessPartners\IContactEmployeeService.cs" />
+    <Compile Include="Services\ChecksforPayments\ChecksforPaymentLineService.cs" />
+    <Compile Include="Services\ChecksforPayments\ChecksforPaymentService.cs" />
+    <Compile Include="Services\ChecksforPayments\IChecksforPaymentLineService.cs" />
+    <Compile Include="Services\ChecksforPayments\IChecksforPaymentService.cs" />
     <Compile Include="Services\CreditNotes\CreditNoteService.cs" />
     <Compile Include="Services\CreditNotes\DocumentLineService.cs" />
     <Compile Include="Services\CreditNotes\ICreditNoteService.cs" />
@@ -99,6 +105,16 @@
     <Compile Include="Services\PurchaseCreditNotes\IDocumentLineService.cs" />
     <Compile Include="Services\PurchaseCreditNotes\IPurchaseCreditNoteService.cs" />
     <Compile Include="Services\PurchaseCreditNotes\PurchaseCreditNoteService.cs" />
+    <Compile Include="Services\PurchaseInvoices\DocumentLineService.cs" />
+    <Compile Include="Services\PurchaseInvoices\IDocumentLineService.cs" />
+    <Compile Include="Services\PurchaseInvoices\IPurchaseInvoiceService.cs" />
+    <Compile Include="Services\PurchaseInvoices\PurchaseInvoiceService.cs" />
+    <Compile Include="Services\VendorPayments\IPaymentCheckService.cs" />
+    <Compile Include="Services\VendorPayments\IPaymentInvoiceService.cs" />
+    <Compile Include="Services\VendorPayments\IVendorPaymentService.cs" />
+    <Compile Include="Services\VendorPayments\PaymentCheckService.cs" />
+    <Compile Include="Services\VendorPayments\PaymentInvoiceService.cs" />
+    <Compile Include="Services\VendorPayments\VendorPaymentService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Sap\Sap.csproj">

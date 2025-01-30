@@ -1,6 +1,6 @@
-using Sap.ApiToScarAabwMapper;
 using B1SLayer;
 using Sap.Api.Http;
+using Sap.ApiToScarAabwMapper;
 using Sap.Core;
 using Sap.Services.Security;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountCategories;
@@ -8,8 +8,6 @@ using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountSegmentationCategori
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.AccountSegmentations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.BillOfExchangeTransactions;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.ChartOfAccounts;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.ChecksforPayments;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Deposits;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.HouseBankAccounts;
@@ -20,7 +18,6 @@ using ScarletWitch.Sap_ArrowAndBranchWinery.Services.PurchaseTaxInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.Quotations;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.SalesTaxInvoices;
 using ScarletWitch.Sap_ArrowAndBranchWinery.Services.TransactionCodes;
-using ScarletWitch.Sap_ArrowAndBranchWinery.Services.VendorPayments;
 
 namespace Sap.Aabw.IntegrationTests
 {
@@ -171,49 +168,6 @@ namespace Sap.Aabw.IntegrationTests
 					try {
 						_chartOfAccountService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region ChecksforPayment
-		private readonly ChecksforPaymentService _checksforPaymentService = new();
-
-		[Fact]
-		public void Test_ChecksforPayment_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListChecksforPayments();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_checksforPaymentService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_checksforPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.ChecksforPaymentLines) {
-							try {
-								line.CheckKey = v.CheckKey.ToString();
-								_checksforPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
 					}
 
 					catch {
@@ -524,61 +478,6 @@ namespace Sap.Aabw.IntegrationTests
 					try {
 						_transactionCodeService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region VendorPayment
-		private readonly VendorPaymentService _vendorPaymentService = new();
-
-		[Fact]
-		public void Test_VendorPayment_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Aabw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListVendorPayments();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_vendorPaymentService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_vendorPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.PaymentChecks) {
-							try {
-								line.DocEntry = v.DocEntry;
-								_vendorPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-
-						foreach (var line in v.PaymentInvoices) {
-							try {
-								line.VendorPaymentDocEntry = v.DocEntry;
-								_vendorPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
 					}
 
 					catch {

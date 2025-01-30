@@ -17,6 +17,7 @@ namespace Web202209.SAP_ArrowAndBranchWinery.Services
 	/// </summary>
 	public abstract partial class BaseService
 	{
+		public const string CANCEL_STATUS_NO = "csNo";
 		protected readonly IEncryptionUtil _encryptionUtil;
 		protected readonly SAP_ArrowAndBranchWineryDb _dbContext;
 		protected readonly string _connectionString;

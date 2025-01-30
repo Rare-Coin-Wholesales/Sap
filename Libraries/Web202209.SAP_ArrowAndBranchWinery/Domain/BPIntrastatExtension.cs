@@ -6,7 +6,7 @@ namespace Web202209.SAP_ArrowAndBranchWinery.Domain
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Import.BPIntrastatExtension")]
+    [Table("BPIntrastatExtension")]
     public partial class BPIntrastatExtension
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]

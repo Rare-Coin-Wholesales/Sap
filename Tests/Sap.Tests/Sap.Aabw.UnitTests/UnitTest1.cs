@@ -105,31 +105,6 @@ namespace Sap.Aabw.UnitTests
 		}
 		#endregion
 
-		#region ChecksforPayments
-		[Fact]
-		public void Test_ListChecksforPayments()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListChecksforPayments();
-			Assert.False(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetChecksforPaymentById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetChecksforPaymentById("6");
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
 		#region CreditNotes
 		[Fact]
 		public void Test_ListCreditNotes()
@@ -426,31 +401,6 @@ namespace Sap.Aabw.UnitTests
 			Console.WriteLine($"Result: {response.Result}");
 
 			var list = client.GetTransactionCodeById(1);
-			Assert.NotNull(list);
-			Assert.NotEmpty(list.Result);
-		}
-		#endregion
-
-		#region VendorPayments
-		[Fact]
-		public void Test_ListVendorPayments()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListVendorPayments();
-			Assert.False(list.Any());
-		}
-
-		[Fact]
-		public void Test_GetVendorPaymentById()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Test_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.GetVendorPaymentById("6");
 			Assert.NotNull(list);
 			Assert.NotEmpty(list.Result);
 		}

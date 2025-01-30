@@ -40,8 +40,8 @@ namespace Sap.Api.Tests
 		private static readonly string Rcw_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Rcw_Password"));
 		private static readonly string Rcw_Username = CommonUtil.GetEnvironmentVariable("SAP_Rcw_Username");
 		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabrc_CompanyDb, Aabrc_Username, Aabrc_Password);
-		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabw_CompanyDb, Aabw_Username, Aabw_Password);
-		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Rcw_Username, Rcw_Password);
+		//private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Aabw_CompanyDb, Aabw_Username, Aabw_Password);
+		private static readonly ServiceLayer _serviceLayer = new ServiceLayer(BaseUrl, Rcw_CompanyDb, Rcw_Username, Rcw_Password);
 		#endregion
 
 		#region Utilities

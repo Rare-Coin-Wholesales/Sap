@@ -1,172 +1,85 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using B1SLayer;
 using Sap.Api.Domain.ChecksforPayments;
-using Sap.Core.Http;
 
-namespace Sap.Api.Http
+namespace Sap.Api
 {
-	public partial class SapClient : BaseClient
+	public partial class ServiceLayer : SLConnection
 	{
-		/// <summary>
-		/// Gets an instance of <see cref="ChecksforPayment"/> with the given CheckKey.
-		/// </summary>
-		/// <param name="checkKey">The CheckKey.</param>
-		public async Task<string> GetChecksforPaymentById(string checkKey)
+		protected static void SetLineCheckKey(IList<ChecksforPayment> list)
 		{
-			var endpoint = String.Format($"{BaseUrl}{ChecksforPaymentRequest.ACTION}({checkKey})");
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetChecksforPaymentById(string checkKey='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, checkKey);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			foreach (var item in list)
+				foreach (var line in item.ChecksforPaymentLines)
+					line.CheckKey = item.CheckKey;
 		}
 
-		/// <summary>
-		/// Friendly version of ListChecksforPayments() that will loop through all pages and return a list of objects instead of a <see cref="Task"/>.
-		/// </summary>
-		/// <returns>A list of <see cref="ChecksforPayment"/>.</returns>
-		public IList<ChecksforPayment> ListChecksforPayments()
+		public async Task CancelAsync(ChecksforPayment x)
 		{
-			var list = new List<ChecksforPayment>();
-			var response = ListChecksforPayments(null);
-			var checksforPaymentResponse = JsonConvert.DeserializeObject<ChecksforPaymentResponse>(response.Result);
+			await Request($"ChecksforPayment({x.CheckKey})/Cancel").PostAsync();
+		}
 
-			if (checksforPaymentResponse == null)
-				return list;
+		protected async Task<ChecksforPayment> CreateAsync(ChecksforPayment x)
+		{
+			var created = await Request("ChecksforPayment").PostAsync<ChecksforPayment>(x);
+			return created;
+		}
 
-			list.AddRange(checksforPaymentResponse.ChecksforPayments);
+		public async Task<IList<ChecksforPayment>> GetAllChecksforPaymentAsync()
+		{
+			var all = await Request("ChecksforPayment").GetAllAsync<ChecksforPayment>();
+			SetLineCheckKey(all);
+			return all;
+		}
 
-			while (!String.IsNullOrWhiteSpace(checksforPaymentResponse?.OdataNextLink)) {
-				response = ListChecksforPayments(checksforPaymentResponse.OdataNextLink);
-				checksforPaymentResponse = JsonConvert.DeserializeObject<ChecksforPaymentResponse>(response.Result);
+		public async Task<ChecksforPayment> GetChecksforPaymentAsync(object id)
+		{
+			var entity = await Request("ChecksforPayment", id).GetAsync<ChecksforPayment>();
+			SetLineCheckKey(new List<ChecksforPayment> { entity });
+			return entity;
+		}
 
-				if (checksforPaymentResponse == null)
-					return list;
+		public async Task<IList<ChecksforPayment>> GetChecksforPaymentByUpdateDateAsync(DateTime minDate, int pageSize)
+		{
+			var list = await Request("ChecksforPayment")
+				.Filter($"UpdateDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(pageSize)
+				.OrderBy("UpdateDate desc")
+				.WithCaseInsensitive()
+				.GetAsync<List<ChecksforPayment>>();
 
-				list.AddRange(checksforPaymentResponse.ChecksforPayments);
-			}
-
+			SetLineCheckKey(list);
 			return list;
 		}
 
-		/// <summary>
-		/// Gets a list of <see cref="ChecksforPayment"/>s.
-		/// </summary>
-		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListChecksforPayments(string nextLink)
+		public void LogToCsv(IList<ChecksforPayment> list)
 		{
-			string endpoint;
+			var log = "CheckKey,CheckNumber,CheckDate,CheckAmount,VendorName,UpdateDate,CreationDate\r\n";
 
-			if (String.IsNullOrWhiteSpace(nextLink))
-				endpoint = Path.Combine(BaseUrl, ChecksforPaymentRequest.ACTION);
-			else
-				endpoint = Path.Combine(BaseUrl, nextLink);
+			foreach (var v in list)
+				log = $"{log}\"{v.CheckKey}\",\"{v.CheckNumber}\",\"{v.CheckDate:yyyy-MM-dd}\",\"{v.CheckAmount:n2}\",\"{v.VendorName}\",\"{v.UpdateDate:yyyy-MM-dd}\",\"{v.CreationDate:yyyy-MM-dd}\"{Environment.NewLine}";
 
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.ListChecksforPayments(string nextLink='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, nextLink);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}ChecksforPayment {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
-		/// <summary>
-		/// Updates an instance of <see cref="ChecksforPayment"/> with the given payload of type <see cref="ChecksforPayment"/> in JSON format and with the specified ID.
-		/// </summary>
-		/// <param name="x">The <see cref="ChecksforPayment"/>.</param>
-		public async Task<string> PatchChecksforPayment(ChecksforPayment x)
+		public async Task PatchAsync(ChecksforPayment x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{ChecksforPaymentRequest.ACTION}({x.CheckKey})");
-
-			try {
-				var checksforPaymentRequest = new ChecksforPaymentRequest(x);
-				var json = checksforPaymentRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PutAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var checksforPaymentResponse = JsonConvert.DeserializeObject<ChecksforPaymentResponse>(responseData);
-
-						return responseData;
-					}
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			x.CreationDate = null;
+			x.UpdateDate = null;
+			await Request("ChecksforPayment", x.CheckKey).PatchAsync(x);
 		}
 
-		/// <summary>
-		/// Creates an instance of <see cref="ChecksforPayment"/> with the given payload of type <see cref="ChecksforPayment"/> in JSON format.
-		/// </summary>
-		/// <param name="x">The <see cref="ChecksforPayment"/>.</param>
-		public async Task<string> PostChecksforPayment(ChecksforPayment x)
+		public async Task<(ChecksforPayment, string ErrorMsg)> TryCreateAsync(ChecksforPayment x)
 		{
 			try {
-				var endpoint = Path.Combine(BaseUrl, ChecksforPaymentRequest.ACTION);
-				var checksforPaymentRequest = new ChecksforPaymentRequest(x);
-				var json = checksforPaymentRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PostAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var checksforPaymentResponse = JsonConvert.DeserializeObject<ChecksforPaymentResponse>(responseData);
-
-						return responseData;
-					}
-				}
+				return (await CreateAsync(x), null);
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format($"{ex.Message}{Environment.NewLine}Exception thrown in SapClient.PatchChecksforPayment(ChecksforPayment x).{Environment.NewLine}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
+				return (null, GetFullErrorText(ex, null));
 			}
 		}
 	}

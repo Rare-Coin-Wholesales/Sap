@@ -11,7 +11,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentationCategorie
 using ScarletWitch.Sap_RareCoinWholesalers.Services.AccountSegmentations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.BillOfExchangeTransactions;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.ChartOfAccounts;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.ChecksforPayments;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.FAAccountDeterminations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.GLAccountAdvancedRules;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.HouseBankAccounts;
@@ -24,7 +23,6 @@ using ScarletWitch.Sap_RareCoinWholesalers.Services.PurchaseTaxInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.Quotations;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.SalesTaxInvoices;
 using ScarletWitch.Sap_RareCoinWholesalers.Services.TransactionCodes;
-using ScarletWitch.Sap_RareCoinWholesalers.Services.VendorPayments;
 using Sql2023.Intranet.Services.Export;
 using Sql2023.WwwSPs.Services.TradingAccounts;
 using Sql2023.WwwSPs.Services.TradingAccountTransactions;
@@ -251,49 +249,6 @@ namespace Sap.Rcw.IntegrationTests
 					try {
 						_chartOfAccountService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region ChecksforPayment
-		private readonly ChecksforPaymentService _checksforPaymentService = new();
-
-		[Fact]
-		public void Test_ChecksforPayment_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListChecksforPayments();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_checksforPaymentService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_checksforPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.ChecksforPaymentLines) {
-							try {
-								line.CheckKey = v.CheckKey.ToString();
-								_checksforPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
 					}
 
 					catch {
@@ -642,61 +597,6 @@ namespace Sap.Rcw.IntegrationTests
 					try {
 						_transactionCodeService.Insert(_mapper.ToSql(v));
 						Assert.True(true);
-					}
-
-					catch {
-						Assert.True(false);
-					}
-				}
-			}
-		}
-		#endregion
-
-		#region VendorPayment
-		private readonly VendorPaymentService _vendorPaymentService = new();
-
-		[Fact]
-		public void Test_VendorPayment_Integration()
-		{
-			var client = new SapClient(BaseUrl);
-			var response = client.Login(Rcw_CompanyDb, Username, Password);
-			Console.WriteLine($"Result: {response.Result}");
-
-			var list = client.ListVendorPayments();
-
-			if (list == null || list.Count == 0)
-				Assert.False(false);
-			else {
-				_vendorPaymentService.TruncateTable();
-
-				foreach (var v in list) {
-					try {
-						_vendorPaymentService.Insert(_mapper.ToSql(v));
-						Assert.True(true);
-
-						foreach (var line in v.PaymentChecks) {
-							try {
-								line.DocEntry = v.DocEntry;
-								_vendorPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
-
-						foreach (var line in v.PaymentInvoices) {
-							try {
-								line.VendorPaymentDocEntry = v.DocEntry;
-								_vendorPaymentService.Insert(_mapper.ToSql(line));
-								Assert.True(true);
-							}
-
-							catch {
-								Assert.True(false);
-							}
-						}
 					}
 
 					catch {

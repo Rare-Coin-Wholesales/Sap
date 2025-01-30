@@ -17,7 +17,7 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
         [Key]
         [Column(Order = 1)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int LineID { get; set; }
+        public int Line_ID { get; set; }
 
         [StringLength(400)]
         public string AccountCode { get; set; }
