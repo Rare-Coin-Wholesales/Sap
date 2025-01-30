@@ -6,7 +6,7 @@ namespace Web202209.SAP_ArrowAndBranchRareCoins.Domain
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Import.AccountSegmentationCategory")]
+    [Table("AccountSegmentationCategory")]
     public partial class AccountSegmentationCategory
     {
         [Key]

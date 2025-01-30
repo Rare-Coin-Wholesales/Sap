@@ -38,6 +38,8 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 		public virtual DbSet<IncomingPayment> IncomingPayments { get; set; }
 		public virtual DbSet<IncomingPayment_PaymentCheck> IncomingPayment_PaymentCheck { get; set; }
 		public virtual DbSet<IncomingPayment_PaymentInvoice> IncomingPayment_PaymentInvoice { get; set; }
+		public virtual DbSet<InternalReconciliationRow> InternalReconciliationRows { get; set; }
+		public virtual DbSet<InternalReconciliation> InternalReconciliations { get; set; }
 		public virtual DbSet<Invoice> Invoices { get; set; }
 		public virtual DbSet<Invoice_DocumentLine> Invoice_DocumentLine { get; set; }
 		public virtual DbSet<Item> Items { get; set; }
@@ -5893,6 +5895,31 @@ namespace Web202209.SAP_RareCoinWholesalers.Domain
 			modelBuilder.Entity<IncomingPayment_PaymentInvoice>()
 				.Property(e => e.TotalDiscountSC)
 				.HasPrecision(19, 4);
+
+			modelBuilder.Entity<InternalReconciliationRow>()
+				.Property(e => e.ShortName)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<InternalReconciliationRow>()
+				.Property(e => e.SrcObjTyp)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<InternalReconciliationRow>()
+				.Property(e => e.CreditOrDebit)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<InternalReconciliation>()
+				.Property(e => e.CardOrAccount)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<InternalReconciliation>()
+				.Property(e => e.ReconType)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<InternalReconciliation>()
+				.HasMany(e => e.InternalReconciliationRows)
+				.WithOptional(e => e.InternalReconciliation)
+				.WillCascadeOnDelete();
 
 			modelBuilder.Entity<Invoice>()
 				.Property(e => e.BaseAmount)

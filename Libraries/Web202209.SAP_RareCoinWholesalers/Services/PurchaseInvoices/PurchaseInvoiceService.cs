@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using Web202209.SAP_RareCoinWholesalers.Domain;
 
@@ -37,6 +38,24 @@ namespace Web202209.SAP_RareCoinWholesalers.Services.PurchaseInvoices
 						 select x).ToList();
 
 			return query;
+		}
+
+		/// <inheritdoc/>
+		public virtual void TransferToDbo()
+		{
+			_dbContext.Database.ExecuteSqlCommand("EXEC [Import].[PurchaseInvoice_TransferToDbo]");
+		}
+
+		/// <inheritdoc/>
+		public virtual void TruncateTable()
+		{
+			base.TruncateTable("Import", "PurchaseInvoice");
+		}
+
+		/// <inheritdoc/>
+		public virtual bool TryBulkCopy(DataTable dt, out string errorMessage)
+		{
+			return base.TryBulkCopy(dt, "Import.PurchaseInvoice", out errorMessage);
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace Sap.Api.Tests
 {
 	public partial class JournalEntryTests
 	{
+		static readonly DateTime AllDateThreshold = DateTime.Today.AddMonths(-12);
 		private static readonly IEncryptionUtil _encryptionUtil = new EncryptionUtil();
 		private static readonly string Aabrc_CompanyDb = CommonUtil.GetEnvironmentVariable("SAP_Aabrc_CompanyDb");
 		private static readonly string Aabrc_Password = _encryptionUtil.Decrypt(CommonUtil.GetEnvironmentVariable("SAP_Aabrc_Password"));
@@ -62,7 +63,7 @@ namespace Sap.Api.Tests
 		{
 			AddTraceLogs();
 			var testDate = DateTime.Today.AddDays(-14);
-			await _serviceLayer.GetJournalEntriesByReferenceDateAsync(testDate, 200);
+			await _serviceLayer.GetJournalEntriesByReferenceDateAsync(AllDateThreshold, 4000);
 		}
 	}
 }

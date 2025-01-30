@@ -40,13 +40,16 @@ namespace Aabw.Sap
 
 		public async Task GetBusinessPartnersByUpdateDate(DateTime minDate, int pageSize)
 		{
-			Program.nLog.Info("Begin method GetBusinessPartnersByUpdateDate(DateTime minDate, int pageSize).");
+			Program.nLog.Info($"Begin method GetBusinessPartnersByUpdateDate(DateTime minDate='{minDate}', int pageSize='{pageSize}').");
 			StartTimeUtc = DateTime.UtcNow;
 			var list = await Program._serviceLayer.GetBusinessPartnersByUpdateDateAsync(minDate, pageSize);
 
-			if (list == null || list.Count == 0)
+			if (list == null || list.Count == 0) {
+				Program.nLog.Info($"No new BusinessPartners after {minDate:MMM d, yyyy}{Environment.NewLine}");
 				return;
+			}
 			else {
+				Program.nLog.Info($"{list.Count} BusinessPartners found.");
 				Program._serviceLayer.LogToCsv(list);
 				var dt = CommonUtil.ToDataTable(list);
 				_businessPartnerService.CheckColumnMappings(dt, "Import", "BusinessPartner");
@@ -73,13 +76,11 @@ namespace Aabw.Sap
 			Program.nLog.Info("BusinessPartners Summary:");
 
 			if (ts.TotalSeconds < 61)
-				Program.nLog.Info("It took {0} sec to complete", ts.ToString(@"s\.fff"));
+				Program.nLog.Info("It took {0} sec to complete{1}", ts.ToString(@"s\.fff"), Environment.NewLine);
 			else if (ts.TotalMinutes < 61)
-				Program.nLog.Info("It took {0}m {1}s to complete", ts.Minutes, ts.Seconds);
+				Program.nLog.Info("It took {0}m {1}s to complete{2}", ts.Minutes, ts.Seconds, Environment.NewLine);
 			else
-				Program.nLog.Info("It took {0}h {1}m to complete", ts.Hours, ts.Minutes);
-
-			Program.nLog.Info("");
+				Program.nLog.Info("It took {0}h {1}m to complete{2}", ts.Hours, ts.Minutes, Environment.NewLine);
 		}
 	}
 }

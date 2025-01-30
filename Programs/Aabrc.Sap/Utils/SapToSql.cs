@@ -9,11 +9,11 @@ namespace Aabrc.Sap
 	partial class Program
 	{
 		public const int ALL_PAGE_SIZE = 4000;
-		public const int RECENT_PAGE_SIZE = 200;
+		public const int RECENT_PAGE_SIZE = 400;
 		public static Mapper _mapper;
 		public static ServiceLayer _serviceLayer;
 		static readonly DateTime AllDateThreshold = DateTime.Today.AddMonths(-12);
-		static readonly DateTime RecentDateThreshold = DateTime.Today.AddDays(-14);
+		static readonly DateTime RecentDateThreshold = DateTime.Today.AddDays(-31);
 		/// <summary>3am</summary>
 		static readonly DateTime LowerBound = DateTime.Today.AddHours(3).AddMinutes(0);
 		/// <summary>10:30pm</summary>
@@ -25,29 +25,34 @@ namespace Aabrc.Sap
 
 			try {
 				_mapper = new Mapper();
+				var getAllChartOfAccountsTask = new ChartOfAccountUtil().GetAllChartOfAccounts();
 
 				if (DateTime.Now < LowerBound || DateTime.Now > UpperBound) {
 					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new ChecksforPaymentUtil().GetChecksforPaymentsByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
 					await new DepositUtil().GetDepositsByDepositDateAsync(AllDateThreshold, ALL_PAGE_SIZE);
 					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(AllDateThreshold, ALL_PAGE_SIZE);
 					await new InvoiceUtil().GetInvoicesByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
 					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new PurchaseInvoiceUtil().GetPurchaseInvoicesByUpdateDate(AllDateThreshold, ALL_PAGE_SIZE);
+					await new VendorPaymentUtil().GetVendorPaymentsByDocDate(AllDateThreshold, ALL_PAGE_SIZE);
 				}
 
 				else {
 					await new BusinessPartnerUtil().GetBusinessPartnersByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new ChecksforPaymentUtil().GetChecksforPaymentsByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
 					await new DepositUtil().GetDepositsByDepositDateAsync(RecentDateThreshold, RECENT_PAGE_SIZE);
 					await new IncomingPaymentUtil().GetIncomingPaymentsByDocDate(RecentDateThreshold, RECENT_PAGE_SIZE);
 					await new InvoiceUtil().GetInvoicesByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
 					await new JournalEntryUtil().GetJournalEntriesByReferenceDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new PurchaseInvoiceUtil().GetPurchaseInvoicesByUpdateDate(RecentDateThreshold, RECENT_PAGE_SIZE);
+					await new VendorPaymentUtil().GetVendorPaymentsByDocDate(RecentDateThreshold, RECENT_PAGE_SIZE);
 				}
 
 				await new AccountCategoryUtil().GetAllAccountCategorys();
 				await new AccountSegmentationCategoryUtil().GetAllAccountSegmentationCategorys();
 				await new AccountSegmentationUtil().GetAllAccountSegmentations();
 				await new BillOfExchangeTransactionUtil().GetAllBillOfExchangeTransactions();
-				await new ChartOfAccountUtil().GetAllChartOfAccounts();
-				await new ChecksforPaymentUtil().GetAllChecksforPayments();
 				await new CreditNoteUtil().GetAllCreditNotes();
 				await new FAAccountDeterminationUtil().GetAllFAAccountDeterminations();
 				await new GLAccountAdvancedRuleUtil().GetAllGLAccountAdvancedRules();
@@ -55,14 +60,13 @@ namespace Aabrc.Sap
 				await new ItemUtil().GetAllItems();
 				await new JournalEntryDocumentTypeUtil().GetAllJournalEntryDocumentTypes();
 				await new PurchaseCreditNoteUtil().GetAllPurchaseCreditNotes();
-				await new PurchaseInvoiceUtil().GetAllPurchaseInvoices();
 				await new PurchaseOrderUtil().GetAllPurchaseOrders();
 				await new PurchaseQuotationUtil().GetAllPurchaseQuotations();
 				await new PurchaseTaxInvoiceUtil().GetAllPurchaseTaxInvoices();
 				await new QuotationUtil().GetAllQuotations();
 				await new SalesTaxInvoiceUtil().GetAllSalesTaxInvoices();
 				await new TransactionCodeUtil().GetAllTransactionCodes();
-				await new VendorPaymentUtil().GetAllVendorPayments();
+				await Task.WhenAll(getAllChartOfAccountsTask);
 				new ScarletWitch.Sap_ArrowAndBranchRareCoins.Services.BaseService().StartJob_Sap_ArrowAndBranchRareCoins_Triggered();
 			}
 

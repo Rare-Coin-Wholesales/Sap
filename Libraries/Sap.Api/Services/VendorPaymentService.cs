@@ -1,276 +1,86 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
+using B1SLayer;
 using Sap.Api.Domain.VendorPayments;
-using Sap.Core.Http;
 
-namespace Sap.Api.Http
+namespace Sap.Api
 {
-	public partial class SapClient : BaseClient
+	public partial class ServiceLayer : SLConnection
 	{
-		/// <summary>
-		/// Invokes the method 'CancelbyCurrentSystemDate' on this <see cref="VendorPayment"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CancelByCurrentSystemDateVendorPayment(string docEntry)
+		protected static void SetLineDocEntry(IList<VendorPayment> list)
 		{
-			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/CancelbyCurrentSystemDate");
-
-			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(responseData);
-
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelByCurrentSystemDateVendorPayment(string docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
+			foreach (var item in list) {
+				foreach (var line in item.PaymentChecks)
+					line.DocEntry = item.DocEntry;
+				foreach (var line in item.PaymentInvoices)
+					line.VendorPaymentDocEntry = item.DocEntry;
 			}
 		}
 
-		/// <summary>
-		/// Invokes the method 'Cancel' on this <see cref="VendorPayment"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> CancelVendorPayment(string docEntry)
+		public async Task CancelAsync(VendorPayment x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/Cancel");
-
-			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(responseData);
-
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.CancelVendorPayment(string docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			await Request($"VendorPayments({x.DocEntry})/Cancel").PostAsync();
 		}
 
-		/// <summary>
-		/// Invokes the method 'GetApprovalTemplates' on this <see cref="VendorPayment"/> with the specified DocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry</param>
-		public async Task<string> GetApprovalTemplatesVendorPayment(string docEntry)
+		protected async Task<VendorPayment> CreateAsync(VendorPayment x)
 		{
-			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})/GetApprovalTemplates");
-
-			try {
-				using (var response = await Client.PostAsync(endpoint, null)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(responseData);
-
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.GetApprovalTemplatesVendorPayment(string docEntry).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			var created = await Request("VendorPayments").PostAsync<VendorPayment>(x);
+			return created;
 		}
 
-		/// <summary>
-		/// Gets an instance of <see cref="VendorPayment"/> with the given BankDocEntry.
-		/// </summary>
-		/// <param name="docEntry">The DocEntry.</param>
-		public async Task<string> GetVendorPaymentById(string docEntry)
+		public async Task<IList<VendorPayment>> GetAllVendorPaymentsAsync()
 		{
-			var endpoint = String.Format($"{BaseUrl}{VendorPaymentRequest.ACTION}({docEntry})");
-
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.GetVendorPaymentById(string docEntry='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, docEntry);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			var all = await Request("VendorPayments").GetAllAsync<VendorPayment>();
+			SetLineDocEntry(all);
+			return all;
 		}
 
-		/// <summary>
-		/// Friendly version of ListVendorPayments() that will loop through all pages and return a list of objects instead of a <see cref="Task"/>.
-		/// </summary>
-		/// <returns>A list of <see cref="VendorPayment"/>.</returns>
-		public IList<VendorPayment> ListVendorPayments()
+		public async Task<VendorPayment> GetVendorPaymentAsync(object id)
 		{
-			var list = new List<VendorPayment>();
-			var response = ListVendorPayments(null);
-			var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(response.Result);
+			var entity = await Request("VendorPayments", id).GetAsync<VendorPayment>();
+			SetLineDocEntry(new List<VendorPayment> { entity });
+			return entity;
+		}
 
-			if (vendorPaymentResponse == null)
-				return list;
+		public async Task<IList<VendorPayment>> GetVendorPaymentsByDocDateAsync(DateTime minDate, int pageSize)
+		{
+			var list = await Request("VendorPayments")
+				.Filter($"DocDate ge {minDate:yyyy-MM-dd}")
+				.WithPageSize(pageSize)
+				.OrderBy("DocDate desc")
+				.WithCaseInsensitive()
+				.GetAsync<List<VendorPayment>>();
 
-			list.AddRange(vendorPaymentResponse.VendorPayments);
-
-			while (!String.IsNullOrWhiteSpace(vendorPaymentResponse?.OdataNextLink)) {
-				response = ListVendorPayments(vendorPaymentResponse.OdataNextLink);
-				vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(response.Result);
-
-				if (vendorPaymentResponse == null)
-					return list;
-
-				list.AddRange(vendorPaymentResponse.VendorPayments);
-			}
-
+			SetLineDocEntry(list);
 			return list;
 		}
 
-		/// <summary>
-		/// Gets a list of <see cref="VendorPayment"/>s.
-		/// </summary>
-		/// <param name="nextLink">Optional action to call to skip to the next page of results.</param>
-		public async Task<string> ListVendorPayments(string nextLink)
+		public void LogToCsv(IList<VendorPayment> list)
 		{
-			string endpoint;
+			var log = "DocDate,DocEntry,DocNum,CardCode,CardName,TransferSum,Reference1,Reference2\r\n";
 
-			if (String.IsNullOrWhiteSpace(nextLink))
-				endpoint = Path.Combine(BaseUrl, VendorPaymentRequest.ACTION);
-			else
-				endpoint = Path.Combine(BaseUrl, nextLink);
+			foreach (var v in list)
+				log = $"{log}\"{v.DocDate:yyyy-MM-dd}\",\"{v.DocEntry}\",\"{v.DocNum}\",\"{v.CardCode}\",\"{v.CardName}\",\"{v.TransferSum:n2}\",\"{v.Reference1}\",\"{v.Reference2}\"{Environment.NewLine}";
 
-			try {
-				using (var response = await Client.GetAsync(endpoint)) {
-					string responseData = await response.Content.ReadAsStringAsync();
-					WriteToFile(responseData);
-					return responseData;
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = String.Format("{0}{2}Exception thrown in SapClient.ListVendorPayments(string nextLink='{3}').{2}{1}{2}{2}", ex.Message, ex.ToString(), Environment.NewLine, nextLink);
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			Directory.CreateDirectory(FileOutputFolder);
+			File.WriteAllText($"{FileOutputFolder}VendorPayments {DateTime.Now:HHmm ssff}.csv", log);
 		}
 
-		/// <summary>
-		/// Updates an instance of <see cref="VendorPayment"/> with the given payload of type <see cref="VendorPayment"/> in JSON format and with the specified ID.
-		/// </summary>
-		/// <param name="x">The <see cref="VendorPayment"/>.</param>
-		public async Task<string> PatchVendorPayment(VendorPayment x)
+		public async Task PatchAsync(VendorPayment x)
 		{
-			try {
-				var endpoint = Path.Combine(BaseUrl, VendorPaymentRequest.ACTION);
-				var vendorPaymentRequest = new VendorPaymentRequest(x);
-				var json = vendorPaymentRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PutAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(responseData);
-
-						return responseData;
-					}
-				}
-			}
-
-			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.PatchVendorPayment(VendorPayment x).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
-			}
+			await Request("VendorPayments", x.DocEntry).PatchAsync(x);
 		}
 
-		/// <summary>
-		/// Creates an instance of <see cref="VendorPayment"/> with the given payload of type <see cref="VendorPayment"/> in JSON format.
-		/// </summary>
-		/// <param name="x">The <see cref="VendorPayment"/>.</param>
-		public async Task<string> PostVendorPayment(VendorPayment x)
+		public async Task<(VendorPayment, string ErrorMsg)> TryCreateAsync(VendorPayment x)
 		{
 			try {
-				var endpoint = Path.Combine(BaseUrl, VendorPaymentRequest.ACTION);
-				var vendorPaymentRequest = new VendorPaymentRequest(x);
-				var json = vendorPaymentRequest.ToJson();
-
-				using (var content = new StringContent(json, Encoding.Default, "application/json")) {
-					using (var response = await Client.PostAsync(endpoint, content)) {
-						string responseData = await response.Content.ReadAsStringAsync();
-						WriteToFile(responseData);
-						var vendorPaymentResponse = JsonConvert.DeserializeObject<VendorPaymentResponse>(responseData);
-
-						return responseData;
-					}
-				}
+				return (await CreateAsync(x), null);
 			}
 
 			catch (Exception ex) {
-				#region Log
-				if (ex.InnerException == null) {
-					var log = "";
-					log = String.Format($"{log}{ex.Message}{Environment.NewLine}");
-					log = String.Format($"{log}Exception thrown in SapClient.PostVendorPayment(VendorPayment x).{Environment.NewLine}");
-					log = String.Format($"{log}{ex}{Environment.NewLine}{Environment.NewLine}");
-					throw new Exception(log);
-				}
-
-				else throw;
-				#endregion
+				return (null, GetFullErrorText(ex, null));
 			}
 		}
 	}

@@ -121,6 +121,7 @@
     <Compile Include="Domain\BusinessPartners\InsertContactEmployee.cs" />
     <Compile Include="Domain\ChartOfAccounts\ChartOfAccountUtil.cs" />
     <Compile Include="Domain\ChecksforPayments\ChecksforPaymentUtil.cs" />
+    <Compile Include="Domain\ChecksforPayments\InsertDocumentLines.cs" />
     <Compile Include="Domain\CreditNotes\CreditNoteUtil.cs" />
     <Compile Include="Domain\Deposits\CheckLineUtil.cs" />
     <Compile Include="Domain\Deposits\DepositUtil.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Domain\JournalEntrys\InsertDocumentLines.cs" />
     <Compile Include="Domain\JournalEntrys\JournalEntryUtil.cs" />
     <Compile Include="Domain\PurchaseCreditNotes\PurchaseCreditNoteUtil.cs" />
+    <Compile Include="Domain\PurchaseInvoices\InsertDocumentLines.cs" />
     <Compile Include="Domain\PurchaseInvoices\PurchaseInvoiceUtil.cs" />
     <Compile Include="Domain\PurchaseOrders\PurchaseOrderUtil.cs" />
     <Compile Include="Domain\PurchaseQuotations\PurchaseQuotationUtil.cs" />
@@ -144,6 +146,8 @@
     <Compile Include="Domain\Quotations\QuotationUtil.cs" />
     <Compile Include="Domain\SalesTaxInvoices\SalesTaxInvoiceUtil.cs" />
     <Compile Include="Domain\TransactionCodes\TransactionCodeUtil.cs" />
+    <Compile Include="Domain\VendorPayments\InsertPaymentChecks.cs" />
+    <Compile Include="Domain\VendorPayments\InsertPaymentInvoices.cs" />
     <Compile Include="Domain\VendorPayments\VendorPaymentUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

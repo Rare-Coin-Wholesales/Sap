@@ -41,6 +41,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BusinessPartners\BusinessPartnerTests.cs" />
+    <Compile Include="ChecksforPayments\ChecksforPaymentTests.cs" />
     <Compile Include="Deposits\DepositTests.cs" />
     <Compile Include="IncomingPayments\IncomingPaymentTests.cs" />
     <Compile Include="Invoices\InvoiceTests.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PurchaseInvoices\PurchaseInvoiceTests.cs" />
     <Compile Include="TestExtensions.cs" />
+    <Compile Include="VendorPayments\VendorPaymentTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
