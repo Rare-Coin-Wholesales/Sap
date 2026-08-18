@@ -42,16 +42,16 @@ namespace Rcw.Sap
 			if (ex is DbEntityValidationException dbEx)
 				return $"{GetFullErrorText(dbEx)}{additionalLine}";
 
-			if (ex.InnerException == null) {
-				var temp = ex.ToString().Length > 1000 ? ex.ToString().Substring(0, 1000)
-													   : ex.ToString();
+			var msg = $"{additionalLine}Exception type: {ex.GetType().FullName}{Environment.NewLine}";
+			msg = $"{msg}Message: {ex.Message}{Environment.NewLine}";
+			msg = $"{msg}Source: {ex.Source}{Environment.NewLine}";
+			msg = $"{msg}HResult: {ex.HResult}{Environment.NewLine}";
+			msg = $"{msg}TargetSite: {ex.TargetSite}{Environment.NewLine}";
+			msg = $"{msg}StackTrace:{Environment.NewLine}{ex.StackTrace}{Environment.NewLine}{Environment.NewLine}";
+			if (ex.InnerException == null)
+				return msg;
 
-				var msg = $"{ex.Message}{Environment.NewLine}{Environment.NewLine}";
-					msg = $"{msg}{additionalLine}";
-				return $"{msg}{temp}{Environment.NewLine}{Environment.NewLine}";
-			}
-
-			return GetFullErrorText(ex.InnerException, additionalInfo);
+			return $"{msg}Inner Exception:{Environment.NewLine}{GetFullErrorText(ex.InnerException, null)}";
 		}
 	}
 }
