@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Sap.Api;
 using Sap.ApiToScarRcwMapper;
-using Sap.Core;
 
 namespace Rcw.Sap
 {
@@ -72,7 +71,7 @@ namespace Rcw.Sap
 
 			#region catch (Exception ex)
 			catch (Exception ex) {
-				nLog.Error(ex.CustomMessage("Exception thrown in SapToSql()."));
+				nLog.Error(GetFullErrorText(ex, "Exception thrown in SapToSql()."));
 			}
 			#endregion
 		}
